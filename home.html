@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roommate Matching</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #bangketing-container h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #bangketing-container span {
+            font-size: 18px;
+            color: red;
+            font-weight: bold;
+        }
+
+        #weather-container {
+            text-align: right;
+        }
+
+        #weather-container div {
+            font-size: 15px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        #rank-container {
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #rank-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #rank-container li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #rank-container li:last-child {
+            border-bottom: none;
+        }
+
+        .chat-btn {
+            background-color: #d63384;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-btn:hover {
+            background-color: #be1e6e;
+        }
+
+        #notice-container {
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            text-align: center;
+            flex: 1;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav ul li:hover {
+            background-color: #495057;
+        }
+
+        .button {
+            background-color: #c8105e;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        footer button {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        #notice-list a {
+            text-decoration: none;
+            color: #000;
+        }
+        #notice-list a:hover {
+            color: #c8105e; /* 마우스 오버 시 색상 변경 */
+        }
+        footer button a {
+            text-decoration: none;
+            color: inherit; /* 기본 색상 유지 */
+        }
+        footer button:visited {
+            color: inherit; /* 방문한 링크 색상 유지 */
+        }
+        footer button:hover {
+            color: inherit; /* 마우스 오버 시 색상 유지 */
+        }
+        footer button:active {
+            color: inherit; /* 클릭 시 색상 유지 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 방켓팅 날짜와 날씨 정보 컨테이너 -->
+    <div class="flex-container">
+        <div id="bangketing-container">
+            <h3>방켓팅 날짜</h3>
+            <span>8월 22일 14시 00분</span>
+        </div>
+        <div id="weather-container">
+            <div id="weather-today">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="rank-container">
+        <ul id="rank-list">
+        
+        </ul>
+    </div>
+
+    <div id="notice-container">
+        <h3>공지사항</h3>
+        <ul id="notice-list">
+        
+        </ul>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer>
+        <button><a href="home.html">🏠 홈</a></button>
+        <button><a href="recommend.html">📋 추천 목록</a></button>
+        <button>💬 채팅</button>
+        <button>👤 내 정보</button>
+    </footer>
+
+    <script src="api.js"></script>
+</body>
+</html>

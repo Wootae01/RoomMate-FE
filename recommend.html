@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추천 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+
+        .section {
+            margin: 10px;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background-color: white;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nickname {
+            font-weight: bold;
+        }
+
+        .button {
+            background-color: #c8105e;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        footer button {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        footer button:hover {
+            color: #c8105e;
+        }
+
+        footer button a {
+            text-decoration: none;
+            color: inherit; /* 기본 색상 유지 */
+        }
+        footer button:visited {
+            color: inherit; /* 방문한 링크 색상 유지 */
+        }
+        footer button:hover {
+            color: inherit; /* 마우스 오버 시 색상 유지 */
+        }
+        footer button:active {
+            color: inherit; /* 클릭 시 색상 유지 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section for 추천 목록 -->
+    <section class="section">
+        <h2>추천 목록</h2>
+        <ul id="recommendation-list"></ul>
+    </section>
+
+    <!-- Footer Navigation -->
+    <footer>
+        <button><a href="home.html">🏠 홈</a></button>
+        <button><a href="recommend.html">📋 추천 목록</a></button>
+        <button>💬 채팅</button>
+        <button>👤 내 정보</button>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="recommend.js"></script>
+</body>
+</html>
