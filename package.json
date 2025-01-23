@@ -12,8 +12,10 @@
   "dependencies": {
     "expo": "~52.0.27",
     "expo-status-bar": "~2.0.1",
+    "prop-types": "^15.8.1",
     "react": "18.3.1",
-    "react-native": "0.76.6"
+    "react-native": "0.76.6",
+    "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
