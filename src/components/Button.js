@@ -22,6 +22,7 @@ const Button = ({ title, onPress, buttonStyle }) => {
 Button.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  buttonStyle: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

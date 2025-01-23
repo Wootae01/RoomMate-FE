@@ -1,13 +1,6 @@
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import Button from './components/Button';
-import {
-  BLACK,
-  ERROR,
-  NEUTRAL,
-  NEUTRALVARIANT,
-  PRIMARY,
-  SECONDARY,
-} from './colors';
+import { ERROR, NEUTRALVARIANT, PRIMARY, SECONDARY } from './colors';
 
 const App = () => {
   return (
