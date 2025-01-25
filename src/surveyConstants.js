@@ -1,0 +1,31 @@
+export const SURVEY_ITEMS = {
+  BED_TIME: ['10시', '11시', '자정', '1시', '2시', '3시'],
+  WAKEUP_TIME: ['6시', '7시', '8시', '9시', '10시', '11시'],
+  HEATING: ['20도 이하', '21~23도', '24~26도', '27도 이상'],
+  COOLING: ['20도 이하', '21~23도', '24~26도', '27도 이상'],
+  SLEEP_HABIT: ['있음', '없음'],
+  SMOKING: ['비흡연자', '흡연'],
+  NOISE: ['이어폰', '유동적', '스피커'],
+  INDOOR_CALL: ['안함', '간단히', '자유롭게'],
+  EATING: ['안함', '과자류', '배달음식'],
+  DRINKING: ['비음주(월 1회 미만)', '가끔(월 1~3회)', '자주(주 1회 이상)'],
+  SCENT: ['민감함', '보통', '민감하지 않음'],
+  CLEANING: ['각자 알아서', '교대로', '룸메와 함께'],
+  RELATIONSHIP: ['투명인간', '적당히 친밀한', '절친'],
+};
+
+export const SURVEY_TITLE = {
+  BED_TIME: '취침 시간',
+  WAKEUP_TIME: '기상 시간',
+  HEATING: '난방(추위)',
+  COOLING: '냉방(더위)',
+  SLEEP_HABIT: '잠버릇',
+  SMOKING: '흡연',
+  NOISE: '소음 민감도',
+  INDOOR_CALL: '실내 통화',
+  EATING: '실내 취식',
+  DRINKING: '음주 빈도',
+  SCENT: '향 민감도',
+  CLEANING: '청소',
+  RELATIONSHIP: '룸메 발전 관계',
+};

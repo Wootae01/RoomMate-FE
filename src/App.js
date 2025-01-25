@@ -1,36 +1,15 @@
 import { StatusBar, StyleSheet, View } from 'react-native';
-import Button from './components/Button';
-import { ERROR, NEUTRALVARIANT, PRIMARY, SECONDARY } from './colors';
+
+import LifeStyleSurveyScreen from './screens/LifeStyleSurveyScreen';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <StatusBar style="dark" />
-
-      <Button
-        title="test"
-        onPress={() => {}}
-        buttonStyle={{ backgroundColor: PRIMARY.DEFAULT }}
-      />
-      <Button
-        title="test2"
-        onPress={() => {}}
-        buttonStyle={{ backgroundColor: SECONDARY.DEFAULT }}
-      />
-      <Button
-        title="test3"
-        onPress={() => {}}
-        buttonStyle={{ backgroundColor: ERROR.DEFAULT }}
-      />
-      <Button
-        title="test4"
-        onPress={() => {}}
-        buttonStyle={{ backgroundColor: NEUTRALVARIANT.DEFAULT }}
-      />
+      <StatusBar style="dark"></StatusBar>
+      <LifeStyleSurveyScreen />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
