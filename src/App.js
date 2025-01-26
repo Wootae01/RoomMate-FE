@@ -1,13 +1,14 @@
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 
-import LifeStyleSurveyScreen from './screens/LifeStyleSurveyScreen';
+import SignUpStack from './navigations/SignUpStack';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
   return (
-    <View style={styles.container}>
+    <NavigationContainer style={styles.container}>
       <StatusBar style="dark"></StatusBar>
-      <LifeStyleSurveyScreen />
-    </View>
+      <SignUpStack />
+    </NavigationContainer>
   );
 };
 const styles = StyleSheet.create({

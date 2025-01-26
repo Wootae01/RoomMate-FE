@@ -19,8 +19,8 @@ const CheckBox = ({ name }) => {
         }}
       >
         <MaterialCommunityIcons {...checkBoxProps} />
-        <Text>{name}</Text>
       </Pressable>
+      <Text style={styles.text}>{name}</Text>
     </View>
   );
 };
@@ -31,8 +31,14 @@ CheckBox.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    paddingHorizontal: 5,
     alignItems: 'center',
+  },
+  text: {
+    marginTop: 3,
+    fontSize: 16,
+    marginLeft: 6,
+    textAlign: 'center',
   },
 });
 

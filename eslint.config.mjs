@@ -36,6 +36,7 @@ export default [
       ...pluginReact.configs.flat.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off', // React in scope 규칙 비활성화
+      'react/prop-types': ['error', { ignore: ['navigation'] }], //navigation prop 에러 무시
     },
   },
 ];

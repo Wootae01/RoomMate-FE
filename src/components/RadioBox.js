@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import PropTypes from 'prop-types';
 import { BLACK } from '../colors';
-const RadioBox = ({ name, isSelected, onPress, radioStyle }) => {
+const RadioBox = ({ name, isSelected, onPress, radioStyle, textStyle }) => {
   const radioboxBoxProps = {
     name: isSelected ? 'radiobox-marked' : 'radiobox-blank',
     size: 30,
@@ -14,7 +14,7 @@ const RadioBox = ({ name, isSelected, onPress, radioStyle }) => {
       <Pressable hitSlop={15} onPress={onPress}>
         <MaterialCommunityIcons {...radioboxBoxProps} />
       </Pressable>
-      <Text style={styles.text}>{name}</Text>
+      <Text style={[styles.text, textStyle]}>{name}</Text>
     </View>
   );
 };
@@ -24,17 +24,21 @@ RadioBox.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   onPress: PropTypes.func,
   radioStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
     minWidth: 120,
+    paddingHorizontal: 5,
+    alignItems: 'center',
   },
   text: {
-    textAlign: 'center',
     marginTop: 3,
+    paddingHorizontal: 2,
+    fontSize: 16,
+    marginLeft: 6,
+    textAlign: 'center',
   },
 });
 
