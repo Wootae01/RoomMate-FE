@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import {
   Image,
   Pressable,
@@ -10,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignInScreen = ({ navigation }) => {
   const width = useWindowDimensions().width;
+
   const onSubmit = () => navigation.navigate('MyInfoSurvey'); //나중에 로그인 api 요쳥 부분 추가 하면 될듯
 
   return (
@@ -18,15 +20,18 @@ const SignInScreen = ({ navigation }) => {
         <Pressable onPress={onSubmit} style={styles.container}>
           <Image
             source={require('../../assets/login/naver.png')}
-            style={{ width: width * 0.9, height: width * 0.2 }}
-            resizeMode="contain"
+            style={{
+              width: width * 0.95,
+              height: width * 0.2,
+            }}
+            resizeMode="cover"
           />
         </Pressable>
         <Pressable onPress={onSubmit} style={styles.container}>
           <Image
             source={require('../../assets/login/kakao.png')}
-            style={{ width: width * 0.9, height: width * 0.2 }}
-            resizeMode="contain"
+            style={{ width: width * 0.95, height: width * 0.2 }}
+            resizeMode="cover"
           />
         </Pressable>
       </View>
@@ -48,8 +53,10 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    width: '100%',
+    height: 100,
     paddingVertical: 20,
-    paddingHorizontal: 20,
+    marginVertical: 10,
   },
 });
 
