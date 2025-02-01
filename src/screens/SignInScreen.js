@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,11 +9,12 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SignRoutes } from '../navigations/routes';
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = () => {
   const width = useWindowDimensions().width;
-
-  const onSubmit = () => navigation.navigate('MyInfoSurvey'); //나중에 로그인 api 요쳥 부분 추가 하면 될듯
+  const navigation = useNavigation();
+  const onSubmit = () => navigation.navigate(SignRoutes.PROFILE_SURVEY); //나중에 로그인 api 요쳥 부분 추가 하면 될듯
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

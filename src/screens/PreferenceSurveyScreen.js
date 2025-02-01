@@ -5,8 +5,11 @@ import { PALETTES, PRIMARY } from '../colors';
 import Button from '../components/Button';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { MainRoutes } from '../navigations/routes';
 
-const PreferenceSurveyScreen = ({ navigation }) => {
+const PreferenceSurveyScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -88,7 +91,9 @@ const PreferenceSurveyScreen = ({ navigation }) => {
           />
           <Button
             title="완료"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate(MainRoutes.CONTENT_TAB);
+            }}
             buttonStyle={{
               marginTop: 15,
               flex: 1,

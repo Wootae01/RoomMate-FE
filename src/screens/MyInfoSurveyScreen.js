@@ -9,8 +9,11 @@ import Button from '../components/Button';
 import { PRIMARY } from '../colors';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
-const MyInfoSurveyScreen = ({ navigation }) => {
+import { useNavigation } from '@react-navigation/native';
+import { SignRoutes } from '../navigations/routes';
+const MyInfoSurveyScreen = () => {
   const [isSelected, setIsSelected] = useState(null);
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -41,7 +44,7 @@ const MyInfoSurveyScreen = ({ navigation }) => {
         <DormDropDown />
         <Button
           title="다음"
-          onPress={() => navigation.navigate('LifeStyleSurvey')}
+          onPress={() => navigation.navigate(SignRoutes.LIFESTLYE_SURVEY)}
           buttonStyle={{ marginTop: 15, backgroundColor: PRIMARY.DEFAULT }}
         />
       </View>

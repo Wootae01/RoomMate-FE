@@ -1,13 +1,13 @@
 import { StatusBar, StyleSheet } from 'react-native';
 
-import SignUpStack from './navigations/SignUpStack';
 import { NavigationContainer } from '@react-navigation/native';
+import Navigation from './navigations/Navigation';
 
 const App = () => {
   return (
     <NavigationContainer style={styles.container}>
       <StatusBar style="dark"></StatusBar>
-      <SignUpStack />
+      <Navigation />
     </NavigationContainer>
   );
 };

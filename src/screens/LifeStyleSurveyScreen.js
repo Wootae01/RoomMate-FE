@@ -5,8 +5,11 @@ import Button from '../components/Button';
 import { PALETTES, PRIMARY } from '../colors';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { SignRoutes } from '../navigations/routes';
 
-const LifeStyleSurveyScreen = ({ navigation }) => {
+const LifeStyleSurveyScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -88,7 +91,7 @@ const LifeStyleSurveyScreen = ({ navigation }) => {
           />
           <Button
             title="다음"
-            onPress={() => navigation.navigate('PreferenceSurvey')}
+            onPress={() => navigation.navigate(SignRoutes.PREFERENCE_SURVEY)}
             buttonStyle={{
               marginTop: 15,
               flex: 1,

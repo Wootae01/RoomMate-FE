@@ -55,6 +55,7 @@ const DormDropDown = () => {
       setDetailValue(null);
     }
   }, [dormValue]);
+
   return (
     <View style={styles.container}>
       <View style={styles.dropDwonWrapper}>
