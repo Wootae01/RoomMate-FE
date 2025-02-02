@@ -1,25 +1,34 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
-import { PropTypes } from 'prop-types';
-import { PRIMARY, WHITE } from '../colors';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import PropTypes from 'prop-types'; // 수정된 부분
+import { BLACK, PRIMARY, WHITE } from '../colors';
 import tinycolor from 'tinycolor2';
-const Button = ({
-  title,
-  onPress,
-  buttonStyle = { backgroundColor: PRIMARY.DEFAULT },
-}) => {
-  const backgroundColor = buttonStyle.backgroundColor;
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+const Button = ({ title, onPress, customStyles, icon }) => {
+  const backgroundColor =
+    customStyles?.button?.backgroundColor || PRIMARY.DEFAULT;
   const darkColor = tinycolor(backgroundColor).darken(10).toString();
+
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [
-        styles.container,
-        { backgroundColor: backgroundColor },
-        buttonStyle,
-        pressed && { backgroundColor: darkColor },
+        defaultStyles.button,
+        { backgroundColor }, // 기본 배경색 적용
+        customStyles?.button,
+        pressed && { backgroundColor: darkColor }, // 눌렀을 때 색상 변경
       ]}
     >
-      <Text style={styles.text}>{title}</Text>
+      <View style={defaultStyles.content}>
+        {icon && (
+          <MaterialCommunityIcons
+            name={icon.name}
+            size={icon.size || 24}
+            color={icon.color || BLACK}
+            style={{ marginRight: 8 }}
+          />
+        )}
+        <Text style={[defaultStyles.title, customStyles?.title]}>{title}</Text>
+      </View>
     </Pressable>
   );
 };
@@ -27,21 +36,34 @@ const Button = ({
 Button.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
-  buttonStyle: PropTypes.object,
+  customStyles: PropTypes.object,
+  icon: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    size: PropTypes.number,
+    color: PropTypes.string,
+  }),
 };
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 8,
+const defaultStyles = StyleSheet.create({
+  button: {
+    width: '100%',
     paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    backgroundColor: PRIMARY.DEFAULT,
+    borderRadius: 8,
   },
-  text: {
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
     color: WHITE,
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: '700',
+    lineHeight: 16,
   },
 });
+
 export default Button;

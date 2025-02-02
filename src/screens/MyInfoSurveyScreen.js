@@ -6,7 +6,6 @@ import { useState } from 'react';
 import BirthYearDropdown from '../components/BirthYearDropDown';
 import DormDropDown from '../components/DormDropDown';
 import Button from '../components/Button';
-import { PRIMARY } from '../colors';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -45,7 +44,7 @@ const MyInfoSurveyScreen = () => {
         <Button
           title="다음"
           onPress={() => navigation.navigate(SignRoutes.LIFESTLYE_SURVEY)}
-          buttonStyle={{ marginTop: 15, backgroundColor: PRIMARY.DEFAULT }}
+          customStyles={{ button: { marginTop: 15 } }}
         />
       </View>
     </SafeAreaView>

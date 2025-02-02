@@ -1,19 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet, View } from 'react-native';
+import RecommendItem from '../components/RecommendItem';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { BLACK } from '../colors';
 const RecommendScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>추천 화면</Text>
+      <View style={styles.fliter}>
+        <MaterialCommunityIcons name="account-search" size={30} color={BLACK} />
+      </View>
+      <View style={styles.list}>
+        <RecommendItem />
+        <RecommendItem />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container: { paddingVertical: 10, paddingHorizontal: 15 },
+  fliter: { flexDirection: 'row' },
+  list: { paddingHorizontal: 15 },
 });
 
 export default RecommendScreen;

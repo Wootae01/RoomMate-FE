@@ -28,16 +28,16 @@ const QuestionItem = ({ header, items, buttonType }) => {
             return (
               <RadioBox
                 key={index}
-                name={item}
-                isSelected={isSelected === item}
+                name={item.label}
+                isSelected={isSelected === item.value}
                 onPress={() => {
-                  setIsSelected(item);
+                  setIsSelected(item.value);
                 }}
                 radioStyle={{}}
               />
             );
           } else if (buttonType === ButtonTypes.CHECK) {
-            return <CheckBox key={index} name={item} />;
+            return <CheckBox key={index} name={item.label} />;
           } else {
             return null;
           }
