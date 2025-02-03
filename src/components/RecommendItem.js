@@ -1,16 +1,14 @@
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Button from './Button';
 import { WHITE } from '../colors';
+import DefaultProfile from './DefaultProfile';
 
 const RecommendItem = () => {
   const width = useWindowDimensions().width / 4;
   return (
     <View style={styles.container}>
       <View style={styles.items}>
-        <View style={styles.iconBackground}>
-          <MaterialCommunityIcons name="account" size={40} color="black" />
-        </View>
+        <DefaultProfile />
         <View style={[styles.content, { width: width * 2 - 15 }]}>
           <Text style={{ fontWeight: '700', fontSize: 15 }}>닉네임</Text>
           <Text style={{ fontSize: 13 }} numberOfLines={1} ellipsizeMode="tail">
@@ -39,21 +37,14 @@ const RecommendItem = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
+  container: {},
   items: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    justifyContent: 'center',
     paddingVertical: 10,
   },
-  iconBackground: {
-    backgroundColor: '#D3D3D3',
-    padding: 10,
-    borderRadius: 10,
-    marginRight: 10,
-  },
+
   content: {},
 });
 
