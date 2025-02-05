@@ -1,7 +1,7 @@
-import { StyleSheet, View } from 'react-native';
-import RecommendItem from '../components/RecommendItem';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { BLACK } from '../colors';
+import { StyleSheet, View } from 'react-native';
+import { BLACK, WHITE } from '../colors';
+import RecommendItem from '../components/RecommendItem';
 const RecommendScreen = () => {
   return (
     <View style={styles.container}>
@@ -17,7 +17,12 @@ const RecommendScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { paddingVertical: 10, paddingHorizontal: 15 },
+  container: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: WHITE,
+    flex: 1,
+  },
   fliter: { flexDirection: 'row' },
   list: { paddingHorizontal: 15 },
 });

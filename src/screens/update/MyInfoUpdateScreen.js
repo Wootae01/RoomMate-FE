@@ -1,17 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BirthYearDropdown from '../components/BirthYearDropDown';
-import Button from '../components/Button';
-import DormDropDown from '../components/DormDropDown';
-import Input from '../components/Input';
-import RadioBox from '../components/RadioBox';
-import { SignRoutes } from '../navigations/routes';
-const MyInfoSurveyScreen = () => {
+import BirthYearDropdown from '../../components/BirthYearDropDown';
+import Button from '../../components/Button';
+import DormDropDown from '../../components/DormDropDown';
+import Input from '../../components/Input';
+import RadioBox from '../../components/RadioBox';
+const MyInfoUpdateScreen = () => {
   const [isSelected, setIsSelected] = useState(null);
-  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -41,15 +39,14 @@ const MyInfoSurveyScreen = () => {
         <Text style={[styles.text]}>기숙사</Text>
         <DormDropDown />
         <Button
-          title="다음"
-          onPress={() => navigation.navigate(SignRoutes.LIFESTLYE_SURVEY)}
+          title="수정"
           customStyles={{ button: { marginTop: 15 } }}
+          onPress={() => {}}
         />
       </View>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
@@ -70,4 +67,4 @@ const styles = StyleSheet.create({
   age: {},
   dorm: {},
 });
-export default MyInfoSurveyScreen;
+export default MyInfoUpdateScreen;

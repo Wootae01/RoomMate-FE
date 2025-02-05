@@ -1,11 +1,11 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ContentRoutes } from './routes';
-import HomeScreen from '../screens/HomeScreen';
-import RecommendScreen from '../screens/RecommendScreen';
-import ChatRoomScreen from '../screens/ChatRoomScreen';
-import ProflieScreen from '../screens/ProfileScreen';
-import { NEUTRALVARIANT, PRIMARY } from '../colors';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NEUTRALVARIANT, PRIMARY } from '../colors';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
+import HomeScreen from '../screens/HomeScreen';
+import MyInfoScreen from '../screens/MyInfoScreen';
+import RecommendScreen from '../screens/RecommendScreen';
+import { ContentRoutes } from './routes';
 
 const Tab = createBottomTabNavigator();
 const getTabBarIcon = ({ color, name, focused }) => {
@@ -59,8 +59,8 @@ const ContentTab = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name={ContentRoutes.PROFILE}
-        component={ProflieScreen}
+        name={ContentRoutes.MY_INFO}
+        component={MyInfoScreen}
         options={{
           tabBarIcon: (props) =>
             getTabBarIcon({ ...props, name: 'account-circle' }),

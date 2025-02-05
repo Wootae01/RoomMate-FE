@@ -1,9 +1,9 @@
 import {
+  Pressable,
   StyleSheet,
+  Text,
   useWindowDimensions,
   View,
-  Text,
-  Pressable,
 } from 'react-native';
 import { PALETTES } from '../colors';
 import DefaultProfile from './DefaultProfile';
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
   },
-  content: {},
+  content: { paddingHorizontal: 10 },
   timeContainer: {
     justifyContent: 'center',
   },

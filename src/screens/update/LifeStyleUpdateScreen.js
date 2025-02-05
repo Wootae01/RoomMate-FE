@@ -1,14 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PALETTES } from '../colors';
-import Button from '../components/Button';
-import QuestionItem, { ButtonTypes } from '../components/QuestionItem';
-import { SignRoutes } from '../navigations/routes';
-import { SURVEY } from '../surveyConstants';
+import Button from '../../components/Button';
+import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
+import { SURVEY } from '../../surveyConstants';
 
-const LifeStyleSurveyScreen = () => {
-  const navigation = useNavigation();
+const LifeStyleUpdateScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -79,20 +75,8 @@ const LifeStyleSurveyScreen = () => {
         />
         <View style={styles.buttton}>
           <Button
-            title="이전"
-            onPress={() => navigation.goBack()}
-            customStyles={{
-              button: {
-                marginTop: 15,
-                flex: 1,
-                backgroundColor: PALETTES.NEUTRALVARIANT[40],
-                margin: 5,
-              },
-            }}
-          />
-          <Button
-            title="다음"
-            onPress={() => navigation.navigate(SignRoutes.PREFERENCE_SURVEY)}
+            title="수정"
+            onPress={() => {}}
             customStyles={{
               button: {
                 marginTop: 15,
@@ -115,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LifeStyleSurveyScreen;
+export default LifeStyleUpdateScreen;

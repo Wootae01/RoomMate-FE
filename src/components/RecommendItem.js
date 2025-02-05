@@ -1,6 +1,6 @@
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import Button from './Button';
 import { WHITE } from '../colors';
+import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 
 const RecommendItem = () => {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
 
-  content: {},
+  content: { paddingHorizontal: 10 },
 });
 
 export default RecommendItem;
