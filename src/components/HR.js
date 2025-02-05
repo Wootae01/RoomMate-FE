@@ -1,12 +1,17 @@
+import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { NEUTRALVARIANT } from '../colors';
 
-const HR = () => {
+const HR = ({ customStyles }) => {
   return (
-    <View style={defaultStyles.container}>
-      <View style={defaultStyles.line}></View>
+    <View style={[defaultStyles.container, customStyles?.container]}>
+      <View style={[defaultStyles.line, customStyles?.line]}></View>
     </View>
   );
+};
+
+HR.propTypes = {
+  customStyles: PropTypes.object,
 };
 
 const defaultStyles = StyleSheet.create({
@@ -14,7 +19,6 @@ const defaultStyles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
   },
   line: {
     ...StyleSheet.absoluteFill,

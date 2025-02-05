@@ -1,17 +1,42 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK, WHITE } from '../colors';
+import FilterCond from '../components/FilterCond';
+import HR from '../components/HR';
 import RecommendItem from '../components/RecommendItem';
+
+const dummyData = Array(10).fill(null); //테스트용 더미 데이터
+
 const RecommendScreen = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={{ fontSize: 22, fontWeight: '700' }}>추천 목록</Text>
+        <Pressable
+          onPress={() => {
+            console.log('pressed2');
+          }}
+          hitSlop={20}
+        >
+          <MaterialCommunityIcons
+            name="account-search"
+            size={30}
+            color={BLACK}
+          />
+        </Pressable>
+      </View>
+
       <View style={styles.fliter}>
-        <MaterialCommunityIcons name="account-search" size={30} color={BLACK} />
+        <FilterCond />
       </View>
-      <View style={styles.list}>
-        <RecommendItem />
-        <RecommendItem />
-      </View>
+      <HR />
+      <FlatList
+        data={dummyData}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={() => <RecommendItem />}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };
@@ -23,7 +48,12 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     flex: 1,
   },
-  fliter: { flexDirection: 'row' },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  fliter: { flexDirection: 'row', paddingHorizontal: 0 },
   list: { paddingHorizontal: 15 },
 });
 

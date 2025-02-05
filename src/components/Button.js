@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import PropTypes from 'prop-types'; // 수정된 부분
-import { BLACK, PRIMARY, WHITE } from '../colors';
-import tinycolor from 'tinycolor2';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import tinycolor from 'tinycolor2';
+import { BLACK, PRIMARY, WHITE } from '../colors';
+
 const Button = ({ title, onPress, customStyles, icon }) => {
   const backgroundColor =
     customStyles?.button?.backgroundColor || PRIMARY.DEFAULT;
@@ -13,21 +14,29 @@ const Button = ({ title, onPress, customStyles, icon }) => {
       onPress={onPress}
       style={({ pressed }) => [
         defaultStyles.button,
-        { backgroundColor }, // 기본 배경색 적용
+        { backgroundColor },
         customStyles?.button,
-        pressed && { backgroundColor: darkColor }, // 눌렀을 때 색상 변경
+        pressed && { backgroundColor: darkColor },
       ]}
     >
-      <View style={defaultStyles.content}>
-        {icon && (
+      <View style={[defaultStyles.content, customStyles?.content]}>
+        {icon?.left && (
           <MaterialCommunityIcons
             name={icon.name}
             size={icon.size || 24}
             color={icon.color || BLACK}
-            style={{ marginRight: 8 }}
+            style={icon.style || { marginRight: 8 }}
           />
         )}
         <Text style={[defaultStyles.title, customStyles?.title]}>{title}</Text>
+        {icon?.right && (
+          <MaterialCommunityIcons
+            name={icon.name}
+            size={icon.size || 24}
+            color={icon.color || BLACK}
+            style={icon.style || { marginLeft: 8 }}
+          />
+        )}
       </View>
     </Pressable>
   );
@@ -38,9 +47,12 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   customStyles: PropTypes.object,
   icon: PropTypes.shape({
+    left: PropTypes.bool, // 텍스트 왼쪽 아이콘 여부
+    right: PropTypes.bool, // 텍스트 오른쪽 아이콘 여부
     name: PropTypes.string.isRequired,
     size: PropTypes.number,
     color: PropTypes.string,
+    style: PropTypes.object,
   }),
 };
 
@@ -57,6 +69,7 @@ const defaultStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   title: {
     color: WHITE,

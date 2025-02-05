@@ -22,7 +22,7 @@ const MyInfoScreen = () => {
       </View>
 
       <View style={styles.update}>
-        <HR />
+        <HR customStyles={{ container: { paddingVertical: 10 } }} />
         <Text style={styles.title}>내 정보 수정</Text>
 
         <TextButton
@@ -50,7 +50,7 @@ const MyInfoScreen = () => {
           }}
         />
       </View>
-      <HR />
+      <HR customStyles={{ container: { paddingVertical: 10 } }} />
       <Text style={styles.title}>기타</Text>
       <TextButton
         text="로그 아웃"

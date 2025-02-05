@@ -18,7 +18,7 @@ const RecommendItem = () => {
         <Button
           title="채팅"
           onPress={() => {}}
-          icon={{ name: 'chat', color: WHITE, size: 18 }}
+          icon={{ left: true, name: 'chat', color: WHITE, size: 18 }}
           customStyles={{
             button: {
               width: width,
