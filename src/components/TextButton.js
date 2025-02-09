@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK, PALETTES, WHITE } from '../colors';
 
-const TextButton = ({ onPress, text, styles }) => {
+const TextButton = ({ onPress, text, customStyles }) => {
   return (
-    <View style={[defaultStyles.container, styles?.container]}>
+    <View style={[defaultStyles.container, customStyles?.container]}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => [
           defaultStyles.content,
-          styles?.content,
+          customStyles?.content,
           pressed && { backgroundColor: PALETTES.NEUTRALVARIANT[90] },
         ]}
       >
-        <Text style={[defaultStyles.text, styles?.text]}>{text}</Text>
+        <Text style={[defaultStyles.text, customStyles?.text]}>{text}</Text>
       </Pressable>
     </View>
   );
@@ -22,7 +22,7 @@ const TextButton = ({ onPress, text, styles }) => {
 TextButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
-  styles: PropTypes.object,
+  customStyles: PropTypes.object,
 };
 
 const defaultStyles = StyleSheet.create({

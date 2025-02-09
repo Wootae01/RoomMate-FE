@@ -1,5 +1,6 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
@@ -9,7 +10,7 @@ const dummyData = Array(10).fill(null); //테스트용 더미 데이터
 
 const RecommendScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={{ fontSize: 22, fontWeight: '700' }}>추천 목록</Text>
         <Pressable
@@ -25,11 +26,13 @@ const RecommendScreen = () => {
           />
         </Pressable>
       </View>
-
+      {/**필터 영역 */}
       <View style={styles.fliter}>
         <FilterCond />
       </View>
       <HR />
+
+      {/**추천 목록 영역 */}
       <FlatList
         data={dummyData}
         keyExtractor={(_, index) => index.toString()}
@@ -37,7 +40,7 @@ const RecommendScreen = () => {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
