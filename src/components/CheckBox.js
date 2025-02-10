@@ -1,17 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK } from '../colors';
-const CheckBox = ({ name }) => {
+const CheckBox = ({ name, customStyles, size }) => {
   const [isCheck, setIsCheck] = useState(false);
   const checkBoxProps = {
     name: isCheck ? 'checkbox-marked' : 'checkbox-blank-outline',
-    size: 30,
+    size: size || 30,
     color: BLACK,
   };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, customStyles?.container]}>
       <Pressable
         hitSlop={10}
         onPress={() => {
@@ -20,13 +20,15 @@ const CheckBox = ({ name }) => {
       >
         <MaterialCommunityIcons {...checkBoxProps} />
       </Pressable>
-      <Text style={styles.text}>{name}</Text>
+      <Text style={[styles.text, customStyles?.text]}>{name}</Text>
     </View>
   );
 };
 
 CheckBox.propTypes = {
   name: PropTypes.string.isRequired,
+  customStyles: PropTypes.object,
+  size: PropTypes.number,
 };
 
 const styles = StyleSheet.create({

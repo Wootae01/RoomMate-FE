@@ -1,9 +1,9 @@
-import { StatusBar, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
-import Navigation from './navigations/Navigation';
-
+import { StatusBar } from 'expo-status-bar';
 import { WHITE } from './colors';
+import Navigation from './navigations/Navigation';
 
 const App = () => {
   return (

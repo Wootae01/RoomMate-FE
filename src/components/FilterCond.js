@@ -1,18 +1,27 @@
 import { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { BLACK, PALETTES, WHITE } from '../colors';
+import DetailCondScreen from '../screens/DetailCondScreen';
 import { SURVEY } from '../surveyConstants';
 import Button from './Button';
-import DetailCond from './DetailCond';
 
 {
   /**추천 목록 상단에 나오는 검색 조건 */
 }
 const FilterCond = () => {
   const [visible, setVisible] = useState(false); //모달 창 보여줄지 결정할 변수
+
+  const [surveyKey, setSurveyKey] = useState(''); //선택한 필터 항목 키 값 저장장
+
   return (
     <View>
-      <DetailCond visible={visible} onClose={() => setVisible(false)} />
+      <DetailCondScreen
+        visible={visible}
+        onClose={() => {
+          setVisible(false);
+        }}
+        surveyKey={surveyKey}
+      />
       <FlatList
         data={Object.entries(SURVEY)}
         keyExtractor={([key]) => key}
@@ -22,6 +31,7 @@ const FilterCond = () => {
             title={name}
             onPress={() => {
               setVisible(true);
+              setSurveyKey(key);
             }}
             customStyles={{
               button: {
