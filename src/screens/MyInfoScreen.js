@@ -26,7 +26,7 @@ const MyInfoScreen = () => {
         <Text style={styles.title}>내 정보 수정</Text>
 
         <TextButton
-          text="회원 정보 수정"
+          text="기본 정보 수정"
           onPress={() => {
             navigation.navigate(MainRoutes.MY_INFO, {
               screen: MyInfoRoutes.MY_INFO_UPDATE,

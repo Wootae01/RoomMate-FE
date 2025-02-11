@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OtherUserScreen from '../screens/OtherUserScreen';
 import RecommendScreen from '../screens/RecommendScreen';
-import { RecommendRoutes } from './routes';
+import { ContentRoutes, RecommendRoutes } from './routes';
 
 const Stack = createNativeStackNavigator();
 
@@ -9,10 +9,10 @@ const RecommendStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{}}
-      initialRouteName={RecommendRoutes.RECOMMEND_SCREEN}
+      initialRouteName={ContentRoutes.RECOMMEND}
     >
       <Stack.Screen
-        name={RecommendRoutes.RECOMMEND_SCREEN}
+        name={ContentRoutes.RECOMMEND}
         component={RecommendScreen}
       />
       <Stack.Screen

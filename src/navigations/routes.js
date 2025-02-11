@@ -1,7 +1,7 @@
 export const ContentRoutes = {
   HOME: 'Home',
   RECOMMEND: 'Recommend',
-  CHAT_ROOM: 'ChatRoom',
+  CHAT_LIST: 'ChatList',
   MY_INFO: 'MyInFo',
 };
 
@@ -10,6 +10,7 @@ export const MainRoutes = {
   SIGN_UP: 'SignUp',
   MY_INFO: 'MyInfo',
   RECOMMEND_STACK: 'RecommendStack',
+  CHAT_STACK: 'ChatStack',
 };
 
 export const SignRoutes = {
@@ -20,13 +21,15 @@ export const SignRoutes = {
 };
 
 export const MyInfoRoutes = {
-  MY_INFO_SCREEN: 'MyInfoScreen',
   MY_INFO_UPDATE: 'MyInfoUpdate',
   LIFE_STYLE: 'LifeStyle',
   PREFERENCE: 'Preference',
 };
 
 export const RecommendRoutes = {
-  RECOMMEND_SCREEN: 'RecommendScreen',
   OTHER_USER: 'OtherUser',
+};
+
+export const ChatRoutes = {
+  CHAT_ROOM: 'ChatRoom',
 };

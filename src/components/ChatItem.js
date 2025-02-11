@@ -23,7 +23,7 @@ const ChatItem = () => {
         <View style={[styles.content, { width: width * 2 - 15 }]}>
           <Text style={{ fontWeight: '700', fontSize: 15 }}>닉네임</Text>
           <Text style={{ fontSize: 13 }} numberOfLines={1} ellipsizeMode="tail">
-            한줄소개한줄소dddddd
+            최근 채팅 내역
           </Text>
         </View>
       </View>

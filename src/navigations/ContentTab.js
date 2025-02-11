@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NEUTRALVARIANT, PRIMARY } from '../colors';
-import ChatRoomScreen from '../screens/ChatRoomScreen';
+import ChatListScreen from '../screens/ChatListScreen';
 import HomeScreen from '../screens/HomeScreen';
 import MyInfoScreen from '../screens/MyInfoScreen';
 import RecommendScreen from '../screens/RecommendScreen';
@@ -51,8 +51,8 @@ const ContentTab = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name={ContentRoutes.CHAT_ROOM}
-        component={ChatRoomScreen}
+        name={ContentRoutes.CHAT_LIST}
+        component={ChatListScreen}
         options={{
           tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'chat' }),
           tabBarLabel: '채팅',

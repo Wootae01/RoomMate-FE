@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ChatStack from './ChatStack';
 import ContentTab from './ContentTab';
 import MyInfoStack from './MyInfoStack';
 import RecommendStack from './RecommendStack';
@@ -16,6 +17,7 @@ const MainStack = () => {
         name={MainRoutes.RECOMMEND_STACK}
         component={RecommendStack}
       />
+      <Stack.Screen name={MainRoutes.CHAT_STACK} component={ChatStack} />
     </Stack.Navigator>
   );
 };

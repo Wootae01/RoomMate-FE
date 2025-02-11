@@ -4,7 +4,7 @@ import MyInfoScreen from '../screens/MyInfoScreen';
 import LifeStyleUpdateScreen from '../screens/update/LifeStyleUpdateScreen';
 import MyInfoUpdateScreen from '../screens/update/MyInfoUpdateScreen';
 import PreferenceUpdateScreen from '../screens/update/PreferenceUpdateScreen';
-import { MyInfoRoutes } from './routes';
+import { ContentRoutes, MyInfoRoutes } from './routes';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,10 +25,7 @@ const MyInfoStack = () => {
         animation: 'slide_from_right',
       }}
     >
-      <Stack.Screen
-        name={MyInfoRoutes.MY_INFO_SCREEN}
-        component={MyInfoScreen}
-      />
+      <Stack.Screen name={ContentRoutes.MY_INFO} component={MyInfoScreen} />
       <Stack.Screen
         name={MyInfoRoutes.MY_INFO_UPDATE}
         component={MyInfoUpdateScreen}
