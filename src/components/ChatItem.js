@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import {
   Pressable,
   StyleSheet,
@@ -6,16 +7,24 @@ import {
   View,
 } from 'react-native';
 import { PALETTES } from '../colors';
+import { ChatRoutes, MainRoutes } from '../navigations/routes';
 import DefaultProfile from './DefaultProfile';
 
 const ChatItem = () => {
   const width = useWindowDimensions().width / 4;
+  const navigation = useNavigation();
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
         pressed && { backgroundColor: PALETTES.NEUTRALVARIANT[90] },
       ]}
+      onPress={() =>
+        navigation.navigate(MainRoutes.CHAT_STACK, {
+          screen: ChatRoutes.CHAT_ROOM,
+          params: { nickname: 'hello world!' },
+        })
+      }
     >
       <View style={styles.items}>
         <DefaultProfile />
