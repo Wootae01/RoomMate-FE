@@ -1,13 +1,22 @@
-import { Linking } from 'react-native';
+import { getKeyHashAndroid } from '@react-native-kakao/core';
+import { login } from '@react-native-kakao/user';
+import axios from 'axios';
 
 export const kakaoLogin = async () => {
-  const REST_API_KEY = '813ed8dc237356e90d7a1dd08cec8591';
-  const REDIRECT_URI = 'http://localhost:8080/auth/login/callback';
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
   try {
-    await Linking.openURL(KAKAO_AUTH_URL);
+    getKeyHashAndroid().then(console.log); //안드로이드 해시 코드 확인
+    const result = await login();
+    console.log(result);
+
+    //후속 작업
+    const response = await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/kakao/callback`,
+      { code: result.accessToken }
+    );
+    console.log(response);
+
+    return response;
   } catch (error) {
-    console.log('KaKaO login error:', error.message);
+    console.log('KaKao login error:', error.message);
   }
 };

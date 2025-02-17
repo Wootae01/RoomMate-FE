@@ -25,7 +25,8 @@ export const loadChatRoom = async (chatRoomId) => {
 export const getChatRooms = async (memberId) => {
   try {
     const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_BASE_URL}/members/${memberId}/chatrooms`
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/chatrooms`,
+      {}
     );
     return response.data;
   } catch (error) {

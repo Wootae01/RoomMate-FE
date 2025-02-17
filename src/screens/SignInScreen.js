@@ -10,20 +10,28 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
-import { SignRoutes } from '../navigations/routes';
+import { MainRoutes, SignRoutes } from '../navigations/routes';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
   const navigation = useNavigation();
-  const onSubmit = () => {
-    kakaoLogin();
-    navigation.navigate(SignRoutes.PROFILE_SURVEY);
+  const pressKakao = async () => {
+    const response = await kakaoLogin();
+
+    if (!response.isFirstLogin) {
+      navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
+    } else {
+      navigation.navigate(SignRoutes.PROFILE_SURVEY); //아니면 회원가입 화면으로
+    }
   }; //나중에 로그인 api 요쳥 부분 추가 하면 될듯
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.wrapper}>
-        <Pressable onPress={onSubmit} style={styles.container}>
+        <Pressable
+          onPress={() => navigation.navigate(SignRoutes.PROFILE_SURVEY)}
+          style={styles.container}
+        >
           <Image
             source={require('../../assets/login/naver.png')}
             style={{
@@ -33,7 +41,7 @@ const SignInScreen = () => {
             resizeMode="cover"
           />
         </Pressable>
-        <Pressable onPress={onSubmit} style={styles.container}>
+        <Pressable onPress={pressKakao} style={styles.container}>
           <Image
             source={require('../../assets/login/kakao.png')}
             style={{ width: width * 0.95, height: width * 0.2 }}
