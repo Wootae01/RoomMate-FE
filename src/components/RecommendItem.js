@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { PALETTES, WHITE } from '../colors';
-import { MainRoutes, RecommendRoutes } from '../navigations/routes';
+import { ChatRoutes, MainRoutes, RecommendRoutes } from '../navigations/routes';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 
@@ -48,7 +48,9 @@ const RecommendItem = () => {
 
         <Button
           title="채팅"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate(ChatRoutes.CHAT_ROOM);
+          }}
           icon={{ left: true, name: 'chat', color: WHITE, size: 18 }}
           customStyles={{
             button: {
