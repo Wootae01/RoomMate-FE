@@ -9,12 +9,16 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { kakaoLogin } from '../api/auth';
 import { SignRoutes } from '../navigations/routes';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
   const navigation = useNavigation();
-  const onSubmit = () => navigation.navigate(SignRoutes.PROFILE_SURVEY); //나중에 로그인 api 요쳥 부분 추가 하면 될듯
+  const onSubmit = () => {
+    kakaoLogin();
+    navigation.navigate(SignRoutes.PROFILE_SURVEY);
+  }; //나중에 로그인 api 요쳥 부분 추가 하면 될듯
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -41,7 +45,7 @@ const SignInScreen = () => {
   );
 };
 
-SignInScreen.prototypes = {
+SignInScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
