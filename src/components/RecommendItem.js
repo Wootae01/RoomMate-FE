@@ -49,7 +49,9 @@ const RecommendItem = () => {
         <Button
           title="채팅"
           onPress={() => {
-            navigation.navigate(ChatRoutes.CHAT_ROOM);
+            navigation.navigate(MainRoutes.CHAT_STACK, {
+              screen: ChatRoutes.CHAT_ROOM,
+            });
           }}
           icon={{ left: true, name: 'chat', color: WHITE, size: 18 }}
           customStyles={{
