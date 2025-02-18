@@ -2,8 +2,9 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'roommate-fe',
-    slug: 'roommate-fe',
+    name: 'roommate',
+    slug: 'roommate',
+    owner: 'roommate',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
@@ -16,6 +17,9 @@ export default {
     },
     ios: {
       supportsTablet: true,
+      runtimeVersion: {
+        policy: 'appVersion', // iOS 런타임 버전 설정 추가
+      },
     },
     android: {
       adaptiveIcon: {
@@ -23,11 +27,16 @@ export default {
         backgroundColor: '#ffffff',
       },
       package: 'com.kimwootae.roommatefe',
+      runtimeVersion: '1.0.0', // Android 런타임 버전 설정 추가
     },
     web: {
       favicon: './assets/favicon.png',
     },
+    updates: {
+      url: 'https://u.expo.dev/2e6b94a7-3a72-452c-8e7e-6492d6cbbfc8', // 프로젝트 ID 기반 URL 추가
+    },
     plugins: [
+      'expo-updates', // EAS Update를 사용하기 위해 추가
       [
         'expo-build-properties',
         {
@@ -53,7 +62,7 @@ export default {
     ],
     extra: {
       eas: {
-        projectId: '57a36a03-0bc0-4dd6-929e-40ecfc4e3092',
+        projectId: '2e6b94a7-3a72-452c-8e7e-6492d6cbbfc8',
       },
     },
   },
