@@ -18,9 +18,11 @@ const SignInScreen = () => {
   const pressKakao = async () => {
     const response = await kakaoLogin();
 
-    if (!response.isFirstLogin) {
+    if (!response.data.isFirstLogin) {
+      console.log("1"+response.data.isFirstLogin)
       navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
     } else {
+      console.log("2"+response.data.isFirstLogin)
       navigation.navigate(SignRoutes.PROFILE_SURVEY); //아니면 회원가입 화면으로
     }
   }; //나중에 로그인 api 요쳥 부분 추가 하면 될듯
