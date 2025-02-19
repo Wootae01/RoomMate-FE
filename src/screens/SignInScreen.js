@@ -11,21 +11,23 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
 import { MainRoutes, SignRoutes } from '../navigations/routes';
+import { useContext } from 'react';
+import UserContext from '../contexts/UserContext';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
   const navigation = useNavigation();
+  const { setUser } = useContext(UserContext);
   const pressKakao = async () => {
     const response = await kakaoLogin();
 
-    if (!response.data.isFirstLogin) {
-      console.log("1"+response.data.isFirstLogin)
+    if (!response.isFirstLogin) {
       navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
     } else {
-      console.log("2"+response.data.isFirstLogin)
       navigation.navigate(SignRoutes.PROFILE_SURVEY); //아니면 회원가입 화면으로
     }
-  }; //나중에 로그인 api 요쳥 부분 추가 하면 될듯
+    setUser({ userId: response.userId, accessToken: response.accessToken });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
