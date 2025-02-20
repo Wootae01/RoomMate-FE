@@ -10,14 +10,16 @@ import { PALETTES, WHITE } from '../colors';
 import { ChatRoutes, MainRoutes, RecommendRoutes } from '../navigations/routes';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
+import PropTypes from 'prop-types';
 
-const RecommendItem = () => {
+const RecommendItem = ({ memberId, nickname, introduce }) => {
   const width = useWindowDimensions().width / 4;
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.items}>
+        {/**디폴트 프로필, 닉네임, 한줄소개 영역 */}
         <Pressable
           onPress={() =>
             navigation.navigate(MainRoutes.RECOMMEND_STACK, {
@@ -35,17 +37,18 @@ const RecommendItem = () => {
         >
           <DefaultProfile />
           <View style={[styles.content, { width: width * 2 - 15 }]}>
-            <Text style={{ fontWeight: '700', fontSize: 15 }}>닉네임</Text>
+            <Text style={{ fontWeight: '700', fontSize: 15 }}>{nickname}</Text>
             <Text
               style={{ fontSize: 13 }}
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              한줄소개한줄소개dddddd
+              {introduce}
             </Text>
           </View>
         </Pressable>
 
+        {/**채팅 버튼 영역 */}
         <Button
           title="채팅"
           onPress={() => {
@@ -69,6 +72,12 @@ const RecommendItem = () => {
       </View>
     </View>
   );
+};
+
+RecommendItem.propTypes = {
+  memberId: PropTypes.number,
+  nickname: PropTypes.string,
+  introduce: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

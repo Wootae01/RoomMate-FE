@@ -5,10 +5,27 @@ import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
 import RecommendItem from '../components/RecommendItem';
+import { useContext, useEffect, useState } from 'react';
+import { getRecommendList } from '../api/recommend';
+import UserContext from '../contexts/UserContext';
 
-const dummyData = Array(10).fill(null); //테스트용 더미 데이터
-
+//추천 목록 화면
 const RecommendScreen = () => {
+  const { user } = useContext(UserContext);
+  const [data, setData] = useState(null); //추천 목록 데이터
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRecommendList(1); //테스트용 id
+        setData(result);
+        console.log(result);
+      } catch (error) {
+        console.log('Failed to get recommendationList: ', error); //임시 에러 처리리
+      }
+    };
+    fetchData();
+  }, [user?.userId]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -34,9 +51,9 @@ const RecommendScreen = () => {
 
       {/**추천 목록 영역 */}
       <FlatList
-        data={dummyData}
+        data={data}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={() => <RecommendItem />}
+        renderItem={({ item }) => <RecommendItem {...item} />}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
       />
