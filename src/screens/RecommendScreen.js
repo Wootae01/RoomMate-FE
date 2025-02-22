@@ -19,9 +19,8 @@ const RecommendScreen = () => {
       try {
         const result = await getRecommendList(1); //테스트용 id
         setData(result);
-        console.log(result);
       } catch (error) {
-        console.log('Failed to get recommendationList: ', error); //임시 에러 처리리
+        console.log('Failed to get recommendationList: ', error); //임시 에러 처리
       }
     };
     fetchData();

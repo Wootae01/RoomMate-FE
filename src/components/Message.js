@@ -7,7 +7,7 @@ export const MessageType = {
   OTHER_MESSAGE: 'OtherMessage', //상대 메시지 형식
 };
 
-const Message = ({ messageType }) => {
+const Message = ({ messageType, message }) => {
   return (
     <View
       style={[
@@ -18,7 +18,12 @@ const Message = ({ messageType }) => {
       ]}
     >
       {messageType === MessageType.MY_MESSAGE && ( //내 메시지는 시간이 왼쪽에 나오도록 한다.
-        <Text style={defaultStyles.time}>00:31</Text>
+        <Text style={defaultStyles.time}>
+          {new Date(message.sendTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </Text>
       )}
 
       <Text
@@ -28,10 +33,10 @@ const Message = ({ messageType }) => {
             : defaultStyles.otherMessage
         }
       >
-        아 뭔가 좀 아쉬운데 뭐가 아쉬운지 모르겠네
+        {message.content}
       </Text>
       {messageType === MessageType.OTHER_MESSAGE && ( //상대 메시지는 시간이 오른쪽에 나오도록 한다
-        <Text style={defaultStyles.time}>00:31</Text>
+        <Text style={defaultStyles.time}>{message.sendTime}</Text>
       )}
     </View>
   );
@@ -39,6 +44,7 @@ const Message = ({ messageType }) => {
 
 Message.propTypes = {
   messageType: PropTypes.oneOf(Object.values(MessageType)).isRequired,
+  message: PropTypes.object,
 };
 
 const defaultStyles = StyleSheet.create({

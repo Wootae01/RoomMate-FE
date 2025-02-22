@@ -11,6 +11,7 @@ import { ChatRoutes, MainRoutes, RecommendRoutes } from '../navigations/routes';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 import PropTypes from 'prop-types';
+import { createChatRoom } from '../api/chat';
 
 const RecommendItem = ({ memberId, nickname, introduce }) => {
   const width = useWindowDimensions().width / 4;
@@ -51,9 +52,12 @@ const RecommendItem = ({ memberId, nickname, introduce }) => {
         {/**채팅 버튼 영역 */}
         <Button
           title="채팅"
-          onPress={() => {
+          onPress={async () => {
+            const { chatRoomId } = await createChatRoom(1, memberId);
+            console.log('chatRoomId: ', chatRoomId);
             navigation.navigate(MainRoutes.CHAT_STACK, {
               screen: ChatRoutes.CHAT_ROOM,
+              params: { chatRoomId },
             });
           }}
           icon={{ left: true, name: 'chat', color: WHITE, size: 18 }}

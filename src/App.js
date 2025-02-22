@@ -6,9 +6,14 @@ import { StatusBar } from 'expo-status-bar';
 import { WHITE } from './colors';
 import Navigation from './navigations/Navigation';
 import { UserProvider } from './contexts/UserContext';
+import { TextDecoder, TextEncoder } from 'text-encoding';
+
+global.TextEncoder = TextEncoder; //websocket encoder
+global.TextDecoder = TextDecoder; //websocket decoder
 
 const App = () => {
   initializeKakaoSDK(`${process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY}`);
+
   return (
     <UserProvider>
       <NavigationContainer style={styles.container}>
