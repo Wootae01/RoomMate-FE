@@ -57,7 +57,7 @@ const RecommendItem = ({ memberId, nickname, introduce }) => {
             console.log('chatRoomId: ', chatRoomId);
             navigation.navigate(MainRoutes.CHAT_STACK, {
               screen: ChatRoutes.CHAT_ROOM,
-              params: { chatRoomId },
+              params: { nickname: `${nickname}`, chatRoomId },
             });
           }}
           icon={{ left: true, name: 'chat', color: WHITE, size: 18 }}

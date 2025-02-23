@@ -9,10 +9,12 @@ import {
 import { PALETTES } from '../colors';
 import { ChatRoutes, MainRoutes } from '../navigations/routes';
 import DefaultProfile from './DefaultProfile';
+import PropTypes from 'prop-types';
 
-const ChatItem = () => {
+const ChatItem = ({ data }) => {
   const width = useWindowDimensions().width / 4;
   const navigation = useNavigation();
+  const { chatRoomId, nickname, message, updatedTime } = data;
   return (
     <Pressable
       style={({ pressed }) => [
@@ -22,7 +24,7 @@ const ChatItem = () => {
       onPress={() =>
         navigation.navigate(MainRoutes.CHAT_STACK, {
           screen: ChatRoutes.CHAT_ROOM,
-          params: { nickname: 'hello world!' },
+          params: { nickname: `${nickname}`, chatRoomId },
         })
       }
     >
@@ -30,19 +32,28 @@ const ChatItem = () => {
         <DefaultProfile />
         {/** 닉네임, 최근 채팅 내역 */}
         <View style={[styles.content, { width: width * 2 - 15 }]}>
-          <Text style={{ fontWeight: '700', fontSize: 15 }}>닉네임</Text>
+          <Text style={{ fontWeight: '700', fontSize: 15 }}>{nickname}</Text>
           <Text style={{ fontSize: 13 }} numberOfLines={1} ellipsizeMode="tail">
-            최근 채팅 내역
+            {message}
           </Text>
         </View>
       </View>
 
       {/** 최근 채팅 시간 */}
       <View style={styles.timeContainer}>
-        <Text style={{ fontSize: 12, fontWeight: '400' }}>오후 12:30</Text>
+        <Text style={{ fontSize: 12, fontWeight: '400' }}>
+          {new Date(updatedTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </Text>
       </View>
     </Pressable>
   );
+};
+
+ChatItem.propTypes = {
+  data: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
