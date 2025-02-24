@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { PRIMARY, WHITE } from '../colors';
+import PropTypes from 'prop-types';
 
-const BirthYearDropdown = () => {
+const BirthYearDropdown = ({ value, setValue }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [items, setItems] = useState(
     Array.from({ length: 17 }, (_, i) => ({
       label: `${new Date().getFullYear() - 17 - i}년`,
@@ -16,6 +16,7 @@ const BirthYearDropdown = () => {
   return (
     <View style={styles.container}>
       <DropDownPicker
+        listMode="SCROLLVIEW"
         open={open}
         value={value}
         items={items}
@@ -32,6 +33,11 @@ const BirthYearDropdown = () => {
       />
     </View>
   );
+};
+
+BirthYearDropdown.propTypes = {
+  value: PropTypes.number,
+  setValue: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

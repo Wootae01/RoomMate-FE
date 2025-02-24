@@ -20,13 +20,12 @@ const SignInScreen = () => {
   const { setUser } = useContext(UserContext);
   const pressKakao = async () => {
     const response = await kakaoLogin();
-
+    setUser({ userId: response.userId, accessToken: response.accessToken });
     if (!response.isFirstLogin) {
       navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
     } else {
       navigation.navigate(SignRoutes.PROFILE_SURVEY); //아니면 회원가입 화면으로
     }
-    setUser({ userId: response.userId, accessToken: response.accessToken });
   };
 
   return (

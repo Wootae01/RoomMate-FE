@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { PRIMARY, WHITE } from '../colors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 export const DORMS = {
   //기숙사 정보
@@ -37,13 +38,12 @@ export const DORMS = {
   },
 };
 
-const DormDropDown = () => {
+const DormDropDown = ({ detailValue, setDetailValue }) => {
   const [dormOpen, setDormOpen] = useState(false);
   const [dormValue, setDormValue] = useState(null); //처음 선택한 기숙사
   const [dormItems] = useState(getDormItems());
 
   const [detailOpen, setDetailOpen] = useState(false);
-  const [detailValue, setDetailValue] = useState(null);
   const [detaliItems, setDetailItems] = useState([
     { label: '기숙사를 먼저 선택해 주세요', value: null },
   ]);
@@ -54,12 +54,13 @@ const DormDropDown = () => {
       setDetailItems(getDetailItmes(dormValue));
       setDetailValue(null);
     }
-  }, [dormValue]);
+  }, [dormValue, setDetailValue]);
 
   return (
     <View style={styles.container}>
       <View style={styles.dropDwonWrapper}>
         <DropDownPicker
+          listMode="SCROLLVIEW"
           open={dormOpen}
           value={dormValue}
           items={dormItems}
@@ -77,6 +78,7 @@ const DormDropDown = () => {
 
       <View style={styles.dropDwonWrapper}>
         <DropDownPicker
+          listMode="SCROLLVIEW"
           open={detailOpen}
           value={detailValue}
           items={detaliItems}
@@ -94,6 +96,12 @@ const DormDropDown = () => {
     </View>
   );
 };
+
+DormDropDown.propTypes = {
+  detailValue: PropTypes.string,
+  setDetailValue: PropTypes.func,
+};
+
 const getDormItems = () =>
   Object.entries(DORMS).map(([key, value]) => ({
     label: value.name,

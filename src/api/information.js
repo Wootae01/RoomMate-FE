@@ -11,7 +11,7 @@ export const signUp = async (memberData) => {
     );
 
     console.log('회원가입 폼 전달에 대한 백엔드 응답:', response.data);
-    return response;
+    return response.data;
   } catch (axiosError) {
     console.error(
       '회원가입 폼 전달에 대한 백엔드 요청 실패:',

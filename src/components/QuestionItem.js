@@ -3,15 +3,25 @@ import RadioBox from './RadioBox';
 import CheckBox from './CheckBox';
 import { BLACK, PRIMARY, WHITE } from '../colors';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const ButtonTypes = {
   RADIO: 'RADIO',
   CHECK: 'CHECK',
 };
 
-const QuestionItem = ({ header, items, buttonType }) => {
+const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
   const [isSelected, setIsSelected] = useState(null); //라디오 버튼 선택 여부
+  const [values, setValues] = useState([]); //check 박스에서 선택한 설문의 id 값들
+
+  const onChangeValueRef = useRef(onChangeValue);
+  useEffect(() => {
+    onChangeValueRef.current = onChangeValue;
+  }, [onChangeValue]);
+
+  useEffect(() => {
+    onChangeValueRef.current(values);
+  }, [values]);
 
   return (
     <View>
@@ -31,13 +41,26 @@ const QuestionItem = ({ header, items, buttonType }) => {
                 name={item.label}
                 isSelected={isSelected === item.value}
                 onPress={() => {
+                  onChangeValue(item.id);
                   setIsSelected(item.value);
                 }}
                 radioStyle={{}}
               />
             );
           } else if (buttonType === ButtonTypes.CHECK) {
-            return <CheckBox key={index} name={item.label} />;
+            return (
+              <CheckBox
+                key={index}
+                name={item.label}
+                onChangeValues={(isCheck) => {
+                  setValues((prev) =>
+                    isCheck
+                      ? [...prev, item.id]
+                      : prev.filter((value) => value !== item.id)
+                  );
+                }}
+              />
+            );
           } else {
             return null;
           }
@@ -51,6 +74,7 @@ QuestionItem.propTypes = {
   header: PropTypes.object.isRequired,
   items: PropTypes.array.isRequired,
   buttonType: PropTypes.oneOf(Object.values(ButtonTypes)).isRequired,
+  onChangeValue: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

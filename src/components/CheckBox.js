@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK } from '../colors';
-const CheckBox = ({ name, customStyles, size }) => {
+const CheckBox = ({ name, customStyles, size, onChangeValues }) => {
   const [isCheck, setIsCheck] = useState(false);
   const checkBoxProps = {
     name: isCheck ? 'checkbox-marked' : 'checkbox-blank-outline',
@@ -15,7 +15,9 @@ const CheckBox = ({ name, customStyles, size }) => {
       <Pressable
         hitSlop={10}
         onPress={() => {
-          setIsCheck((pre) => !pre);
+          const update = !isCheck;
+          setIsCheck(update);
+          onChangeValues(update);
         }}
       >
         <MaterialCommunityIcons {...checkBoxProps} />
@@ -29,6 +31,7 @@ CheckBox.propTypes = {
   name: PropTypes.string.isRequired,
   customStyles: PropTypes.object,
   size: PropTypes.number,
+  onChangeValues: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
