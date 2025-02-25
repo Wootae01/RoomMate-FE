@@ -11,7 +11,7 @@ export const ButtonTypes = {
 };
 
 const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
-  const [isSelected, setIsSelected] = useState(null); //라디오 버튼 선택 여부
+  const [isSelected, setIsSelected] = useState([]); //라디오 버튼 선택 여부
   const [values, setValues] = useState([]); //check 박스에서 선택한 설문의 id 값들
 
   const onChangeValueRef = useRef(onChangeValue);
@@ -39,10 +39,10 @@ const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
               <RadioBox
                 key={index}
                 name={item.label}
-                isSelected={isSelected === item.value}
+                isSelected={isSelected === item.id}
                 onPress={() => {
-                  onChangeValue(item.id);
-                  setIsSelected(item.value);
+                  onChangeValue([item.id]);
+                  setIsSelected(item.id);
                 }}
                 radioStyle={{}}
               />

@@ -54,10 +54,9 @@ const PreferenceSurveyScreen = ({ route }) => {
           <Button
             title="완료"
             onPress={async () => {
-              const preference = Object.values(answers).flat();
               const result = {
                 ...prevParams,
-                preference: preference,
+                preference: answers,
                 userId: user.userId,
               };
               console.log('전체 data: ', result);

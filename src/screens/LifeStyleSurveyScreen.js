@@ -69,10 +69,10 @@ const LifeStyleSurveyScreen = ({ route }) => {
             title="다음"
             onPress={() => {
               console.log('lifeStyle: ', answers);
-              const result = Object.values(answers).flat();
+
               navigation.navigate(SignRoutes.PREFERENCE_SURVEY, {
                 ...prevParams,
-                lifeStyle: result,
+                lifeStyle: answers,
               });
             }}
             customStyles={{
