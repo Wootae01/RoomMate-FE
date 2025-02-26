@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { MainRoutes } from '../navigations/routes';
 import { useContext, useState } from 'react';
-import { signUp } from '../api/information';
+import { signUp } from '../api/register';
 import UserContext from '../contexts/UserContext';
 
 const PreferenceSurveyScreen = ({ route }) => {
