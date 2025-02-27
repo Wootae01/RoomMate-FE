@@ -7,6 +7,10 @@ import DefaultProfile from '../components/DefaultProfile';
 import HR from '../components/HR';
 import TextButton from '../components/TextButton';
 import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
+
+/**
+ * 내 정보 화면
+ */
 const MyInfoScreen = () => {
   const navigation = useNavigation();
 
