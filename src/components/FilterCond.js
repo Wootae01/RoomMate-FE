@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { BLACK, PALETTES, WHITE } from '../colors';
@@ -8,7 +9,7 @@ import Button from './Button';
 {
   /**추천 목록 상단에 나오는 검색 조건 */
 }
-const FilterCond = () => {
+const FilterCond = ({ onSearch }) => {
   const [visible, setVisible] = useState(false); //모달 창 보여줄지 결정할 변수
 
   const [surveyKey, setSurveyKey] = useState(''); //선택한 필터 항목 키 값 저장장
@@ -21,6 +22,7 @@ const FilterCond = () => {
           setVisible(false);
         }}
         surveyKey={surveyKey}
+        onSearch={onSearch}
       />
       <FlatList
         data={Object.entries(SURVEY)}
@@ -42,7 +44,7 @@ const FilterCond = () => {
                 marginRight: 10,
                 borderRadius: 5,
               },
-              title: { color: BLACK, fontSize: 10 },
+              title: { color: BLACK, fontSize: 11 },
             }}
             icon={{
               name: 'chevron-right',
@@ -64,6 +66,9 @@ const FilterCond = () => {
       />
     </View>
   );
+};
+FilterCond.propTypes = {
+  onSearch: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

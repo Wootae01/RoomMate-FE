@@ -19,9 +19,22 @@ import { SURVEY } from '../surveyConstants';
    * surveyKey: 설문 key 값
    */
 }
-const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
+const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
   const [selectedFilter, setSelectedFilter] = useState(surveyKey);
   const flatListRef = useRef(null);
+  const [cond, setCond] = useState({}); //선택한 필터 조건
+
+  //체크 박스 값 바뀌면 실행
+  const handleChekboxToggle = (surveyId, isChecked) => {
+    setCond((prev) => {
+      const preValues = prev[selectedFilter] || [];
+      const newValues = isChecked
+        ? [...preValues, surveyId]
+        : preValues.filter((item) => item !== surveyId);
+
+      return { ...prev, [selectedFilter]: newValues };
+    });
+  };
 
   // 부모 surveyKey 값이 바뀌면 selectedFilter 업데이트
   useEffect(() => {
@@ -54,6 +67,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
               alignItems: 'center',
             }}
           >
+            {/**상단 영역 */}
             <Text style={{ fontSize: 16, fontWeight: '700', padding: 10 }}>
               필터
             </Text>
@@ -67,6 +81,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
           </View>
 
           <View style={defaultStyles.innerContainer}>
+            {/**카테고리 목록 영역 */}
             <FlatList
               ref={flatListRef}
               data={Object.entries(SURVEY)}
@@ -94,7 +109,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
                       },
                       text: {
                         color: selectedFilter === key ? PRIMARY.DEFAULT : BLACK,
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: selectedFilter ? '700' : '500',
                       },
                     }}
@@ -109,10 +124,13 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
                 index,
               })}
             />
+
+            {/**체크 박스 영역 */}
             <View style={defaultStyles.checkBoxContainer}>
               {SURVEY[selectedFilter] && SURVEY[selectedFilter].details ? (
-                Object.values(SURVEY[selectedFilter].details).map(
-                  ({ label }, index) => (
+                Object.values(SURVEY[selectedFilter].details).map((detail) => {
+                  const { label, id } = detail;
+                  return (
                     <CheckBox
                       customStyles={{
                         container: {
@@ -126,16 +144,22 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
                         },
                       }}
                       name={label}
-                      key={index}
+                      key={id}
                       size={26}
+                      onChangeValues={(isChecked) =>
+                        handleChekboxToggle(id, isChecked)
+                      }
+                      isChecked={(cond[selectedFilter] || []).includes(id)}
                     />
-                  )
-                )
+                  );
+                })
               ) : (
                 <Text>필터 항목이 없습니다.</Text>
               )}
             </View>
           </View>
+
+          {/**하단 버튼 영역 */}
           <View
             style={{
               bottom: 0,
@@ -145,7 +169,14 @@ const DetailCondScreen = ({ visible, onClose, surveyKey }) => {
               padding: 20,
             }}
           >
-            <Button title="검색하기" onPress={() => {}} customStyles={{}} />
+            <Button
+              title="검색하기"
+              onPress={async () => {
+                await onSearch(cond);
+                onClose();
+              }}
+              customStyles={{}}
+            />
           </View>
         </View>
       </View>
@@ -157,6 +188,7 @@ DetailCondScreen.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   surveyKey: PropTypes.string.isRequired,
+  onSearch: PropTypes.func,
 };
 
 const defaultStyles = StyleSheet.create({

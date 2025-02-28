@@ -1,12 +1,12 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useContext, useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getFilteredMember, getRecommendList } from '../api/recommend';
 import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
 import RecommendItem from '../components/RecommendItem';
-import { useContext, useEffect, useState } from 'react';
-import { getRecommendList } from '../api/recommend';
 import UserContext from '../contexts/UserContext';
 
 //추천 목록 화면
@@ -14,6 +14,14 @@ const RecommendScreen = () => {
   const { user } = useContext(UserContext);
   const [data, setData] = useState(null); //추천 목록 데이터
 
+  //필터 적용 함수
+  const fetchFilteredData = async (filterCond) => {
+    console.log('필터 조건: ', filterCond);
+    const newData = await getFilteredMember(1, filterCond); //테스트용 id ★★★★★★★★★★
+    setData(newData);
+  };
+
+  //처음 추천목록 탭 눌렀을 때, 추천 목록 가져옴
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,7 +52,7 @@ const RecommendScreen = () => {
       </View>
       {/**필터 영역 */}
       <View style={styles.fliter}>
-        <FilterCond />
+        <FilterCond onSearch={fetchFilteredData} />
       </View>
       <HR />
 

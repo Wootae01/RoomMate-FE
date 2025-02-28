@@ -17,3 +17,20 @@ export const getRecommendList = async (userId) => {
     throw error;
   }
 };
+
+export const getFilteredMember = async (memberId, filterCond) => {
+  try {
+    const response = await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/recommendation`,
+      { cond: filterCond },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log('Failed to get FilteredMember: ', error);
+    throw error;
+  }
+};

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK } from '../colors';
-const CheckBox = ({ name, customStyles, size, onChangeValues }) => {
-  const [isCheck, setIsCheck] = useState(false);
+const CheckBox = ({ name, customStyles, size, onChangeValues, isChecked }) => {
+  const [isCheck, setIsCheck] = useState(isChecked || false);
   const checkBoxProps = {
     name: isCheck ? 'checkbox-marked' : 'checkbox-blank-outline',
     size: size || 30,
@@ -32,6 +32,7 @@ CheckBox.propTypes = {
   customStyles: PropTypes.object,
   size: PropTypes.number,
   onChangeValues: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({

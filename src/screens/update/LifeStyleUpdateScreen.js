@@ -54,7 +54,7 @@ const LifeStyleUpdateScreen = () => {
             title="수정"
             onPress={async () => {
               try {
-                const response = await editLifeStyle(1, answers);
+                const response = await editLifeStyle(1, answers); //테스트용 id★★★★★★★
                 console.log(response);
                 navigation.goBack();
               } catch (error) {
