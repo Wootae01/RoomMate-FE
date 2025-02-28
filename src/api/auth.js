@@ -1,5 +1,5 @@
 import { getKeyHashAndroid } from '@react-native-kakao/core';
-import { login } from '@react-native-kakao/user';
+import { login, logout } from '@react-native-kakao/user';
 import axios from 'axios';
 
 export const kakaoLogin = async () => {
@@ -37,3 +37,19 @@ export const kakaoLogin = async () => {
     console.log('KaKao login error:', error.message);
   }
 };
+
+
+// Kakao Logout
+
+export const kakaoLogout = async () => {
+  try {
+    console.log('카카오 로그아웃 실행')
+    const result = await logout();
+    const message = result.toString();
+
+    console.log('Kakao Login 성공', message);
+
+  } catch (err) {
+    console.error("Logout error", err);
+  }
+}
