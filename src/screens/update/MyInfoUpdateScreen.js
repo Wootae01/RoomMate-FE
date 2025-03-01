@@ -1,9 +1,10 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editProfile } from '../../api/editinformation';
+import { getProfile } from '../../api/getinformation';
 import BirthYearDropdown from '../../components/BirthYearDropDown';
 import Button from '../../components/Button';
 import DormDropDown from '../../components/DormDropDown';
@@ -18,6 +19,24 @@ const MyInfoUpdateScreen = () => {
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
 
   const navigation = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getProfile(1); //테스트용 임시★★★★★★★
+          setNickname(data.nickname);
+          setIntroduce(data.introduce);
+          setBirthYear(data.age);
+          setDormitory(data.dormitory);
+          setGender(data.gender);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

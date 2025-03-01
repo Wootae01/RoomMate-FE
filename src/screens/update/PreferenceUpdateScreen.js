@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editPreference } from '../../api/editinformation';
+import { getPreference } from '../../api/getinformation';
 import Button from '../../components/Button';
 import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
 import { SURVEY } from '../../surveyConstants';
@@ -15,6 +16,21 @@ const PreferenceUpdateScreen = () => {
   const changeAnswer = (key, value) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
+
+  //초기 데이터 초기화
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getPreference(1); //임시★★★★★★★★
+          setAnswers(data.options);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -29,6 +45,7 @@ const PreferenceUpdateScreen = () => {
               items={data.details}
               buttonType={ButtonTypes.CHECK}
               onChangeValue={(value) => changeAnswer(key, value)}
+              initData={answers[key]}
             />
           );
         })}

@@ -1,16 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native';
-import RadioBox from './RadioBox';
-import CheckBox from './CheckBox';
-import { BLACK, PRIMARY, WHITE } from '../colors';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { BLACK, PRIMARY, WHITE } from '../colors';
+import CheckBox from './CheckBox';
+import RadioBox from './RadioBox';
 
 export const ButtonTypes = {
   RADIO: 'RADIO',
   CHECK: 'CHECK',
 };
 
-const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
+const QuestionItem = ({
+  header,
+  items,
+  buttonType,
+  onChangeValue,
+  initData,
+}) => {
   const [isSelected, setIsSelected] = useState([]); //라디오 버튼 선택 여부
   const [values, setValues] = useState([]); //check 박스에서 선택한 설문의 id 값들
 
@@ -22,6 +28,14 @@ const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
   useEffect(() => {
     onChangeValueRef.current(values);
   }, [values]);
+
+  useEffect(() => {
+    if (buttonType === ButtonTypes.RADIO && initData) {
+      setIsSelected(initData[0]);
+    } else if (buttonType === ButtonTypes.CHECK && initData) {
+      setValues(initData);
+    }
+  }, [initData, buttonType]);
 
   return (
     <View>
@@ -59,6 +73,7 @@ const QuestionItem = ({ header, items, buttonType, onChangeValue }) => {
                       : prev.filter((value) => value !== item.id)
                   );
                 }}
+                isChecked={values.includes(item.id)}
               />
             );
           } else {
@@ -75,6 +90,7 @@ QuestionItem.propTypes = {
   items: PropTypes.array.isRequired,
   buttonType: PropTypes.oneOf(Object.values(ButtonTypes)).isRequired,
   onChangeValue: PropTypes.func,
+  initData: PropTypes.array,
 };
 
 const styles = StyleSheet.create({

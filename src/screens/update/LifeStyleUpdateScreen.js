@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editLifeStyle } from '../../api/editinformation';
+import { getLifeStyle } from '../../api/getinformation';
 import Button from '../../components/Button';
 import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
 import { SURVEY } from '../../surveyConstants';
@@ -27,10 +28,26 @@ const surveyItems = [
 const LifeStyleUpdateScreen = () => {
   const [answers, setAnswers] = useState({});
   const navigation = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getLifeStyle(1); //★★★★★★★
+          setAnswers(data.options);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }, [])
+  );
+
   //특정 질문의 값이 변경되면 호출
   const changeAnswer = (key, value) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -44,6 +61,7 @@ const LifeStyleUpdateScreen = () => {
               items={data.details}
               buttonType={item.buttonType}
               onChangeValue={(value) => changeAnswer(item.key, value)}
+              initData={answers[item.key]}
             />
           );
         })}

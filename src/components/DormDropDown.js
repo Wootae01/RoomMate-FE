@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import { PRIMARY, WHITE } from '../colors';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { PRIMARY, WHITE } from '../colors';
 
 export const DORMS = {
   //기숙사 정보
@@ -48,13 +48,28 @@ const DormDropDown = ({ detailValue, setDetailValue }) => {
     { label: '기숙사를 먼저 선택해 주세요', value: null },
   ]);
 
-  //선택한 기숙사 변경되면 그 세부 목록도 바뀜
+  // 부모에서 전달받은 detailValue가 변경될 때 dormValue와 세부 목록을 동기화
+  useEffect(() => {
+    if (detailValue) {
+      const dormKey = getDorm(detailValue);
+      if (dormKey) {
+        setDormValue(dormKey);
+      }
+    }
+  }, [detailValue]);
+
+  //선택한 기숙사 변경되면 그 세부 목록도 바뀜.
+  //부모에서 detailValue를 전달 받아 dormValue 값이 바뀌었다면, detailValue null로 초기화 안함
   useEffect(() => {
     if (dormValue) {
-      setDetailItems(getDetailItmes(dormValue));
-      setDetailValue(null);
+      const newDetailItems = getDetailItmes(dormValue);
+      setDetailItems(newDetailItems);
+
+      if (!newDetailItems.find((item) => item.value === detailValue)) {
+        setDetailValue(null);
+      }
     }
-  }, [dormValue, setDetailValue]);
+  }, [dormValue, setDetailValue, detailValue]);
 
   return (
     <View style={styles.container}>
@@ -110,6 +125,18 @@ const getDormItems = () =>
 
 const getDetailItmes = (dormKey) =>
   DORMS[dormKey]?.details || ['기숙사를 먼저 선택해 주세요'];
+
+const getDorm = (value) => {
+  for (const key in DORMS) {
+    const details = DORMS[key].details;
+    for (let i = 0; i < details.length; i++) {
+      if (details[i].value === value) {
+        return key;
+      }
+    }
+  }
+  return undefined;
+};
 
 const styles = StyleSheet.create({
   container: {

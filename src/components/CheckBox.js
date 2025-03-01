@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK } from '../colors';
 const CheckBox = ({ name, customStyles, size, onChangeValues, isChecked }) => {
@@ -10,6 +10,11 @@ const CheckBox = ({ name, customStyles, size, onChangeValues, isChecked }) => {
     size: size || 30,
     color: BLACK,
   };
+
+  useEffect(() => {
+    setIsCheck(isChecked);
+  }, [isChecked]);
+
   return (
     <View style={[styles.container, customStyles?.container]}>
       <Pressable
