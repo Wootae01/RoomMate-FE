@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import {
   Pressable,
   StyleSheet,
@@ -6,12 +7,11 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import { createChatRoom } from '../api/chat';
 import { PALETTES, WHITE } from '../colors';
 import { ChatRoutes, MainRoutes, RecommendRoutes } from '../navigations/routes';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
-import PropTypes from 'prop-types';
-import { createChatRoom } from '../api/chat';
 
 const RecommendItem = ({ memberId, nickname, introduce }) => {
   const width = useWindowDimensions().width / 4;
@@ -25,6 +25,7 @@ const RecommendItem = ({ memberId, nickname, introduce }) => {
           onPress={() =>
             navigation.navigate(MainRoutes.RECOMMEND_STACK, {
               screen: RecommendRoutes.OTHER_USER,
+              params: { memberId: memberId },
             })
           }
           style={({ pressed }) => [
@@ -53,7 +54,7 @@ const RecommendItem = ({ memberId, nickname, introduce }) => {
         <Button
           title="채팅"
           onPress={async () => {
-            const { chatRoomId } = await createChatRoom(1, memberId);
+            const { chatRoomId } = await createChatRoom(1, memberId); //★★★★★★★★★
             console.log('chatRoomId: ', chatRoomId);
             navigation.navigate(MainRoutes.CHAT_STACK, {
               screen: ChatRoutes.CHAT_ROOM,

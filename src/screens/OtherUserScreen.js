@@ -1,57 +1,106 @@
+import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { createChatRoom } from '../api/chat';
+import { getFriendInformation } from '../api/getinformation';
 import Button from '../components/Button';
 import DefaultProfile from '../components/DefaultProfile';
+import { DORMS, getDorm } from '../components/DormDropDown';
 import SurveyCard from '../components/SurveyCard';
-import { SURVEY } from '../surveyConstants';
+import { ChatRoutes, MainRoutes } from '../navigations/routes';
 
-const OtherUserScreen = () => {
+const OtherUserScreen = ({ route }) => {
+  const { memberId } = route.params;
+  const [data, setData] = useState({});
+  const [dorm, setDorm] = useState('');
+  const [detailDorm, setDetailDorm] = useState('');
+  const navigation = useNavigation();
+
+  //상대 프로필 정보 가져옴
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getFriendInformation(memberId);
+        console.log('response: ', response);
+        setData(response);
+        const dormKey = getDorm(response.dormitory);
+        setDorm(DORMS[dormKey].name);
+        setDetailDorm(
+          DORMS[dormKey].details.find(
+            (item) => item.value === response.dormitory
+          ).label
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [memberId]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* 프로필 영역*/}
         <View style={styles.profile}>
           <DefaultProfile size={80} />
-          <Text style={styles.nickname}>닉네임</Text>
+          <Text style={styles.nickname}>{data.nickname}</Text>
         </View>
 
         {/* 사용자 정보 영역*/}
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>나이 : 22살</Text>
-          <Text style={styles.infoText}>기숙사 : 양진재 인의관</Text>
+          <Text style={styles.infoText}>출생년도: {data.age}년</Text>
           <Text style={styles.infoText}>
-            한줄소개 한줄소개 한줄소개 한줄소개 한줄소개 한줄소개 한줄소개
-            한줄소개
+            성별: {data.gender === 'MALE' ? '남' : '여'}
           </Text>
+          <Text style={styles.infoText}>
+            기숙사: {dorm} {detailDorm}
+          </Text>
+
+          <Text style={styles.infoText}>{data.introduce}</Text>
         </View>
 
         {/* 생활 패턴 영역 */}
         <Text style={styles.sectionTitle}>생활 패턴</Text>
         <View style={styles.surveyContainer}>
-          {Object.entries(SURVEY).map(([key, item]) => (
-            <SurveyCard item={item} key={key} />
-          ))}
+          {data.lifeStyle &&
+            Object.entries(data.lifeStyle).map(([key, values]) => (
+              <SurveyCard values={values} surveyKey={key} key={key} />
+            ))}
         </View>
 
         {/** 선호하는 룸메 영역 */}
         <Text style={styles.sectionTitle}>선호하는 룸메</Text>
         <View style={styles.surveyContainer}>
-          {Object.entries(SURVEY).map(([key, item]) => (
-            <SurveyCard item={item} key={key} />
-          ))}
+          {data.preference &&
+            Object.entries(data.preference).map(([key, values]) => (
+              <SurveyCard values={values} key={key} surveyKey={key} />
+            ))}
         </View>
 
         {/* 버튼 영역 */}
         <View style={styles.buttonContainer}>
           <Button
             title="채팅 하기"
-            onPress={() => {}}
+            onPress={async () => {
+              const { chatRoomId } = await createChatRoom(1, memberId); //★★★★★★★
+              console.log('chatRoomId: ', chatRoomId);
+              navigation.navigate(MainRoutes.CHAT_STACK, {
+                screen: ChatRoutes.CHAT_ROOM,
+                params: { nickname: `${data.nickname}`, chatRoomId },
+              });
+            }}
             customStyles={{ button: styles.buttonSpacing }}
           />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
+};
+
+OtherUserScreen.propTypes = {
+  route: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
@@ -90,6 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingVertical: 5,
     color: '#555',
+    fontWeight: '400',
   },
   sectionTitle: {
     fontSize: 20,

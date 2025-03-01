@@ -126,7 +126,7 @@ const getDormItems = () =>
 const getDetailItmes = (dormKey) =>
   DORMS[dormKey]?.details || ['기숙사를 먼저 선택해 주세요'];
 
-const getDorm = (value) => {
+export const getDorm = (value) => {
   for (const key in DORMS) {
     const details = DORMS[key].details;
     for (let i = 0; i < details.length; i++) {

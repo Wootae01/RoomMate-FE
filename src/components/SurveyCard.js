@@ -1,28 +1,45 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BLACK, PALETTES, WHITE } from '../colors';
+import { SURVEY } from '../surveyConstants';
 
 {
   /** 설문 항목과 해당 값 카드 형식으로 반환 */
 }
-const SurveyCard = ({ item }) => (
-  <View style={styles.card}>
-    <Text style={styles.title}>{item.name}</Text>
-    <View style={styles.detailContainer}>
-      {item.details.map((detail, index) => (
-        <Text key={index} style={styles.detailText}>
-          {detail.label}
-        </Text>
-      ))}
+const SurveyCard = ({ surveyKey, values }) => {
+  const [section, setSection] = useState(null);
+  useEffect(() => {
+    console.log('values ', values);
+    setSection(SURVEY[surveyKey]);
+  }, [surveyKey, values]);
+
+  return (
+    <View style={styles.card}>
+      {section ? (
+        <>
+          <Text style={styles.title}>{section.name}</Text>
+          <View style={styles.detailContainer}>
+            {section.details &&
+              section.details
+                .filter((item) => values && values.includes(item.id))
+                .map((item) => (
+                  <Text key={item.value} style={styles.detailText}>
+                    {item.label}
+                  </Text>
+                ))}
+          </View>
+        </>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
-  </View>
-);
+  );
+};
 
 SurveyCard.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    details: PropTypes.array.isRequired,
-  }),
+  surveyKey: PropTypes.string,
+  values: PropTypes.array,
 };
 
 const styles = StyleSheet.create({
