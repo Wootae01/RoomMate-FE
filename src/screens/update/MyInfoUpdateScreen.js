@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editProfile } from '../../api/editinformation';
 import { getProfile } from '../../api/getinformation';
@@ -10,6 +10,7 @@ import Button from '../../components/Button';
 import DormDropDown from '../../components/DormDropDown';
 import Input from '../../components/Input';
 import RadioBox from '../../components/RadioBox';
+import UserContext from '../../contexts/UserContext';
 const MyInfoUpdateScreen = () => {
   const [gender, setGender] = useState(''); //성별별
   const [nickname, setNickname] = useState(''); //닉네임
@@ -19,12 +20,12 @@ const MyInfoUpdateScreen = () => {
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
 
   const navigation = useNavigation();
-
+  const { user } = useContext(UserContext);
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const data = await getProfile(1); //테스트용 임시★★★★★★★
+          const data = await getProfile(user.userId);
           setNickname(data.nickname);
           setIntroduce(data.introduce);
           setBirthYear(data.age);
@@ -35,7 +36,7 @@ const MyInfoUpdateScreen = () => {
         }
       };
       fetchData();
-    }, [])
+    }, [user.userId])
   );
 
   return (
@@ -98,13 +99,13 @@ const MyInfoUpdateScreen = () => {
             onPress={async () => {
               try {
                 const response = await editProfile(
-                  1,
+                  user.userId,
                   nickname,
                   gender,
                   birthYear,
                   dormitory,
                   introduce
-                ); //테스트용 ★★★★★★★★
+                );
                 console.log(response);
                 navigation.goBack();
               } catch (error) {

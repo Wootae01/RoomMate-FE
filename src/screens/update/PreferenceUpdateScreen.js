@@ -1,17 +1,18 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editPreference } from '../../api/editinformation';
 import { getPreference } from '../../api/getinformation';
 import Button from '../../components/Button';
 import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
+import UserContext from '../../contexts/UserContext';
 import { SURVEY } from '../../surveyConstants';
 
 const PreferenceUpdateScreen = () => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
-
+  const { user } = useContext(UserContext);
   //특정 질문의 값이 변경되면 호출
   const changeAnswer = (key, value) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -22,14 +23,14 @@ const PreferenceUpdateScreen = () => {
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const data = await getPreference(1); //임시★★★★★★★★
+          const data = await getPreference(user.userId);
           setAnswers(data.options);
         } catch (error) {
           console.log(error);
         }
       };
       fetchData();
-    }, [])
+    }, [user.userId])
   );
 
   return (
@@ -56,7 +57,7 @@ const PreferenceUpdateScreen = () => {
             title="수정"
             onPress={async () => {
               try {
-                const response = await editPreference(1, answers); //테스트용 id ★★★★★★★★★
+                const response = await editPreference(user.userId, answers);
                 console.log(response);
                 navigation.goBack();
               } catch (error) {

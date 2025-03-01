@@ -17,7 +17,7 @@ const RecommendScreen = () => {
   //필터 적용 함수
   const fetchFilteredData = async (filterCond) => {
     console.log('필터 조건: ', filterCond);
-    const newData = await getFilteredMember(1, filterCond); //테스트용 id ★★★★★★★★★★
+    const newData = await getFilteredMember(user.userId, filterCond);
     setData(newData);
   };
 
@@ -25,7 +25,7 @@ const RecommendScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getRecommendList(1); //테스트용 id
+        const result = await getRecommendList(user.userId);
         setData(result);
       } catch (error) {
         console.log('Failed to get recommendationList: ', error); //임시 에러 처리

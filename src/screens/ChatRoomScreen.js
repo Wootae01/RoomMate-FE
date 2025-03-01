@@ -1,14 +1,15 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { findAllMessages } from '../api/chat';
+import stompClient, { connect, sendMessage } from '../api/stompClient';
 import { PALETTES, PRIMARY } from '../colors';
 import Input from '../components/Input';
 import Message, { MessageType } from '../components/Message';
 import OtherMessage from '../components/OtherMesaage';
-import PropTypes from 'prop-types';
-import { findAllMessages } from '../api/chat';
-import stompClient, { connect, sendMessage } from '../api/stompClient';
+import UserContext from '../contexts/UserContext';
 
 const ChatRoomScreen = ({ route }) => {
   const [messages, setMessages] = useState([]); //채팅 메시지
@@ -16,7 +17,7 @@ const ChatRoomScreen = ({ route }) => {
   const [content, setContent] = useState(''); //입력한 메시지
   const [chatRoomId, setChatRoomId] = useState(route.params.chatRoomId);
   const flatListRef = useRef(null);
-
+  const { user } = useContext(UserContext);
   //자동 스크롤
   useEffect(() => {
     flatListRef.current?.scrollToEnd({ animated: true });
@@ -37,8 +38,6 @@ const ChatRoomScreen = ({ route }) => {
     };
     getMessages();
   }, [chatRoomId]);
-
-  useEffect(() => {}, [messages]); //메시지 바뀌면 랜더링
 
   //실시간으로 메시지 받음(구독)
   useEffect(() => {
@@ -77,7 +76,7 @@ const ChatRoomScreen = ({ route }) => {
         ref={flatListRef}
         data={messages}
         renderItem={({ item }) =>
-          item.memberId === 1 ? ( //임시로 id 설정 ★★★★★
+          item.memberId.toString() === user.userId.toString() ? (
             <Message messageType={MessageType.MY_MESSAGE} message={item} />
           ) : (
             <OtherMessage message={item} />
@@ -103,7 +102,8 @@ const ChatRoomScreen = ({ route }) => {
         <Pressable
           onPress={async () => {
             await sendMessage({
-              nickname: '1',
+              memberId: user.userId,
+              nickname: '12222',
               chatRoomId,
               content,
             }); //임시로 닉네임 설정 ★★★★★

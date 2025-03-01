@@ -36,7 +36,13 @@ const Message = ({ messageType, message }) => {
         {message.content}
       </Text>
       {messageType === MessageType.OTHER_MESSAGE && ( //상대 메시지는 시간이 오른쪽에 나오도록 한다
-        <Text style={defaultStyles.time}>{message.sendTime}</Text>
+        <Text style={defaultStyles.time}>
+          {' '}
+          {new Date(message.sendTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </Text>
       )}
     </View>
   );

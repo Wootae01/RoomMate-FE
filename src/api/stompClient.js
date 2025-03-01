@@ -19,7 +19,7 @@ export const disconnect = () => {
   stompClient.deactivate();
 };
 
-//웹 소켓 연결결
+//웹 소켓 연결
 export const connect = () => {
   stompClient.activate();
 };
@@ -32,14 +32,14 @@ export const connect = () => {
  * @param {*} content
  * @returns
  */
-export const sendMessage = ({ nickname, chatRoomId, content }) => {
+export const sendMessage = ({ memberId, nickname, chatRoomId, content }) => {
   if (!stompClient.connected) {
     console.error('fail send message. STOMP Client is not connected');
     return;
   }
 
   const messageDTO = {
-    memberId: 1, //임시로 설정 ★★★★★★
+    memberId: memberId,
     nickname: nickname,
     chatRoomId: chatRoomId,
     content: content,

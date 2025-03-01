@@ -1,11 +1,12 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { editLifeStyle } from '../../api/editinformation';
 import { getLifeStyle } from '../../api/getinformation';
 import Button from '../../components/Button';
 import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
+import UserContext from '../../contexts/UserContext';
 import { SURVEY } from '../../surveyConstants';
 
 // 랜더링할 설문 항목
@@ -28,19 +29,19 @@ const surveyItems = [
 const LifeStyleUpdateScreen = () => {
   const [answers, setAnswers] = useState({});
   const navigation = useNavigation();
-
+  const { user } = useContext(UserContext);
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const data = await getLifeStyle(1); //★★★★★★★
+          const data = await getLifeStyle(user.userId);
           setAnswers(data.options);
         } catch (error) {
           console.log(error);
         }
       };
       fetchData();
-    }, [])
+    }, [user.userId])
   );
 
   //특정 질문의 값이 변경되면 호출
@@ -72,7 +73,7 @@ const LifeStyleUpdateScreen = () => {
             title="수정"
             onPress={async () => {
               try {
-                const response = await editLifeStyle(1, answers); //테스트용 id★★★★★★★
+                const response = await editLifeStyle(user.userId, answers);
                 console.log(response);
                 navigation.goBack();
               } catch (error) {

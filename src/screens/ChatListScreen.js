@@ -1,19 +1,21 @@
+import { useIsFocused } from '@react-navigation/native';
+import { useContext, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getChatRooms } from '../api/chat';
 import { WHITE } from '../colors';
 import ChatItem from '../components/ChatItem';
-import { useEffect, useState } from 'react';
-import { getChatRooms } from '../api/chat';
-import { useIsFocused } from '@react-navigation/native';
+import UserContext from '../contexts/UserContext';
 
 const ChatListScreen = () => {
   const [chatList, setChatList] = useState([]);
   const isFocused = useIsFocused();
+  const { user } = useContext(UserContext);
   useEffect(() => {
     if (isFocused) {
       const request = async () => {
         try {
-          const chatRooms = await getChatRooms(1); // 임시로 id 설정 ★★★★★★★★
+          const chatRooms = await getChatRooms(user.userId);
           console.log(chatRooms);
           setChatList(chatRooms);
         } catch (error) {
@@ -22,7 +24,7 @@ const ChatListScreen = () => {
       };
       request();
     }
-  }, [isFocused]);
+  }, [isFocused, user.userId]);
 
   return (
     <SafeAreaView style={styles.container}>
