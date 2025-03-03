@@ -7,7 +7,7 @@ import axios from 'axios';
  */
 
 export const getFriendInformation = async (friendId) => {
-    try {
+  try {
     const response = await axios.get(
       `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${friendId}/information`, // membercontroller의 getFriendInformatino() 호출
       {
@@ -47,7 +47,6 @@ export const getProfile = async (memberId) => {
       response.data
     );
     return response.data;
-
   } catch (axiosError) {
     console.error(
       'Member basic profile 조회 요청에 대한 백엔드 요청 실패:',
@@ -81,23 +80,39 @@ export const getLifeStyle = async (memberId) => {
 
 // 사용자의 Preference만 가져올 경우 : PreferenceDTO Type = Map<String, List<Long>>
 export const getPreference = async (memberId) => {
-    try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/preference`, // membercontroller의 getPreference()로 전송
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-  
-      console.log(
-        'Member Preference 조회 요청에 대한 백엔드 응답:',
-        response.data
-      );
-      return response.data;
-    } catch (axiosError) {
-      console.error(
-        'Member Preference 조회 요청에 대한 백엔드 요청 실패:',
-        axiosError.response?.data || axiosError.message
-      );
-    }
-  };
+  try {
+    const response = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/preference`, // membercontroller의 getPreference()로 전송
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    console.log(
+      'Member Preference 조회 요청에 대한 백엔드 응답:',
+      response.data
+    );
+    return response.data;
+  } catch (axiosError) {
+    console.error(
+      'Member Preference 조회 요청에 대한 백엔드 요청 실패:',
+      axiosError.response?.data || axiosError.message
+    );
+  }
+};
+
+/**
+ * 사용자 닉네임 정보 반환환
+ * @param {number} memberId 사용자 id
+ * @returns 닉네임
+ */
+export const getNickName = async (memberId) => {
+  try {
+    const response = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/nickname`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

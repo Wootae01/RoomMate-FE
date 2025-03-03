@@ -7,12 +7,28 @@ import DefaultProfile from '../components/DefaultProfile';
 import HR from '../components/HR';
 import TextButton from '../components/TextButton';
 import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
+import { useContext, useEffect, useState } from 'react';
+import UserContext from '../contexts/UserContext';
+import { getNickName } from '../api/getinformation';
 
 /**
  * 내 정보 화면
  */
 const MyInfoScreen = () => {
   const navigation = useNavigation();
+  const { user } = useContext(UserContext);
+  const [nickname, setNickname] = useState('');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getNickName(user.userId);
+        setNickname(data);
+      } catch (error) {
+        console.error('Fail to get nickname', error);
+      }
+    };
+    fetchData();
+  }, [user.userId, setNickname]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,7 +37,7 @@ const MyInfoScreen = () => {
         <Text
           style={[{ fontSize: 20, fontWeight: '700', paddingVertical: 15 }]}
         >
-          닉네임
+          {nickname}
         </Text>
       </View>
 
