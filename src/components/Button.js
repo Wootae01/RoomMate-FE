@@ -75,7 +75,6 @@ const defaultStyles = StyleSheet.create({
     color: WHITE,
     fontSize: 16,
     fontWeight: '700',
-    lineHeight: 16,
   },
 });
 
