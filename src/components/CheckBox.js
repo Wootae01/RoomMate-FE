@@ -25,9 +25,11 @@ const CheckBox = ({ name, customStyles, size, onChangeValues, isChecked }) => {
           onChangeValues(update);
         }}
       >
-        <MaterialCommunityIcons {...checkBoxProps} />
+        <View style={[styles.content, customStyles?.content]}>
+          <MaterialCommunityIcons {...checkBoxProps} />
+          <Text style={[styles.text, customStyles?.text]}>{name}</Text>
+        </View>
       </Pressable>
-      <Text style={[styles.text, customStyles?.text]}>{name}</Text>
     </View>
   );
 };
@@ -43,7 +45,9 @@ CheckBox.propTypes = {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
-    alignItems: 'center',
+  },
+  content: {
+    flexDirection: 'row',
   },
   text: {
     marginTop: 3,

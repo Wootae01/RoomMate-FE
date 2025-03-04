@@ -139,10 +139,8 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
                     <CheckBox
                       customStyles={{
                         container: {
-                          flexDirection: 'row',
                           margin: 10,
                           width: '44%',
-                          alignItems: 'center',
                         },
                         text: {
                           fontSize: 14,
