@@ -12,7 +12,7 @@ import Button from './Button';
 const FilterCond = ({ onSearch }) => {
   const [visible, setVisible] = useState(false); //모달 창 보여줄지 결정할 변수
 
-  const [surveyKey, setSurveyKey] = useState(''); //선택한 필터 항목 키 값 저장장
+  const [surveyKey, setSurveyKey] = useState(''); //선택한 필터 항목 키 값 저장
 
   return (
     <View>

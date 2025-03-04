@@ -32,6 +32,11 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
         ? [...preValues, surveyId]
         : preValues.filter((item) => item !== surveyId);
 
+      //values 길이 0이면, 해당 키 값도 삭제
+      if (newValues.length === 0) {
+        const { [selectedFilter]: _, ...rest } = prev;
+        return rest;
+      }
       return { ...prev, [selectedFilter]: newValues };
     });
   };

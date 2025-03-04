@@ -1,8 +1,8 @@
 import babelParser from '@babel/eslint-parser';
-import globals from 'globals';
 import pluginJs from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 
 export default [
   {
@@ -37,6 +37,7 @@ export default [
       ...pluginReactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off', // React in scope 규칙 비활성화
       'react/prop-types': ['error', { ignore: ['navigation'] }], //navigation prop 에러 무시
+      'no-unused-vars': ['error', { varsIgnorePattern: '^_' }], // '_'로 시작하는 변수 사용되지 않아도 경고 무시
     },
   },
 ];
