@@ -38,7 +38,8 @@ const QuestionItem = ({
   }, [initData, buttonType]);
 
   return (
-    <View>
+    <View style={styles.container}>
+      {/**설문 번호, 설문 제목 영역 */}
       <View style={styles.header}>
         <View style={styles.number}>
           <Text style={styles.numberText}>{header.number}</Text>
@@ -46,6 +47,7 @@ const QuestionItem = ({
         <Text style={styles.title}>{header.title}</Text>
       </View>
 
+      {/**설문 버튼, 내용 영역 */}
       <View style={styles.button}>
         {items.map((item, index) => {
           if (buttonType === ButtonTypes.RADIO) {
@@ -58,7 +60,11 @@ const QuestionItem = ({
                   onChangeValue([item.id]);
                   setIsSelected(item.id);
                 }}
-                radioStyle={{}}
+                customStyles={{
+                  container: {
+                    padding: 10,
+                  },
+                }}
               />
             );
           } else if (buttonType === ButtonTypes.CHECK) {
@@ -74,6 +80,11 @@ const QuestionItem = ({
                   );
                 }}
                 isChecked={values.includes(item.id)}
+                customStyles={{
+                  container: {
+                    padding: 10,
+                  },
+                }}
               />
             );
           } else {
@@ -95,11 +106,22 @@ QuestionItem.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    backgroundColor: WHITE,
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 8,
+    shadowColor: BLACK,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    width: '96%',
+    alignSelf: 'center',
   },
   header: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 8,
+    alignItems: 'center',
   },
   number: {
     width: 40,
@@ -109,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
-    marginLeft: 15,
+    marginLeft: 0,
   },
   title: {
     color: BLACK,
@@ -122,7 +144,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   button: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-evenly',
     marginTop: 18,
   },

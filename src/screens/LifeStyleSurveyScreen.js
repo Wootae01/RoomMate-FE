@@ -35,7 +35,7 @@ const LifeStyleSurveyScreen = ({ route }) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
       <ScrollView>
         {/**설문 영역 */}
         {surveyItems.map((item, index) => {
