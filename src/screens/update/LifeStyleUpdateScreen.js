@@ -5,26 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { editLifeStyle } from '../../api/editinformation';
 import { getLifeStyle } from '../../api/getinformation';
 import Button from '../../components/Button';
-import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
+import QuestionItem from '../../components/QuestionItem';
 import UserContext from '../../contexts/UserContext';
 import { SURVEY } from '../../surveyConstants';
-
-// 랜더링할 설문 항목
-const surveyItems = [
-  { key: 'BED_TIME', buttonType: ButtonTypes.CHECK },
-  { key: 'WAKEUP_TIME', buttonType: ButtonTypes.CHECK },
-  { key: 'HEATING', buttonType: ButtonTypes.CHECK },
-  { key: 'COOLING', buttonType: ButtonTypes.CHECK },
-  { key: 'SLEEP_HABIT', buttonType: ButtonTypes.RADIO },
-  { key: 'SMOKING', buttonType: ButtonTypes.RADIO },
-  { key: 'NOISE', buttonType: ButtonTypes.RADIO },
-  { key: 'INDOOR_CALL', buttonType: ButtonTypes.RADIO },
-  { key: 'EATING', buttonType: ButtonTypes.RADIO },
-  { key: 'DRINKING', buttonType: ButtonTypes.RADIO },
-  { key: 'SCENT', buttonType: ButtonTypes.RADIO },
-  { key: 'CLEANING', buttonType: ButtonTypes.RADIO },
-  { key: 'RELATIONSHIP', buttonType: ButtonTypes.RADIO },
-];
 
 const LifeStyleUpdateScreen = () => {
   const [answers, setAnswers] = useState({});
@@ -53,16 +36,16 @@ const LifeStyleUpdateScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         {/**설문 영역 */}
-        {surveyItems.map((item, index) => {
-          const data = SURVEY[item.key];
+        {Object.keys(SURVEY).map((key, index) => {
+          const data = SURVEY[key];
           return (
             <QuestionItem
-              key={item.key}
-              header={{ number: index + 1, title: SURVEY[item.key].name }}
+              key={key}
+              header={{ number: index + 1, title: SURVEY[key].name }}
               items={data.details}
-              buttonType={item.buttonType}
-              onChangeValue={(value) => changeAnswer(item.key, value)}
-              initData={answers[item.key]}
+              buttonType={SURVEY[key].buttonType}
+              onChangeValue={(value) => changeAnswer(key, value)}
+              initData={answers[key]}
             />
           );
         })}

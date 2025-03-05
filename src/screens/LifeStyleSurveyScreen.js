@@ -3,29 +3,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PALETTES } from '../colors';
 import Button from '../components/Button';
-import QuestionItem, { ButtonTypes } from '../components/QuestionItem';
+import QuestionItem from '../components/QuestionItem';
 import { SignRoutes } from '../navigations/routes';
 import { SURVEY } from '../surveyConstants';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-// 랜더링할 설문 항목
-const surveyItems = [
-  { key: 'BED_TIME', buttonType: ButtonTypes.CHECK },
-  { key: 'WAKEUP_TIME', buttonType: ButtonTypes.CHECK },
-  { key: 'HEATING', buttonType: ButtonTypes.CHECK },
-  { key: 'COOLING', buttonType: ButtonTypes.CHECK },
-  { key: 'SLEEP_HABIT', buttonType: ButtonTypes.RADIO },
-  { key: 'SMOKING', buttonType: ButtonTypes.RADIO },
-  { key: 'NOISE', buttonType: ButtonTypes.RADIO },
-  { key: 'INDOOR_CALL', buttonType: ButtonTypes.RADIO },
-  { key: 'EATING', buttonType: ButtonTypes.RADIO },
-  { key: 'DRINKING', buttonType: ButtonTypes.RADIO },
-  { key: 'SCENT', buttonType: ButtonTypes.RADIO },
-  { key: 'CLEANING', buttonType: ButtonTypes.RADIO },
-  { key: 'RELATIONSHIP', buttonType: ButtonTypes.RADIO },
-];
-
+//회원 가입 생활패턴 입력
 const LifeStyleSurveyScreen = ({ route }) => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
@@ -38,15 +22,15 @@ const LifeStyleSurveyScreen = ({ route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
       <ScrollView>
         {/**설문 영역 */}
-        {surveyItems.map((item, index) => {
-          const data = SURVEY[item.key];
+        {Object.keys(SURVEY).map((key, index) => {
+          const data = SURVEY[key];
           return (
             <QuestionItem
-              key={item.key}
-              header={{ number: index + 1, title: SURVEY[item.key].name }}
+              key={key}
+              header={{ number: index + 1, title: SURVEY[key].name }}
               items={data.details}
-              buttonType={item.buttonType}
-              onChangeValue={(value) => changeAnswer(item.key, value)}
+              buttonType={SURVEY[key].buttonType}
+              onChangeValue={(value) => changeAnswer(key, value)}
             />
           );
         })}
