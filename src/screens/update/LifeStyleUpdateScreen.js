@@ -36,19 +36,21 @@ const LifeStyleUpdateScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         {/**설문 영역 */}
-        {Object.keys(SURVEY).map((key, index) => {
-          const data = SURVEY[key];
-          return (
-            <QuestionItem
-              key={key}
-              header={{ number: index + 1, title: SURVEY[key].name }}
-              items={data.details}
-              buttonType={SURVEY[key].buttonType}
-              onChangeValue={(value) => changeAnswer(key, value)}
-              initData={answers[key]}
-            />
-          );
-        })}
+        {Object.keys(SURVEY)
+          .filter((key) => key !== 'AGE')
+          .map((key, index) => {
+            const data = SURVEY[key];
+            return (
+              <QuestionItem
+                key={key}
+                header={{ number: index + 1, title: SURVEY[key].name }}
+                items={data.details}
+                buttonType={SURVEY[key].buttonType}
+                onChangeValue={(value) => changeAnswer(key, value)}
+                initData={answers[key]}
+              />
+            );
+          })}
 
         {/**버튼 영역 */}
         <View style={styles.buttton}>
