@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import QuestionItem, { ButtonTypes } from '../components/QuestionItem';
-import { SURVEY } from '../surveyConstants';
+import QuestionItem from '../components/QuestionItem';
+import { SURVEY_PREFERENCE } from '../surveyConstants';
 import { PALETTES } from '../colors';
 import Button from '../components/Button';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import { useContext, useState } from 'react';
 import { signUp } from '../api/register';
 import UserContext from '../contexts/UserContext';
 
+//회원 가입 선호하는 사람 입력
 const PreferenceSurveyScreen = ({ route }) => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
@@ -24,14 +25,17 @@ const PreferenceSurveyScreen = ({ route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
       <ScrollView>
         {/**설문 영역 */}
-        {Object.keys(SURVEY).map((key, index) => {
-          const data = SURVEY[key];
+        {Object.keys(SURVEY_PREFERENCE).map((key, index) => {
+          const data = SURVEY_PREFERENCE[key];
           return (
             <QuestionItem
               key={key}
-              header={{ number: index + 1, title: SURVEY[key].name }}
+              header={{
+                number: index + 1,
+                title: SURVEY_PREFERENCE[key].name,
+              }}
               items={data.details}
-              buttonType={ButtonTypes.CHECK}
+              buttonType={SURVEY_PREFERENCE[key].buttonType}
               onChangeValue={(value) => changeAnswer(key, value)}
             />
           );

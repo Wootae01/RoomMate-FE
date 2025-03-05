@@ -29,6 +29,7 @@ const QuestionItem = ({
     onChangeValueRef.current(values);
   }, [values]);
 
+  //초기 데이터 있으면 초기화
   useEffect(() => {
     if (buttonType === ButtonTypes.RADIO && initData) {
       setIsSelected(initData[0]);
@@ -75,7 +76,12 @@ const QuestionItem = ({
                 onChangeValues={(isCheck) => {
                   setValues((prev) =>
                     isCheck
-                      ? [...prev, item.id]
+                      ? item.id % 100 === 0 //상관 없음 체크한 경우
+                        ? [item.id]
+                        : [
+                            ...prev.filter((value) => value % 100 !== 0),
+                            item.id,
+                          ]
                       : prev.filter((value) => value !== item.id)
                   );
                 }}

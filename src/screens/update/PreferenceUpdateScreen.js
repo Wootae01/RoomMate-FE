@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { editPreference } from '../../api/editinformation';
 import { getPreference } from '../../api/getinformation';
 import Button from '../../components/Button';
-import QuestionItem, { ButtonTypes } from '../../components/QuestionItem';
+import QuestionItem from '../../components/QuestionItem';
 import UserContext from '../../contexts/UserContext';
-import { SURVEY } from '../../surveyConstants';
+import { SURVEY_PREFERENCE } from '../../surveyConstants';
 
 const PreferenceUpdateScreen = () => {
   const navigation = useNavigation();
@@ -37,14 +37,14 @@ const PreferenceUpdateScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         {/**설문 영역 */}
-        {Object.keys(SURVEY).map((key, index) => {
-          const data = SURVEY[key];
+        {Object.keys(SURVEY_PREFERENCE).map((key, index) => {
+          const data = SURVEY_PREFERENCE[key];
           return (
             <QuestionItem
               key={key}
-              header={{ number: index + 1, title: SURVEY[key].name }}
+              header={{ number: index + 1, title: SURVEY_PREFERENCE[key].name }}
               items={data.details}
-              buttonType={ButtonTypes.CHECK}
+              buttonType={SURVEY_PREFERENCE[key].buttonType}
               onChangeValue={(value) => changeAnswer(key, value)}
               initData={answers[key]}
             />
