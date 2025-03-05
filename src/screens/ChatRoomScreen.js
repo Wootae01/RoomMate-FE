@@ -101,6 +101,10 @@ const ChatRoomScreen = ({ route }) => {
         {/**전송 버튼 */}
         <Pressable
           onPress={async () => {
+            if (content.trim() === '') {
+              setContent(content.trim());
+              return;
+            }
             await sendMessage({
               memberId: user.userId,
               nickname: '12222',
