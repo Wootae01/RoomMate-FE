@@ -10,6 +10,7 @@ import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../contexts/UserContext';
 import { getNickName } from '../api/getinformation';
+import { kakaoLogout } from '../api/auth';
 
 /**
  * 내 정보 화면
@@ -74,8 +75,14 @@ const MyInfoScreen = () => {
       <Text style={styles.title}>기타</Text>
       <TextButton
         text="로그 아웃"
-        onPress={() => {
-          console.log('로그아웃');
+        onPress={async () => {
+          try {
+
+            await kakaoLogout(); 
+
+             } catch (error) {
+            console.error('로그아웃 실패, 오류 발생:', error);
+          }
         }}
       />
       <TextButton

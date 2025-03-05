@@ -1,5 +1,5 @@
 import { getKeyHashAndroid } from '@react-native-kakao/core';
-import { login, logout } from '@react-native-kakao/user';
+import { getAccessToken, login, logout } from '@react-native-kakao/user';
 import axios from 'axios';
 
 export const kakaoLogin = async () => {
@@ -13,6 +13,8 @@ export const kakaoLogin = async () => {
     const accessToken = result.accessToken;
     console.log('Access Token:', accessToken);
 
+    const token = await getAccessToken();
+    console.log('액세스토큰 확인 : ', token)
     // axios 요청 확인을 위해 try-catch 블록을 추가
     try {
       const response = await axios.post(
@@ -43,11 +45,14 @@ export const kakaoLogin = async () => {
 
 export const kakaoLogout = async () => {
   try {
-    console.log('카카오 로그아웃 실행')
-    const result = await logout();
-    const message = result.toString();
+    const token = await getAccessToken();
+    console.log('로그아웃 직전 토큰 유무 확인 : ', token);
 
-    console.log('Kakao Login 성공', message);
+    console.log('카카오 로그아웃 실행')
+
+    const result = await logout();
+
+    console.log('Kakao Logout 성공 : ', result);
 
   } catch (err) {
     console.error("Logout error", err);
