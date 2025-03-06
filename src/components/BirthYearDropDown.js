@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 const BirthYearDropdown = ({ value, setValue }) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(
-    Array.from({ length: 17 }, (_, i) => ({
-      label: `${new Date().getFullYear() - 17 - i}년`,
-      value: new Date().getFullYear() - 17 - i,
+    Array.from({ length: 9 }, (_, i) => ({
+      label: `${new Date().getFullYear() - 18 - i}년`,
+      value: new Date().getFullYear() - 18 - i,
     }))
   );
 

@@ -76,12 +76,9 @@ const QuestionItem = ({
                 onChangeValues={(isCheck) => {
                   setValues((prev) =>
                     isCheck
-                      ? item.id % 100 === 0 //상관 없음 체크한 경우
+                      ? item.id < 100 //상관 없음 체크한 경우
                         ? [item.id]
-                        : [
-                            ...prev.filter((value) => value % 100 !== 0),
-                            item.id,
-                          ]
+                        : [...prev.filter((value) => value > 100), item.id]
                       : prev.filter((value) => value !== item.id)
                   );
                 }}
