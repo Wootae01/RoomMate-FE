@@ -9,8 +9,8 @@ import { SURVEY } from '../surveyConstants';
 }
 const SurveyCard = ({ surveyKey, values }) => {
   const [section, setSection] = useState(null);
+
   useEffect(() => {
-    console.log('values ', values);
     setSection(SURVEY[surveyKey]);
   }, [surveyKey, values]);
 

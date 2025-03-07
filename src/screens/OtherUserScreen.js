@@ -72,13 +72,22 @@ const OtherUserScreen = ({ route }) => {
         </View>
 
         {/** 선호하는 룸메 영역 */}
-        <Text style={styles.sectionTitle}>선호하는 룸메</Text>
-        <View style={styles.surveyContainer}>
-          {data.preference &&
-            Object.entries(data.preference).map(([key, values]) => (
-              <SurveyCard values={values} key={key} surveyKey={key} />
-            ))}
-        </View>
+        {data.preference && Object.keys(data.preference).length > 0 && (
+          <>
+            <Text style={styles.sectionTitle}>선호하는 룸메</Text>
+            <View style={styles.surveyContainer}>
+              {Object.entries(data.preference).map(([key, values]) => {
+                if (values && values.every((value) => value > 100)) {
+                  //상관 없음 항목 출력 x
+                  return (
+                    <SurveyCard values={values} key={key} surveyKey={key} />
+                  );
+                }
+                return null;
+              })}
+            </View>
+          </>
+        )}
 
         {/* 버튼 영역 */}
         <View style={styles.buttonContainer}>

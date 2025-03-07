@@ -51,7 +51,7 @@ const MyInfoSurveyScreen = () => {
 
           {/**나이 선택 영역 */}
           <View style={styles.age}>
-            <Text style={[styles.text]}>출생년년도</Text>
+            <Text style={[styles.text]}>출생년도</Text>
             <BirthYearDropdown value={birthYear} setValue={setBirthYear} />
           </View>
 
