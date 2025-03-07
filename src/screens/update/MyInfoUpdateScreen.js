@@ -20,7 +20,7 @@ const MyInfoUpdateScreen = () => {
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
 
   const navigation = useNavigation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
@@ -107,6 +107,10 @@ const MyInfoUpdateScreen = () => {
                   introduce
                 );
                 console.log(response);
+                setUser((prev) => ({
+                  ...prev,
+                  lastUpdate: new Date().toISOString(),
+                }));
                 navigation.goBack();
               } catch (error) {
                 console.log(error);

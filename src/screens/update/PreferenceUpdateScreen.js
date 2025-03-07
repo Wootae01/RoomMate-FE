@@ -12,7 +12,7 @@ import { SURVEY_PREFERENCE } from '../../surveyConstants';
 const PreferenceUpdateScreen = () => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   //특정 질문의 값이 변경되면 호출
   const changeAnswer = (key, value) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -59,6 +59,10 @@ const PreferenceUpdateScreen = () => {
               try {
                 const response = await editPreference(user.userId, answers);
                 console.log(response);
+                setUser((prev) => ({
+                  ...prev,
+                  lastUpdate: new Date().toISOString(),
+                }));
                 navigation.goBack();
               } catch (error) {
                 console.error(error);

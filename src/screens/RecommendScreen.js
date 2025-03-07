@@ -21,7 +21,7 @@ const RecommendScreen = () => {
     setData(newData);
   };
 
-  //처음 추천목록 탭 눌렀을 때, 추천 목록 가져옴
+  //처음 추천 목록 탭 누르거나, user 기본 정보 또는 preference 정보 바뀌면 재랜더링링
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,7 +32,7 @@ const RecommendScreen = () => {
       }
     };
     fetchData();
-  }, [user?.userId]);
+  }, [user]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
