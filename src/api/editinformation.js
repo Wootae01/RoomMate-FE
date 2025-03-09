@@ -42,6 +42,7 @@ export const editProfile = async (
       'Member profile 전달에 대한 백엔드 요청 실패:',
       axiosError.response?.data || axiosError.message
     );
+    throw axiosError;
   }
 };
 
@@ -66,6 +67,7 @@ export const editLifeStyle = async (memberId, memberLifestyle) => {
       'Member LifeStlye 수정 전달에 대한 백엔드 요청 실패:',
       axiosError.response?.data || axiosError.message
     );
+    throw axiosError;
   }
 };
 
@@ -92,5 +94,6 @@ export const editPreference = async (memberId, memberPreference) => {
       'Member Preference 수정 전달에 대한 백엔드 요청 실패:',
       axiosError.response?.data || axiosError.message
     );
+    throw axiosError;
   }
 };

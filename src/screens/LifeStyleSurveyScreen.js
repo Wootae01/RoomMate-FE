@@ -30,7 +30,6 @@ const LifeStyleSurveyScreen = ({ route }) => {
 
       //해당 질문 스크롤로 이동
       if (questionRefs.current[firstErrorKey] !== undefined) {
-        questionRefs.current[firstErrorKey];
         scrollViewRef.current.scrollTo({
           y: questionRefs.current[firstErrorKey],
           animated: true,

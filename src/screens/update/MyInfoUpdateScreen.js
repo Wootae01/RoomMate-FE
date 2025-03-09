@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useContext, useState } from 'react';
@@ -11,16 +11,55 @@ import DormDropDown from '../../components/DormDropDown';
 import Input from '../../components/Input';
 import RadioBox from '../../components/RadioBox';
 import UserContext from '../../contexts/UserContext';
+import { validateMyInfo } from '../../validation/validators';
 const MyInfoUpdateScreen = () => {
   const [gender, setGender] = useState(''); //성별별
   const [nickname, setNickname] = useState(''); //닉네임
-  const [birthYear, setBirthYear] = useState(null); //출생년도
+  const [age, setAge] = useState(null); //출생년도
   const [dormitory, setDormitory] = useState(''); //기숙사
   const [introduce, setIntroduce] = useState(''); //한출 소개
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
 
   const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
+
+  //수정 버튼 클릭 시 메서드드
+  const handelNext = async () => {
+    const errors = validateMyInfo({
+      nickname,
+      gender,
+      age,
+      dorm: dormitory,
+      introduce,
+    });
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors).join('\n');
+      Alert.alert('입력 오류', errorMessages);
+      return;
+    }
+    try {
+      const response = await editProfile(
+        user.userId,
+        nickname,
+        gender,
+        age,
+        dormitory,
+        introduce
+      );
+      console.log(response);
+      setUser((prev) => ({
+        ...prev,
+        lastUpdate: new Date().toISOString(),
+      }));
+      navigation.goBack();
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        '회원 정보 수정 중 오류가 발생했습니다.';
+      Alert.alert('회원 정보 수정 오류', errorMessage);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
@@ -28,7 +67,7 @@ const MyInfoUpdateScreen = () => {
           const data = await getProfile(user.userId);
           setNickname(data.nickname);
           setIntroduce(data.introduce);
-          setBirthYear(data.age);
+          setAge(data.age);
           setDormitory(data.dormitory);
           setGender(data.gender);
         } catch (error) {
@@ -72,7 +111,7 @@ const MyInfoUpdateScreen = () => {
           {/**나이 선택 영역 */}
           <View style={styles.age}>
             <Text style={[styles.text]}>출생연도</Text>
-            <BirthYearDropdown value={birthYear} setValue={setBirthYear} />
+            <BirthYearDropdown value={age} setValue={setAge} />
           </View>
 
           {/**기숙사 선택 영역 */}
@@ -96,26 +135,7 @@ const MyInfoUpdateScreen = () => {
           <Button
             title="수정"
             customStyles={{ button: { marginTop: 15 } }}
-            onPress={async () => {
-              try {
-                const response = await editProfile(
-                  user.userId,
-                  nickname,
-                  gender,
-                  birthYear,
-                  dormitory,
-                  introduce
-                );
-                console.log(response);
-                setUser((prev) => ({
-                  ...prev,
-                  lastUpdate: new Date().toISOString(),
-                }));
-                navigation.goBack();
-              } catch (error) {
-                console.log(error);
-              }
-            }}
+            onPress={handelNext}
           />
         </View>
       </ScrollView>
