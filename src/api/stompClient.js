@@ -5,6 +5,7 @@ const stompClient = new Client({
   forceBinaryWSFrames: true,
   appendMissingNULLonIncoming: true,
   debug: (msg) => console.log('STOMP debug:', msg),
+  reconnectDelay: 4000, //4초 후 자동 재연결 요청
 });
 
 stompClient.onStompError = (error) => {
@@ -32,23 +33,29 @@ export const connect = () => {
  * @param {*} content
  * @returns
  */
-export const sendMessage = ({ memberId, nickname, chatRoomId, content }) => {
+export const sendMessage = ({ memberId, chatRoomId, content }) => {
   if (!stompClient.connected) {
-    console.error('fail send message. STOMP Client is not connected');
-    return;
+    const errorMsg = 'fail send message. STOMP Client is not connected';
+    console.error(errorMsg);
+    throw new Error(errorMsg);
   }
 
   const messageDTO = {
     memberId: memberId,
-    nickname: nickname,
     chatRoomId: chatRoomId,
     content: content,
     sendTime: new Date().toISOString(),
   };
-  stompClient.publish({
-    destination: `/app/chatroom/${chatRoomId}`,
-    body: JSON.stringify(messageDTO),
-  });
+
+  try {
+    stompClient.publish({
+      destination: `/app/chatroom/${chatRoomId}`,
+      body: JSON.stringify(messageDTO),
+    });
+  } catch (error) {
+    console.error('Failed to publish message:', error);
+    throw new Error('Message publishing failed');
+  }
   return messageDTO;
 };
 

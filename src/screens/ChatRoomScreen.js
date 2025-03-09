@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { findAllMessages } from '../api/chat';
 import stompClient, { connect, sendMessage } from '../api/stompClient';
@@ -105,13 +105,20 @@ const ChatRoomScreen = ({ route }) => {
               setContent(content.trim());
               return;
             }
-            await sendMessage({
-              memberId: user.userId,
-              nickname: '12222',
-              chatRoomId,
-              content,
-            }); //임시로 닉네임 설정 ★★★★★
-            setContent('');
+            try {
+              await sendMessage({
+                memberId: user.userId,
+                chatRoomId,
+                content,
+              });
+              setContent('');
+            } catch (error) {
+              console.error('메시지 전송 실패', error);
+              Alert.alert(
+                '오류',
+                '메시지 전송 실패하였습니다. 잠시 후 다시 시도해 주세요'
+              );
+            }
           }}
         >
           <MaterialCommunityIcons
