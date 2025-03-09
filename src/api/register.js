@@ -7,7 +7,6 @@ import axios from 'axios';
  * @return "success"
  */
 
-
 export const signUp = async (memberData) => {
   try {
     const response = await axios.post(
@@ -25,5 +24,6 @@ export const signUp = async (memberData) => {
       '회원가입 폼 전달에 대한 백엔드 요청 실패:',
       axiosError.response?.data || axiosError.message
     );
+    throw axiosError;
   }
 };
