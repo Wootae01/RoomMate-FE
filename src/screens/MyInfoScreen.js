@@ -90,7 +90,7 @@ const MyInfoScreen = () => {
         onPress={async () => {
           try {
 
-            await reSign();  
+            await reSign(user.userId);  
 
              } catch (error) {
             console.error('회원탈퇴 실패, 오류 발생:', error);

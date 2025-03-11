@@ -66,10 +66,12 @@ export const kakaoLogout = async () => {
  */
 export const reSign = async (memberId) => {
   try {
+    console.log('회원탈퇴 실행')
     const response = await axios.delete(
       `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`
     );
 
+    console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data)
     return response.data;
 
   } catch (error) {
