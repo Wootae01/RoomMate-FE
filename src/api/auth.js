@@ -67,7 +67,7 @@ export const kakaoLogout = async () => {
 export const reSign = async (memberId) => {
   try {
     const response = await axios.delete(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/nickname`
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`
     );
 
     return response.data;
