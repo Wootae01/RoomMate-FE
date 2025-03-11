@@ -8,7 +8,7 @@ import { SignRoutes } from '../navigations/routes';
 import { SURVEY } from '../surveyConstants';
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
-import { validateLifeStyle } from '../validation/validators';
+import { validateLifeStyle } from '../utils/validators';
 
 //회원 가입 생활패턴 입력
 const LifeStyleSurveyScreen = ({ route }) => {

@@ -10,7 +10,7 @@ import { MainRoutes } from '../navigations/routes';
 import { useContext, useRef, useState } from 'react';
 import { signUp } from '../api/register';
 import UserContext from '../contexts/UserContext';
-import { validatePreference } from '../validation/validators';
+import { validatePreference } from '../utils/validators';
 
 //회원 가입 선호하는 사람 입력
 const PreferenceSurveyScreen = ({ route }) => {

@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import QuestionItem from '../../components/QuestionItem';
 import UserContext from '../../contexts/UserContext';
 import { SURVEY_PREFERENCE } from '../../surveyConstants';
-import { validatePreference } from '../../validation/validators';
+import { validatePreference } from '../../utils/validators';
 
 const PreferenceUpdateScreen = () => {
   const navigation = useNavigation();

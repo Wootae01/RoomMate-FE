@@ -9,7 +9,7 @@ import DormDropDown from '../components/DormDropDown';
 import Input from '../components/Input';
 import RadioBox from '../components/RadioBox';
 import { SignRoutes } from '../navigations/routes';
-import { validateMyInfo } from '../validation/validators';
+import { validateMyInfo } from '../utils/validators';
 const MyInfoSurveyScreen = () => {
   const [gender, setGender] = useState(null);
   const [nickname, setNickname] = useState(''); //닉네임

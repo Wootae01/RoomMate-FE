@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import QuestionItem from '../../components/QuestionItem';
 import UserContext from '../../contexts/UserContext';
 import { SURVEY } from '../../surveyConstants';
-import { validateLifeStyle } from '../../validation/validators';
+import { validateLifeStyle } from '../../utils/validators';
 
 const LifeStyleUpdateScreen = () => {
   const [answers, setAnswers] = useState({});

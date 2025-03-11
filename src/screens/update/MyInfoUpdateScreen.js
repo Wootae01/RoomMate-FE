@@ -11,7 +11,7 @@ import DormDropDown from '../../components/DormDropDown';
 import Input from '../../components/Input';
 import RadioBox from '../../components/RadioBox';
 import UserContext from '../../contexts/UserContext';
-import { validateMyInfo } from '../../validation/validators';
+import { validateMyInfo } from '../../utils/validators';
 const MyInfoUpdateScreen = () => {
   const [gender, setGender] = useState(''); //성별별
   const [nickname, setNickname] = useState(''); //닉네임
