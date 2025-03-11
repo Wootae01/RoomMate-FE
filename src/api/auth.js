@@ -58,3 +58,21 @@ export const kakaoLogout = async () => {
     console.error("Logout error", err);
   }
 }
+
+/**
+ * 회원 탈퇴 처리
+ * @param {number} memberId 사용자 id
+ * @returns 성공 여부  : success : true
+ */
+export const reSign = async (memberId) => {
+  try {
+    const response = await axios.delete(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/nickname`
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.log(error);
+  }
+};

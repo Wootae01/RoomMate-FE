@@ -10,7 +10,7 @@ import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../contexts/UserContext';
 import { getNickName } from '../api/getinformation';
-import { kakaoLogout } from '../api/auth';
+import { kakaoLogout, reSign } from '../api/auth';
 
 /**
  * 내 정보 화면
@@ -78,7 +78,7 @@ const MyInfoScreen = () => {
         onPress={async () => {
           try {
 
-            await kakaoLogout(); 
+            await kakaoLogout();  
 
              } catch (error) {
             console.error('로그아웃 실패, 오류 발생:', error);
@@ -87,8 +87,14 @@ const MyInfoScreen = () => {
       />
       <TextButton
         text="회원 탈퇴"
-        onPress={() => {
-          console.log('탈퇴');
+        onPress={async () => {
+          try {
+
+            await reSign();  
+
+             } catch (error) {
+            console.error('회원탈퇴 실패, 오류 발생:', error);
+          }
         }}
       />
     </SafeAreaView>
