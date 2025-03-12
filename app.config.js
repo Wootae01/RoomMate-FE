@@ -20,13 +20,15 @@ export default {
       runtimeVersion: {
         policy: 'appVersion', // iOS 런타임 버전 설정 추가
       },
+      bundleIdentifier: 'expo.roommate.notifications',
     },
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#ffffff',
       },
-      package: 'com.kimwootae.roommatefe',
+      package: 'expo.roommate.notifications',
+      googleServicesFile: './google-services.json',
       runtimeVersion: '1.0.0', // Android 런타임 버전 설정 추가
     },
     web: {

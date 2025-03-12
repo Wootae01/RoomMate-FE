@@ -1,0 +1,7 @@
+// VS Code 파일 탐색기에서 node_modules 폴더를 숨깁니다.
+//프로젝트 코드와 직접 관련이 없고, 불필요한 경고 메시지를 안나타나게 한다.
+{
+  "files.exclude": {
+    "**/node_modules": true
+  }
+}

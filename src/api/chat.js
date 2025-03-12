@@ -57,3 +57,22 @@ export const findAllMessages = async (chatRoomId) => {
     throw error;
   }
 };
+/**
+ * 채팅 알림 토큰 저장 요청을 하는 api 메서드
+ *
+ * @param {number} memberId 사용자 Id
+ * @param {string} token 알림 토큰 정보
+ * @returns
+ */
+export const saveNotificationsToken = async (memberId, token) => {
+  try {
+    const response = await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/token`,
+      { memberId: memberId, token: token }
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Eror Save Notification ', error.response?.data?.message);
+    throw error;
+  }
+};

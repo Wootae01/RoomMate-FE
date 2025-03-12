@@ -8,6 +8,8 @@ import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
 import RecommendItem from '../components/RecommendItem';
 import UserContext from '../contexts/UserContext';
+import { registerForPushNotificationsAsync } from '../utils/notifications';
+import { saveNotificationsToken } from '../api/chat';
 
 //추천 목록 화면
 const RecommendScreen = () => {
@@ -21,6 +23,20 @@ const RecommendScreen = () => {
     console.log('필터 적용 데이터: ', newData);
     setData(newData);
   };
+
+  //로그인 성공 후 알림 토큰 저장
+  useEffect(() => {
+    const fetchAndSaveToken = async () => {
+      try {
+        const token = await registerForPushNotificationsAsync();
+        await saveNotificationsToken(user.userId, token);
+      } catch (error) {
+        console.error('토큰 저장 실패', error);
+      }
+    };
+
+    fetchAndSaveToken();
+  });
 
   //처음 추천 목록 탭 누르거나, user 기본 정보 또는 preference 정보 바뀌면 재랜더링
   useEffect(() => {
