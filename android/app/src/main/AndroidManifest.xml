@@ -24,8 +24,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.kimwootae.roommatefe"/>
-        <data android:scheme="exp+roommate-fe"/>
+        <data android:scheme="com.roommate.roommate"/>
+        <data android:scheme="exp+roommate"/>
       </intent-filter>
     </activity>
     <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity" android:exported="true">

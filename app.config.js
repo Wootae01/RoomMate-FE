@@ -5,6 +5,7 @@ export default {
     name: 'roommate',
     slug: 'roommate',
     owner: 'roommate',
+    scheme: 'roommate',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
