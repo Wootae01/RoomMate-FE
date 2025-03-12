@@ -1,5 +1,5 @@
 import { getKeyHashAndroid } from '@react-native-kakao/core';
-import { getAccessToken, login, logout } from '@react-native-kakao/user';
+import { getAccessToken, login, logout, unlink } from '@react-native-kakao/user';
 import axios from 'axios';
 
 export const kakaoLogin = async () => {
@@ -72,9 +72,27 @@ export const reSign = async (memberId) => {
     );
 
     console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data)
+
+    await unlinkKakao();
+
     return response.data;
 
   } catch (error) {
-    console.log(error);
+    console.error("회원탈퇴 error", error);
   }
 };
+
+export const unlinkKakao = async() => {
+  try {
+  
+    console.log('카카오 Unlink 실행')
+
+    const result = await unlink();
+
+    console.log('Kakao unlink 성공 : ', result);
+    return result
+
+  } catch (err) {
+    console.error("unlink error", err);
+  }
+}
