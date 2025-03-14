@@ -8,6 +8,7 @@ import Navigation from './navigations/Navigation';
 import { UserProvider } from './contexts/UserContext';
 import { TextDecoder, TextEncoder } from 'text-encoding';
 import * as Notifications from 'expo-notifications';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 global.TextEncoder = TextEncoder; //websocket encoder
 global.TextDecoder = TextDecoder; //websocket decoder
@@ -25,14 +26,16 @@ Notifications.setNotificationHandler({
 });
 
 const App = () => {
-  initializeKakaoSDK(`${process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY}`);
+  initializeKakaoSDK(`${process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY}`); //카카오 sdk 초기화
 
   return (
     <UserProvider>
-      <NavigationContainer style={styles.container}>
-        <StatusBar style="dark"></StatusBar>
-        <Navigation />
-      </NavigationContainer>
+      <NotificationProvider>
+        <NavigationContainer style={styles.container}>
+          <StatusBar style="dark"></StatusBar>
+          <Navigation />
+        </NavigationContainer>
+      </NotificationProvider>
     </UserProvider>
   );
 };

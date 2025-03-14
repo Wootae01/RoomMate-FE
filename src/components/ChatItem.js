@@ -6,27 +6,32 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { PALETTES } from '../colors';
+import { PALETTES, PRIMARY, WHITE } from '../colors';
 import { ChatRoutes, MainRoutes } from '../navigations/routes';
 import DefaultProfile from './DefaultProfile';
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import NotificationContext from '../contexts/NotificationContext';
 
 const ChatItem = ({ data }) => {
   const width = useWindowDimensions().width / 4;
   const navigation = useNavigation();
   const { chatRoomId, nickname, message, updatedTime } = data;
+  const { notificationCount, setNotificationCount } =
+    useContext(NotificationContext);
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
         pressed && { backgroundColor: PALETTES.NEUTRALVARIANT[90] },
       ]}
-      onPress={() =>
+      onPress={() => {
+        setNotificationCount((prev) => ({ ...prev, [chatRoomId]: 0 }));
         navigation.navigate(MainRoutes.CHAT_STACK, {
           screen: ChatRoutes.CHAT_ROOM,
           params: { nickname: `${nickname}`, chatRoomId },
-        })
-      }
+        });
+      }}
     >
       <View style={styles.items}>
         <DefaultProfile />
@@ -39,14 +44,23 @@ const ChatItem = ({ data }) => {
         </View>
       </View>
 
-      {/** 최근 채팅 시간 */}
-      <View style={styles.timeContainer}>
-        <Text style={{ fontSize: 12, fontWeight: '400' }}>
-          {new Date(updatedTime).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </Text>
+      {/**알림 수, 최근 채팅 시간 */}
+      <View style={styles.rightContainer}>
+        {notificationCount[chatRoomId] > 0 ? (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>
+              {notificationCount[chatRoomId]}
+            </Text>
+          </View>
+        ) : null}
+        <View style={styles.timeContainer}>
+          <Text style={{ fontSize: 12, fontWeight: '400' }}>
+            {new Date(updatedTime).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
@@ -67,8 +81,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   content: { paddingHorizontal: 10 },
-  timeContainer: {
+  timeContainer: {},
+  rightContainer: {
+    justifyContent: 'flex-end',
+    marginBottom: 10,
+    alignItems: 'flex-end',
+  },
+  badge: {
+    backgroundColor: PRIMARY.DEFAULT,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 5,
+  },
+  badgeText: {
+    color: WHITE,
+    fontWeight: '600',
+    fontSize: 12,
   },
 });
 

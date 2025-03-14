@@ -11,6 +11,7 @@ const ChatListScreen = () => {
   const [chatList, setChatList] = useState([]);
   const isFocused = useIsFocused();
   const { user } = useContext(UserContext);
+
   useEffect(() => {
     if (isFocused) {
       const request = async () => {
@@ -41,7 +42,7 @@ const ChatListScreen = () => {
         //채팅방 데이터가 존재하는 경우
         <FlatList
           data={chatList}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={(item) => item.chatRoomId.toString()}
           renderItem={({ item }) => <ChatItem data={item} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.list}
