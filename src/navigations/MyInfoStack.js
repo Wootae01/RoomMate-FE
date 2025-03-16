@@ -5,6 +5,7 @@ import LifeStyleUpdateScreen from '../screens/update/LifeStyleUpdateScreen';
 import MyInfoUpdateScreen from '../screens/update/MyInfoUpdateScreen';
 import PreferenceUpdateScreen from '../screens/update/PreferenceUpdateScreen';
 import { ContentRoutes, MyInfoRoutes } from './routes';
+import NotificationUpdateScreen from '../screens/update/NotificationUpdateScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,11 @@ const MyInfoStack = () => {
         name={MyInfoRoutes.PREFERENCE}
         component={PreferenceUpdateScreen}
         options={{ title: '선호하는 룸메 수정' }}
+      />
+      <Stack.Screen
+        name={MyInfoRoutes.NOTIFICATION}
+        component={NotificationUpdateScreen}
+        options={{ title: '알림 설정' }}
       />
     </Stack.Navigator>
   );

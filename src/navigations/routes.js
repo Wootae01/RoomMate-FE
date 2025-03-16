@@ -24,6 +24,7 @@ export const MyInfoRoutes = {
   MY_INFO_UPDATE: 'MyInfoUpdate',
   LIFE_STYLE: 'LifeStyle',
   PREFERENCE: 'Preference',
+  NOTIFICATION: 'Notification',
 };
 
 export const RecommendRoutes = {
