@@ -102,7 +102,7 @@ export const getPreference = async (memberId) => {
 };
 
 /**
- * 사용자 닉네임 정보 반환환
+ * 사용자 닉네임 정보 반환
  * @param {number} memberId 사용자 id
  * @returns 닉네임
  */
@@ -114,5 +114,21 @@ export const getNickName = async (memberId) => {
     return response.data;
   } catch (error) {
     console.log(error);
+  }
+};
+/**
+ * 사용자 알림 설정 정보 조회 메서드
+ *
+ * @param {number} memberId
+ * @returns
+ */
+export const getNotificationAsync = async (memberId) => {
+  try {
+    const response = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/${memberId}/settings`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('알림 정보 조회 실패', error);
   }
 };

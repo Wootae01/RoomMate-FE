@@ -97,3 +97,33 @@ export const editPreference = async (memberId, memberPreference) => {
     throw axiosError;
   }
 };
+
+/**
+ * 사용자 알림 설정 수정 요청 메서드
+ *
+ * @param {number} memberId
+ * @param {boolean} chatToggle
+ * @returns
+ */
+export const editNotification = async (memberId, chatToggle) => {
+  const requestData = {
+    permission: chatToggle,
+  };
+  try {
+    const response = await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/${memberId}/settings`, // membercontroller로 전송
+      requestData,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    return response.data;
+  } catch (axiosError) {
+    console.error(
+      '알림 수정 실패',
+      axiosError.response?.data || axiosError.message
+    );
+    throw axiosError;
+  }
+};

@@ -1,34 +1,67 @@
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, StyleSheet, Switch, Text, View } from 'react-native';
 import Button from '../../components/Button';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BLACK, PALETTES, PRIMARY, WHITE } from '../../colors';
+import { getNotificationAsync } from '../../api/getinformation';
+import UserContext from '../../contexts/UserContext';
+import { editNotification } from '../../api/editinformation';
+import { useNavigation } from '@react-navigation/native';
 
 const NotificationUpdateScreen = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const { user } = useContext(UserContext);
+
+  const [chatToggle, setChatToggle] = useState(false);
+  const toggleSwitch = () => setChatToggle((prev) => !prev);
+  const naviagtion = useNavigation();
+
+  const handelNext = async (userId, chatToggle) => {
+    try {
+      await editNotification(userId, chatToggle);
+      naviagtion.goBack();
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || '알림 설정 중 오류가 발생했습니다.';
+      Alert.alert('오류', errorMessage);
+    }
+  };
+
+  //초기 데이터 설정
+  useEffect(() => {
+    const fetchData = async (userId) => {
+      try {
+        const data = await getNotificationAsync(userId);
+        setChatToggle(data.permission);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData(user.userId);
+  }, [user.userId]);
 
   return (
     <View style={styles.container}>
+      {/**채팅 알림 설정 영역 */}
       <View style={styles.content}>
         <View style={styles.card}>
           <View style={styles.row}>
             <Text style={styles.label}>채팅 알림</Text>
             <Switch
               trackColor={{ false: '#767577', true: PRIMARY.DEFAULT }}
-              thumbColor={isEnabled ? PALETTES.NEUTRALVARIANT[98] : '#f4f3f4'}
+              thumbColor={chatToggle ? PALETTES.NEUTRALVARIANT[98] : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              value={isEnabled}
+              value={chatToggle}
               onValueChange={toggleSwitch}
             />
           </View>
         </View>
       </View>
 
-      {/* 버튼은 화면 하단 중앙에 배치 */}
+      {/**버튼 영역 */}
       <Button
         title="수정"
         customStyles={{ button: styles.button }}
-        onPress={() => {}}
+        onPress={() => handelNext(user.userId, chatToggle)}
       />
     </View>
   );
