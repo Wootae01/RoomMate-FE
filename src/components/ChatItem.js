@@ -17,8 +17,7 @@ const ChatItem = ({ data }) => {
   const width = useWindowDimensions().width / 4;
   const navigation = useNavigation();
   const { chatRoomId, nickname, message, updatedTime } = data;
-  const { notificationCount, setNotificationCount } =
-    useContext(NotificationContext);
+  const { notification, setNotification } = useContext(NotificationContext);
   return (
     <Pressable
       style={({ pressed }) => [
@@ -26,7 +25,10 @@ const ChatItem = ({ data }) => {
         pressed && { backgroundColor: PALETTES.NEUTRALVARIANT[90] },
       ]}
       onPress={() => {
-        setNotificationCount((prev) => ({ ...prev, [chatRoomId]: 0 }));
+        setNotification((prev) => {
+          const { [chatRoomId]: _removed, ...rest } = prev;
+          return rest;
+        });
         navigation.navigate(MainRoutes.CHAT_STACK, {
           screen: ChatRoutes.CHAT_ROOM,
           params: { nickname: `${nickname}`, chatRoomId },
@@ -46,10 +48,10 @@ const ChatItem = ({ data }) => {
 
       {/**알림 수, 최근 채팅 시간 */}
       <View style={styles.rightContainer}>
-        {notificationCount[chatRoomId] > 0 ? (
+        {notification[chatRoomId]?.count > 0 ? (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>
-              {notificationCount[chatRoomId]}
+              {notification[chatRoomId].count}
             </Text>
           </View>
         ) : null}

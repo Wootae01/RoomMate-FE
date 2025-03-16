@@ -4,12 +4,10 @@ import { createContext, useState } from 'react';
 const NotificationContext = createContext();
 
 export const NotificationProvider = ({ children }) => {
-  const [notificationCount, setNotificationCount] = useState({});
+  const [notification, setNotification] = useState({});
 
   return (
-    <NotificationContext.Provider
-      value={{ notificationCount, setNotificationCount }}
-    >
+    <NotificationContext.Provider value={{ notification, setNotification }}>
       {children}
     </NotificationContext.Provider>
   );

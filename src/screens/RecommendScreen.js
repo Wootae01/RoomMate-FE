@@ -1,5 +1,5 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getFilteredMember, getRecommendList } from '../api/recommend';
@@ -10,21 +10,13 @@ import RecommendItem from '../components/RecommendItem';
 import UserContext from '../contexts/UserContext';
 import { registerForPushNotificationsAsync } from '../utils/notifications';
 import { saveNotificationsToken } from '../api/chat';
-import * as Notifications from 'expo-notifications';
-import NotificationContext from '../contexts/NotificationContext';
 import { useNavigation } from '@react-navigation/native';
-import { ChatRoutes, MainRoutes } from '../navigations/routes';
 
 //추천 목록 화면
 const RecommendScreen = () => {
   const { user } = useContext(UserContext);
-
-  const { setNotificationCount } = useContext(NotificationContext);
   const navigation = useNavigation();
   const [data, setData] = useState([]); //추천 목록 데이터
-
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   //필터 적용 함수
   const fetchFilteredData = async (filterCond) => {
@@ -46,40 +38,7 @@ const RecommendScreen = () => {
     };
 
     fetchAndSaveToken();
-
-    //포그라운드 상태에서 알림 수신 시 동작
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((response) => {
-        if (response.request.content.data.chatRoomId) {
-          const chatRoomId = response.request.content.data.chatRoomId;
-          setNotificationCount((prev) => ({
-            ...prev,
-            [chatRoomId]: (prev[chatRoomId] || 0) + 1,
-          }));
-        } else {
-          console.log('알림에 chatRoomId 데이터가 없습니다.', response);
-        }
-      });
-
-    //알림 상호 작용 시 동작.
-    //해당 채팅방의 수신한 알림 수 0으로 초기화 하고,
-    //채팅방으로 이동
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        const content = response?.notification?.request?.content;
-
-        const chatRoomId = content.data?.chatRoomId;
-        if (chatRoomId) {
-          setNotificationCount((prev) => ({ ...prev, [chatRoomId]: 0 }));
-          navigation.navigate(MainRoutes.CHAT_STACK, {
-            screen: ChatRoutes.CHAT_ROOM,
-            params: { nickname: content.title, chatRoomId },
-          });
-        } else {
-          console.log('알림에 chatRoomId 데이터가 없습니다.', response);
-        }
-      });
-  }, [navigation, setNotificationCount, user.userId]);
+  }, [navigation, user.userId]);
 
   //처음 추천 목록 탭 누르거나, user 기본 정보 또는 preference 정보 바뀌면 재랜더링
   useEffect(() => {
@@ -94,6 +53,7 @@ const RecommendScreen = () => {
     };
     fetchData();
   }, [user]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
