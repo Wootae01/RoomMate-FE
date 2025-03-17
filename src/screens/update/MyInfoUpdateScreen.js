@@ -23,7 +23,7 @@ const MyInfoUpdateScreen = () => {
   const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
 
-  //수정 버튼 클릭 시 메서드드
+  //수정 버튼 클릭 시 메서드
   const handelNext = async () => {
     const errors = validateMyInfo({
       nickname,
@@ -116,7 +116,11 @@ const MyInfoUpdateScreen = () => {
 
           {/**기숙사 선택 영역 */}
           <Text style={[styles.text]}>기숙사</Text>
-          <DormDropDown detailValue={dormitory} setDetailValue={setDormitory} />
+          <DormDropDown
+            detailValue={dormitory}
+            setDetailValue={setDormitory}
+            gender={gender}
+          />
 
           {/**한줄소개 입력 영역 */}
           <Input

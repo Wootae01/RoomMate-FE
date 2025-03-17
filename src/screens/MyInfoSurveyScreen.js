@@ -126,7 +126,11 @@ const MyInfoSurveyScreen = () => {
 
           {/**기숙사 선택 영역 */}
           <Text style={[styles.text]}>기숙사</Text>
-          <DormDropDown detailValue={dorm} setDetailValue={setDorm} />
+          <DormDropDown
+            detailValue={dorm}
+            setDetailValue={setDorm}
+            gender={gender}
+          />
 
           {/**한줄소개 입력 영역 */}
           <Input
