@@ -1,7 +1,7 @@
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BirthYearDropdown from '../components/BirthYearDropDown';
 import Button from '../components/Button';
@@ -9,7 +9,8 @@ import DormDropDown from '../components/DormDropDown';
 import Input from '../components/Input';
 import RadioBox from '../components/RadioBox';
 import { SignRoutes } from '../navigations/routes';
-import { validateMyInfo } from '../utils/validators';
+import { validateMyInfo, validateNickname } from '../utils/validators';
+import { PALETTES } from '../colors';
 const MyInfoSurveyScreen = () => {
   const [gender, setGender] = useState(null);
   const [nickname, setNickname] = useState(''); //닉네임
@@ -17,13 +18,34 @@ const MyInfoSurveyScreen = () => {
   const [dorm, setDorm] = useState(null); //기숙사
   const [introduce, setIntroduce] = useState(''); //한출 소개
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
+  const [isCheckNickname, setIsCheckNickname] = useState(false); //닉네임 중복 확인 여부 (확인 :true, 확인x : false)
+
   const navigation = useNavigation();
+
+  useEffect(() => {
+    setIsCheckNickname(false);
+  }, [nickname]);
+
+  const checkDuplicatedNickname = async (nickname) => {
+    const result = await validateNickname(nickname.trim());
+    if (result.state) {
+      Alert.alert('성공', result.message);
+      setIsCheckNickname(true);
+    } else {
+      Alert.alert('실패', result.message);
+      setIsCheckNickname(false);
+    }
+  };
 
   //다음 버튼 클릭 시 검증 후 다음 화면으로 데이터 전달
   const handelNext = () => {
     console.log(
       `gender: ${gender} nickname: ${nickname} age: ${age} dorm: ${dorm} introduce: ${introduce}`
     );
+    if (!isCheckNickname) {
+      Alert.alert('입력 오류', '닉네임 중복 확인을 해주세요');
+      return;
+    }
     const errors = validateMyInfo({ nickname, gender, age, dorm, introduce });
     if (Object.keys(errors).length > 0) {
       const errorMessages = Object.values(errors).join('\n');
@@ -32,7 +54,7 @@ const MyInfoSurveyScreen = () => {
     }
 
     navigation.navigate(SignRoutes.LIFESTLYE_SURVEY, {
-      nickname: nickname,
+      nickname: nickname.trim(),
       gender: gender,
       dormitory: dorm,
       age: age,
@@ -43,14 +65,39 @@ const MyInfoSurveyScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        {/**닉네임 입력 영역 */}
         <View style={styles.container}>
-          <Input
-            title="닉네임"
-            placeholder="닉네임을 입력해주세요"
-            value={nickname}
-            onChangeText={(nickname) => setNickname(nickname)}
-          />
+          {/**닉네임 입력 영역 */}
+          <Text style={styles.text}>닉네임</Text>
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <Input
+                placeholder="닉네임을 입력해주세요"
+                value={nickname}
+                onChangeText={(nickname) => setNickname(nickname)}
+                customStyle={{
+                  height: 45,
+                  paddingVertical: 0, // 내부 세로 패딩 제거
+                  textAlignVertical: 'center', // 텍스트 중앙 정렬 (안드로이드)
+                }}
+              />
+            </View>
+
+            <Button
+              title="중복 확인"
+              onPress={() => checkDuplicatedNickname(nickname)}
+              customStyles={{
+                button: {
+                  width: 80,
+                  height: 45,
+                  borderRadius: 8,
+                  paddingVertical: 0,
+                  backgroundColor: PALETTES.NEUTRALVARIANT[50],
+                  marginLeft: 8,
+                },
+                title: { fontSize: 12, fontWeight: '600' },
+              }}
+            />
+          </View>
 
           {/**성별 선택 영역 */}
           <View style={styles.gender}>
@@ -123,6 +170,11 @@ const styles = StyleSheet.create({
   },
   radio: {
     flexDirection: 'row',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   age: {},
   dorm: {},

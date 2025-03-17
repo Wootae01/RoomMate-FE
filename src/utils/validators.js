@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { SURVEY, SURVEY_PREFERENCE } from '../surveyConstants';
 
 /**
@@ -89,4 +90,39 @@ export const validatePreference = ({ preference }) => {
   });
 
   return errors;
+};
+
+/**
+ * 사용 가능한한 닉네임인지 확인하고, boolean 값을 반환한다.
+ *
+ * @param {string} nickname
+ * @returns 사용가능 true, 사용 불가 false
+ */
+export const getIsDuplicatedNicknameAsync = async (nickname) => {
+  try {
+    const response = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/validate-nickname`,
+      { params: { nickname: nickname } }
+    );
+    return response.data;
+  } catch (error) {
+    console.log('알림 정보 조회 실패', error);
+  }
+};
+
+export const validateNickname = async (nickname) => {
+  if (!nickname || !nickname.trim()) {
+    return { state: false, message: '닉네임을 입력해 주세요.' };
+  }
+  if (nickname && nickname.length > 10) {
+    return { state: false, message: '닉네임의 최대 길이는 10글자 입니다.' };
+  }
+
+  const data = await getIsDuplicatedNicknameAsync(nickname);
+  console.log(data);
+  if (!data) {
+    return { state: false, message: '중복된 닉네임 입니다.' };
+  }
+
+  return { state: true, message: '사용 가능한 닉네임 입니다.' };
 };
