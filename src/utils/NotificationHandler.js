@@ -1,10 +1,10 @@
 // NotificationHandler.js
-import { useCallback, useContext, useEffect, useRef } from 'react';
-import * as Notifications from 'expo-notifications';
-import NotificationContext from '../contexts/NotificationContext';
-import { ChatRoutes, MainRoutes, SignRoutes } from '../navigations/routes';
 import { useNavigation } from '@react-navigation/native';
+import * as Notifications from 'expo-notifications';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+import NotificationContext from '../contexts/NotificationContext';
 import UserContext from '../contexts/UserContext';
+import { ChatRoutes, MainRoutes, SignRoutes } from '../navigations/routes';
 
 const NotificationHandler = () => {
   const { notification, setNotification } = useContext(NotificationContext);
@@ -22,7 +22,7 @@ const NotificationHandler = () => {
       const chatRoomId = content.data?.chatRoomId;
       Notifications.dismissAllNotificationsAsync();
       if (chatRoomId) {
-        !user.userId
+        user.userId
           ? navigation.navigate(MainRoutes.CHAT_STACK, {
               screen: ChatRoutes.CHAT_ROOM,
               params: { nickname: content.title, chatRoomId },

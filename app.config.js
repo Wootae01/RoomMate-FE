@@ -62,6 +62,12 @@ export default {
           },
         },
       ],
+      [
+        'expo-notifications',
+        {
+          useNextNotificationsApi: true,
+        },
+      ],
     ],
     extra: {
       eas: {
