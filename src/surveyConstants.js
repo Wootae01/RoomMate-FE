@@ -126,7 +126,7 @@ export const SURVEY = {
     buttonType: ButtonTypes.RADIO,
   },
   RELATIONSHIP: {
-    name: '룸메 발전 관계',
+    name: '룸메 관계',
     details: [
       { label: '투명인간', value: 'INVISIBLE', id: 1301 },
       { label: '적당히 친밀한', value: 'NORMAL', id: 1302 },
@@ -272,7 +272,7 @@ export const SURVEY_PREFERENCE = {
     buttonType: ButtonTypes.RADIO,
   },
   RELATIONSHIP: {
-    name: '룸메 발전 관계',
+    name: '룸메 관계',
     details: [
       { label: '상관 없음', value: 'NO_PREF', id: 13 },
       { label: '투명인간', value: 'INVISIBLE', id: 1301 },

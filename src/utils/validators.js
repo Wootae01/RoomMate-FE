@@ -106,7 +106,7 @@ export const getIsDuplicatedNicknameAsync = async (nickname) => {
     );
     return response.data;
   } catch (error) {
-    console.log('알림 정보 조회 실패', error);
+    console.log('닉네임 검증 오류', error);
   }
 };
 

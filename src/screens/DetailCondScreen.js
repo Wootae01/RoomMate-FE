@@ -12,6 +12,7 @@ import {
 import { BLACK, PALETTES, PRIMARY, WHITE } from '../colors';
 import Button from '../components/Button';
 import CheckBox from '../components/CheckBox';
+import FilterChip from '../components/FilterChip';
 import TextButton from '../components/TextButton';
 import { SURVEY } from '../surveyConstants';
 {
@@ -24,6 +25,14 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
   const flatListRef = useRef(null);
   const [cond, setCond] = useState({}); //선택한 필터 조건
 
+  //필터 칩
+  const handleFilterChip = (key, setCond) => {
+    setCond((prev) => {
+      const { [key]: _, ...rest } = prev;
+      return rest;
+    });
+  };
+
   //체크 박스 값 바뀌면 실행
   const handleChekboxToggle = (surveyId, isChecked) => {
     setCond((prev) => {
@@ -35,6 +44,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
       //values 길이 0이면, 해당 키 값도 삭제
       if (newValues.length === 0) {
         const { [selectedFilter]: _, ...rest } = prev;
+
         return rest;
       }
       return { ...prev, [selectedFilter]: newValues };
@@ -83,6 +93,21 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
             >
               <MaterialCommunityIcons name="close" size={24} color="black" />
             </Pressable>
+          </View>
+
+          {/**필터 칩 영역 */}
+          <View style={defaultStyles.filterChipContainer}>
+            {cond
+              ? Object.keys(cond).map((key) => (
+                  <FilterChip
+                    key={key}
+                    title={SURVEY[key].name}
+                    onPress={() => {
+                      handleFilterChip(key, setCond);
+                    }}
+                  />
+                ))
+              : null}
           </View>
 
           <View style={defaultStyles.innerContainer}>
@@ -209,12 +234,17 @@ const defaultStyles = StyleSheet.create({
   },
   content: {
     backgroundColor: WHITE,
-    height: '55%',
+    height: '67%',
   },
   checkBoxContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  filterChipContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 });
 
