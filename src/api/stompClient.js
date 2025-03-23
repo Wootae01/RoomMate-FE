@@ -1,4 +1,5 @@
 import { Client } from '@stomp/stompjs';
+import * as SecureStore from 'expo-secure-store';
 
 const stompClient = new Client({
   brokerURL: `${process.env.EXPO_PUBLIC_WEBSOCKET_BASE_URL}/ws/chat`,
@@ -6,6 +7,7 @@ const stompClient = new Client({
   appendMissingNULLonIncoming: true,
   debug: (msg) => console.log('STOMP debug:', msg),
   reconnectDelay: 4000, //4초 후 자동 재연결 요청
+  connectHeaders: {},
 });
 
 stompClient.onStompError = (error) => {
@@ -21,7 +23,15 @@ export const disconnect = () => {
 };
 
 //웹 소켓 연결
-export const connect = () => {
+export const connect = async () => {
+  try {
+    const token = await SecureStore.getItemAsync('accessToken');
+    stompClient.connectHeaders = {
+      Authorization: `Bearer ${token}`,
+    };
+  } catch (error) {
+    console.error('토큰 불러오는 중 에러', error);
+  }
   stompClient.activate();
 };
 

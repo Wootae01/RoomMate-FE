@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 /**
  * 나의 모든 채팅방 목록 가져오는 api 요청
@@ -8,9 +8,7 @@ import axios from 'axios';
  */
 export const getChatRooms = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/chatrooms`
-    );
+    const response = await api.get(`/members/${memberId}/chatrooms`);
     return response.data;
   } catch (error) {
     console.log('fail get chatrooms');
@@ -27,8 +25,8 @@ export const getChatRooms = async (memberId) => {
  *  */
 export const createChatRoom = async (member1Id, member2Id) => {
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/chatroom`,
+    const response = await api.post(
+      `/chatroom`,
       { member1Id: member1Id, member2Id: member2Id },
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -48,9 +46,7 @@ export const createChatRoom = async (member1Id, member2Id) => {
  */
 export const findAllMessages = async (chatRoomId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/chatroom/${chatRoomId}/messages`
-    );
+    const response = await api.get(`/chatroom/${chatRoomId}/messages`);
     return response.data;
   } catch (error) {
     console.log('Eror Get Chatting Message ', error);
@@ -66,10 +62,10 @@ export const findAllMessages = async (chatRoomId) => {
  */
 export const saveNotificationsToken = async (memberId, token) => {
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/token`,
-      { memberId: memberId, token: token }
-    );
+    const response = await api.post(`/notifications/token`, {
+      memberId: memberId,
+      token: token,
+    });
     return response.data;
   } catch (error) {
     console.log('Eror Save Notification ', error.response?.data?.message);

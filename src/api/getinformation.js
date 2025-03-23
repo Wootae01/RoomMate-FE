@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 /**
  * 추천목록에서 상대방 '프로필 조회' 누를 시 상대 프로필 정보를 백엔드에서 반환 api 요청
@@ -8,8 +8,8 @@ import axios from 'axios';
 
 export const getFriendInformation = async (friendId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${friendId}/information`, // membercontroller의 getFriendInformatino() 호출
+    const response = await api.get(
+      `/members/${friendId}/information`, // membercontroller의 getFriendInformatino() 호출
       {
         headers: { 'Content-Type': 'application/json' },
       }
@@ -35,8 +35,8 @@ export const getFriendInformation = async (friendId) => {
 // 사용자의 Basic_Profile만 가져올 경우 : EditMemberDTO Type
 export const getProfile = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/basic`, // membercontroller의 getProfile()로 전송
+    const response = await api.get(
+      `/members/${memberId}/basic`, // membercontroller의 getProfile()로 전송
       {
         headers: { 'Content-Type': 'application/json' },
       }
@@ -58,8 +58,8 @@ export const getProfile = async (memberId) => {
 // 사용자의 LifeStyle만 가져올 경우 : LifeStyleDTO Type = Map<String, List<Long>>
 export const getLifeStyle = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/lifestyle`, // membercontroller의 getLifeStyle()로 전송
+    const response = await api.get(
+      `/members/${memberId}/lifestyle`, // membercontroller의 getLifeStyle()로 전송
       {
         headers: { 'Content-Type': 'application/json' },
       }
@@ -81,8 +81,8 @@ export const getLifeStyle = async (memberId) => {
 // 사용자의 Preference만 가져올 경우 : PreferenceDTO Type = Map<String, List<Long>>
 export const getPreference = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/preference`, // membercontroller의 getPreference()로 전송
+    const response = await api.get(
+      `/members/${memberId}/preference`, // membercontroller의 getPreference()로 전송
       {
         headers: { 'Content-Type': 'application/json' },
       }
@@ -108,9 +108,7 @@ export const getPreference = async (memberId) => {
  */
 export const getNickName = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/nickname`
-    );
+    const response = await api.get(`/members/${memberId}/nickname`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -124,9 +122,7 @@ export const getNickName = async (memberId) => {
  */
 export const getNotificationAsync = async (memberId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/${memberId}/settings`
-    );
+    const response = await api.get(`/notifications/${memberId}/settings`);
     return response.data;
   } catch (error) {
     console.log('알림 정보 조회 실패', error);

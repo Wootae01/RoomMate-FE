@@ -68,6 +68,7 @@ export default {
           useNextNotificationsApi: true,
         },
       ],
+      ['expo-secure-store'],
     ],
     extra: {
       eas: {

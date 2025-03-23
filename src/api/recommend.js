@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 /**
  * 추천 목록 가져오는 api 요청
@@ -8,9 +8,7 @@ import axios from 'axios';
  */
 export const getRecommendList = async (userId) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${userId}/recommendation`
-    );
+    const response = await api.get(`/members/${userId}/recommendation`);
     return response.data;
   } catch (error) {
     console.log('Failed to get recommendationList: ', error);
@@ -20,8 +18,8 @@ export const getRecommendList = async (userId) => {
 
 export const getFilteredMember = async (memberId, filterCond) => {
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/recommendation`,
+    const response = await api.post(
+      `/members/${memberId}/recommendation`,
       { cond: filterCond },
       {
         headers: { 'Content-Type': 'application/json' },

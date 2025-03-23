@@ -1,32 +1,53 @@
 import { getKeyHashAndroid } from '@react-native-kakao/core';
-import { getAccessToken, login, logout, unlink } from '@react-native-kakao/user';
+import {
+  getAccessToken,
+  login,
+  logout,
+  me,
+  unlink,
+} from '@react-native-kakao/user';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
+
+export const getServerToken = async () => {
+  try {
+    const response = await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/token`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('서버 토큰 요청 실패', error);
+  }
+};
 
 export const kakaoLogin = async () => {
   try {
     getKeyHashAndroid().then(console.log);
-    const result = await login();
+    await login();
 
-    console.log('URL', process.env.EXPO_PUBLIC_API_BASE_URL);
+    const result = await me();
     console.log('카카오 로그인 성공!', result);
 
-    const accessToken = result.accessToken;
-    console.log('Access Token:', accessToken);
-
-    const token = await getAccessToken();
-    console.log('액세스토큰 확인 : ', token)
+    const token = await getServerToken();
     // axios 요청 확인을 위해 try-catch 블록을 추가
     try {
       const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/kakao/callback`,
-        { accessToken: accessToken },
+        `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/login`,
+        { username: `kakao@${result.id}` },
         {
           headers: {
             'Content-Type': 'application/json', // JSON 형식으로 명시
+            Authorization: `Bearer ${token.accessToken}`,
           },
         }
       );
+
       console.log('백엔드 응답:', response.data);
+      await SecureStore.setItemAsync('accessToken', response.data.accessToken);
+      await SecureStore.setItemAsync(
+        'refreshToken',
+        response.data.refreshToken
+      );
 
       return response.data;
     } catch (axiosError) {
@@ -40,7 +61,6 @@ export const kakaoLogin = async () => {
   }
 };
 
-
 // Kakao Logout
 
 export const kakaoLogout = async () => {
@@ -48,16 +68,15 @@ export const kakaoLogout = async () => {
     const token = await getAccessToken();
     console.log('로그아웃 직전 토큰 유무 확인 : ', token);
 
-    console.log('카카오 로그아웃 실행')
+    console.log('카카오 로그아웃 실행');
 
     const result = await logout();
 
     console.log('Kakao Logout 성공 : ', result);
-
   } catch (err) {
-    console.error("Logout error", err);
+    console.error('Logout error', err);
   }
-}
+};
 
 /**
  * 회원 탈퇴 처리
@@ -66,33 +85,30 @@ export const kakaoLogout = async () => {
  */
 export const reSign = async (memberId) => {
   try {
-    console.log('회원탈퇴 실행')
+    console.log('회원탈퇴 실행');
     const response = await axios.delete(
       `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`
     );
 
-    console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data)
+    console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data);
 
     await unlinkKakao();
 
     return response.data;
-
   } catch (error) {
-    console.error("회원탈퇴 error", error);
+    console.error('회원탈퇴 error', error);
   }
 };
 
-export const unlinkKakao = async() => {
+export const unlinkKakao = async () => {
   try {
-  
-    console.log('카카오 Unlink 실행')
+    console.log('카카오 Unlink 실행');
 
     const result = await unlink();
 
     console.log('Kakao unlink 성공 : ', result);
-    return result
-
+    return result;
   } catch (err) {
-    console.error("unlink error", err);
+    console.error('unlink error', err);
   }
-}
+};

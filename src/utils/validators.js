@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { SURVEY, SURVEY_PREFERENCE } from '../surveyConstants';
+import api from '../api/api';
 
 /**
  * 회원 정보 입력 검증 메서드드
@@ -100,10 +100,9 @@ export const validatePreference = ({ preference }) => {
  */
 export const getIsDuplicatedNicknameAsync = async (nickname) => {
   try {
-    const response = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/validate-nickname`,
-      { params: { nickname: nickname } }
-    );
+    const response = await api.get(`/members/validate-nickname`, {
+      params: { nickname: nickname },
+    });
     return response.data;
   } catch (error) {
     console.log('닉네임 검증 오류', error);

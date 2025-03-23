@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 /**
  * 회원정보 수정 시 회원정보 전달하는 api 요청
@@ -27,8 +27,8 @@ export const editProfile = async (
       dormitory: dormitory,
       introduce: introduce,
     };
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/editprofile`, // membercontroller로 전송
+    const response = await api.post(
+      `/members/${memberId}/editprofile`, // membercontroller로 전송
       requestData,
       {
         headers: { 'Content-Type': 'application/json' },
@@ -49,8 +49,8 @@ export const editProfile = async (
 export const editLifeStyle = async (memberId, memberLifestyle) => {
   const requestData = { options: memberLifestyle };
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/editlifestyle`, // membercontroller로 전송
+    const response = await api.post(
+      `/members/${memberId}/editlifestyle`, // membercontroller로 전송
       requestData,
       {
         headers: { 'Content-Type': 'application/json' },
@@ -76,8 +76,8 @@ export const editPreference = async (memberId, memberPreference) => {
     options: memberPreference,
   };
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/editpreference`, // membercontroller로 전송
+    const response = await api.post(
+      `/members/${memberId}/editpreference`, // membercontroller로 전송
       requestData,
       {
         headers: { 'Content-Type': 'application/json' },
@@ -110,8 +110,8 @@ export const editNotification = async (memberId, chatToggle) => {
     permission: chatToggle,
   };
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/notifications/${memberId}/settings`, // membercontroller로 전송
+    const response = await api.post(
+      `/notifications/${memberId}/settings`, // membercontroller로 전송
       requestData,
       {
         headers: { 'Content-Type': 'application/json' },

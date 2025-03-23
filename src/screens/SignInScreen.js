@@ -20,7 +20,7 @@ const SignInScreen = () => {
   const { setUser } = useContext(UserContext);
   const pressKakao = async () => {
     const response = await kakaoLogin();
-    setUser({ userId: response.userId, accessToken: response.accessToken });
+    setUser({ userId: response.memberId, accessToken: response.accessToken });
     if (!response.isFirstLogin) {
       navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
     } else {

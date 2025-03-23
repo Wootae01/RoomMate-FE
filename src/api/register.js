@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 /**
  * 첫 로그인 시 회원정보 폼 전달하는 api 요청
@@ -9,8 +9,8 @@ import axios from 'axios';
 
 export const signUp = async (memberData) => {
   try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/signup`, // singupController로 전송
+    const response = await api.post(
+      `/auth/signup`, // singupController로 전송
       memberData,
       {
         headers: { 'Content-Type': 'application/json' },
