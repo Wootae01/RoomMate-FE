@@ -4,8 +4,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
 function handleRegistrationError(errorMessage) {
-  console.error(errorMessage);
-  throw new Error(errorMessage);
+  console.log('알림 허용 x', errorMessage);
 }
 
 export async function registerForPushNotificationsAsync() {

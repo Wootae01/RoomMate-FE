@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WHITE } from '../colors';
@@ -12,7 +12,6 @@ import UserContext from '../contexts/UserContext';
 import { getNickName } from '../api/getinformation';
 import { kakaoLogout, reSign } from '../api/auth';
 import * as Notifications from 'expo-notifications';
-import { registerForPushNotificationsAsync } from '../utils/notifications';
 
 /**
  * 내 정보 화면
@@ -85,7 +84,11 @@ const MyInfoScreen = () => {
               screen: MyInfoRoutes.NOTIFICATION,
             });
           } else {
-            registerForPushNotificationsAsync();
+            Alert.alert(
+              '권한 요청',
+              '앱의 알림 권한을 허용해 주세요.\n 알림 -> 권한 허용',
+              [{ text: 'OK', onPress: () => Linking.openSettings() }]
+            );
           }
         }}
       />

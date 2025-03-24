@@ -33,7 +33,7 @@ const RecommendScreen = () => {
         const token = await registerForPushNotificationsAsync();
         await saveNotificationsToken(user.userId, token);
       } catch (error) {
-        console.error('토큰 저장 실패', error);
+        console.log('알림 권한 허용 x', error);
       }
     };
 
