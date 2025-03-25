@@ -11,7 +11,8 @@ import RadioBox from '../components/RadioBox';
 import { SignRoutes } from '../navigations/routes';
 import { validateMyInfo, validateNickname } from '../utils/validators';
 import { PALETTES } from '../colors';
-const MyInfoSurveyScreen = () => {
+import PropTypes from 'prop-types';
+const MyInfoSurveyScreen = ({ route }) => {
   const [gender, setGender] = useState(null);
   const [nickname, setNickname] = useState(''); //닉네임
   const [age, setAge] = useState(null); //출생년도
@@ -59,6 +60,7 @@ const MyInfoSurveyScreen = () => {
       dormitory: dorm,
       age: age,
       introduce: introduce,
+      userId: route.params.userId,
     });
   };
 
@@ -157,7 +159,9 @@ const MyInfoSurveyScreen = () => {
     </SafeAreaView>
   );
 };
-
+MyInfoSurveyScreen.propTypes = {
+  route: PropTypes.object,
+};
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,

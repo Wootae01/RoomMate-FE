@@ -6,7 +6,6 @@ import Button from '../components/Button';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { MainRoutes } from '../navigations/routes';
 import { useContext, useRef, useState } from 'react';
 import { signUp } from '../api/register';
 import UserContext from '../contexts/UserContext';
@@ -17,7 +16,7 @@ const PreferenceSurveyScreen = ({ route }) => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
   const prevParams = route.params || {};
-  const { user } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const questionRefs = useRef({});
   const scrollViewRef = useRef(null);
@@ -46,11 +45,11 @@ const PreferenceSurveyScreen = ({ route }) => {
       const result = {
         ...prevParams,
         preference: answers,
-        userId: user.userId,
       };
       console.log('전체 데이터: ', result);
+      console.log(route.params.userId);
       await signUp(result);
-      navigation.navigate(MainRoutes.CONTENT_TAB);
+      setUser({ userId: route.params.userId });
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
