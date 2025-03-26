@@ -8,6 +8,8 @@ import {
 } from '@react-native-kakao/user';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from './api';
 
 export const getServerToken = async () => {
   try {
@@ -17,6 +19,33 @@ export const getServerToken = async () => {
     return response.data;
   } catch (error) {
     console.error('서버 토큰 요청 실패', error);
+  }
+};
+
+//로그인 상태 확인 메서드
+export const isUserLoggedIn = async (setUser) => {
+  try {
+    const username = await AsyncStorage.getItem('username');
+    if (username == null) {
+      console.log('user name null');
+      return false;
+    }
+
+    const response = await api.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/check-login`,
+      { username: username }
+    );
+    const userId = response.data.memberId;
+    console.log(userId);
+    if (userId === -1) {
+      console.log('존재x');
+      return false;
+    } else {
+      setUser({ userId: response.data.memberId });
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -49,9 +78,11 @@ export const kakaoLogin = async () => {
         response.data.refreshToken
       );
 
+      await AsyncStorage.setItem('username', `kakao@${result.id}`);
+
       return response.data;
     } catch (axiosError) {
-      console.error(
+      console.log(
         '백엔드 요청 실패:',
         axiosError.response?.data || axiosError.message
       );

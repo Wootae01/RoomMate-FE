@@ -31,6 +31,7 @@ api.interceptors.response.use(
       !originalRequest._retry //무한 루프 방지. 재시도 안했을 때만 수행
     ) {
       try {
+        console.log('token 재발급 시도');
         const refreshToken = await SecureStore.getItemAsync('refreshToken');
         originalRequest._retry = true;
         if (refreshToken) {

@@ -4,13 +4,11 @@ import ContentTab from './ContentTab';
 import MyInfoStack from './MyInfoStack';
 import RecommendStack from './RecommendStack';
 import { MainRoutes } from './routes';
-import SignUpStack from './SignUpStack';
 
 const Stack = createNativeStackNavigator();
 const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={MainRoutes.SIGN_UP} component={SignUpStack} />
       <Stack.Screen name={MainRoutes.CONTENT_TAB} component={ContentTab} />
       <Stack.Screen name={MainRoutes.MY_INFO} component={MyInfoStack} />
       <Stack.Screen
