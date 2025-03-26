@@ -58,8 +58,9 @@ const RecommendScreen = () => {
         setData(result);
       } catch (error) {
         console.log('Failed to get recommendationList: ', error); //임시 에러 처리
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     fetchData();
   }, [user]);
@@ -89,14 +90,7 @@ const RecommendScreen = () => {
 
       {/**추천 목록 영역 */}
       {isLoading ? (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 8,
-            flex: 1,
-          }}
-        >
+        <View style={styles.loading}>
           <ActivityIndicator size="large" color={BLACK} />
         </View>
       ) : data.length === 0 ? (
@@ -145,6 +139,11 @@ const styles = StyleSheet.create({
   },
   fliter: { flexDirection: 'row', paddingHorizontal: 0 },
   list: { paddingHorizontal: 15 },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default RecommendScreen;

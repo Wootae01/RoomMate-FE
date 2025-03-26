@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createChatRoom } from '../api/chat';
 import { getFriendInformation } from '../api/getinformation';
@@ -11,6 +11,7 @@ import { DORMS, getDorm } from '../components/DormDropDown';
 import SurveyCard from '../components/SurveyCard';
 import UserContext from '../contexts/UserContext';
 import { ChatRoutes, MainRoutes } from '../navigations/routes';
+import { BLACK } from '../colors';
 
 const OtherUserScreen = ({ route }) => {
   const { memberId } = route.params;
@@ -19,10 +20,13 @@ const OtherUserScreen = ({ route }) => {
   const [detailDorm, setDetailDorm] = useState('');
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState();
+
   //상대 프로필 정보 가져옴
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const response = await getFriendInformation(memberId);
         console.log('response: ', response);
         setData(response);
@@ -36,12 +40,18 @@ const OtherUserScreen = ({ route }) => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [memberId]);
 
   return (
     <SafeAreaView style={styles.container}>
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color={BLACK} />
+        </View>
+      ) : (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* 프로필 영역*/}
         <View style={styles.profile}>
@@ -108,6 +118,7 @@ const OtherUserScreen = ({ route }) => {
           />
         </View>
       </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
@@ -172,6 +183,11 @@ const styles = StyleSheet.create({
   },
   buttonSpacing: {
     marginBottom: 15,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
