@@ -18,12 +18,19 @@ const PreferenceSurveyScreen = ({ route }) => {
   const [answers, setAnswers] = useState({});
   const prevParams = route.params || {};
   const { user } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const questionRefs = useRef({});
   const scrollViewRef = useRef(null);
 
   //회원 가입 완료 버튼 시 동작하는 메서드
   const handelNext = async () => {
+    if (isLoading == true) {
+      return; 
+    }
+
+    setIsLoading(true);
+
     console.log('preference: ', answers);
     const errors = validatePreference({ preference: answers });
     if (Object.keys(errors).length > 0) {
@@ -40,6 +47,7 @@ const PreferenceSurveyScreen = ({ route }) => {
         });
       }
 
+      setIsLoading(false);
       return;
     }
     try {
@@ -55,7 +63,10 @@ const PreferenceSurveyScreen = ({ route }) => {
       const errorMessage =
         error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
       Alert.alert('회원 가입 오류', errorMessage);
-    }
+    } 
+
+    
+    setIsLoading(false);
   };
 
   //특정 질문의 값이 변경되면 호출
@@ -114,6 +125,7 @@ const PreferenceSurveyScreen = ({ route }) => {
                 margin: 5,
               },
             }}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>

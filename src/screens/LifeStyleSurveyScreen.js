@@ -14,12 +14,21 @@ import { validateLifeStyle } from '../utils/validators';
 const LifeStyleSurveyScreen = ({ route }) => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const prevParams = route.params || {};
 
   const scrollViewRef = useRef(null);
   const questionRefs = useRef({});
 
+
   const handelNext = () => {
+    if (isLoading == true) {
+      return; 
+    }
+
+    setIsLoading(true);
+
     console.log('lifeStyle: ', answers);
 
     const errors = validateLifeStyle({ lifeStyle: answers });
@@ -35,6 +44,7 @@ const LifeStyleSurveyScreen = ({ route }) => {
           animated: true,
         });
       }
+      setIsLoading(false);
       return;
     }
 
@@ -42,6 +52,8 @@ const LifeStyleSurveyScreen = ({ route }) => {
       ...prevParams,
       lifeStyle: answers,
     });
+
+    setIsLoading(false);
   };
 
   //특정 질문의 값이 변경되면 호출
@@ -100,6 +112,7 @@ const LifeStyleSurveyScreen = ({ route }) => {
                 margin: 5,
               },
             }}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>

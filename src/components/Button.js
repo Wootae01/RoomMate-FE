@@ -1,13 +1,14 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import tinycolor from 'tinycolor2';
 import { BLACK, PRIMARY, WHITE } from '../colors';
 
-const Button = ({ title, onPress, customStyles, icon }) => {
+const Button = ({ title, onPress, customStyles, icon, isLoading }) => {
   const backgroundColor =
     customStyles?.button?.backgroundColor || PRIMARY.DEFAULT;
   const darkColor = tinycolor(backgroundColor).darken(10).toString();
+  //console.log(isLoading);
 
   return (
     <Pressable
@@ -19,7 +20,10 @@ const Button = ({ title, onPress, customStyles, icon }) => {
         pressed && { backgroundColor: darkColor },
       ]}
     >
-      <View style={[defaultStyles.content, customStyles?.content]}>
+      {isLoading ? (
+        <ActivityIndicator size="small" color={WHITE} />  //small은 20px, large=36px
+      ) : (
+        <View style={[defaultStyles.content, customStyles?.content]}>
         {icon?.left && (
           <MaterialCommunityIcons
             name={icon.name}
@@ -38,6 +42,7 @@ const Button = ({ title, onPress, customStyles, icon }) => {
           />
         )}
       </View>
+      )}
     </Pressable>
   );
 };
@@ -54,6 +59,7 @@ Button.propTypes = {
     color: PropTypes.string,
     style: PropTypes.object,
   }),
+  isLoading: PropTypes.bool,
 };
 
 const defaultStyles = StyleSheet.create({
@@ -75,6 +81,7 @@ const defaultStyles = StyleSheet.create({
     color: WHITE,
     fontSize: 16,
     fontWeight: '700',
+    lineHeight: 20,
   },
 });
 
