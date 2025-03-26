@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import MainStack from './MainStack';
 import { useContext, useEffect } from 'react';
-import UserContext from '../contexts/UserContext';
+import { StyleSheet, View } from 'react-native';
 import { isUserLoggedIn } from '../api/auth';
+import UserContext from '../contexts/UserContext';
+import MainStack from './MainStack';
 import SignUpStack from './SignUpStack';
 
 const Navigation = () => {

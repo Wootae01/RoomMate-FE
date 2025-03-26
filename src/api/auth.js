@@ -1,14 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getKeyHashAndroid } from '@react-native-kakao/core';
-import {
-  getAccessToken,
-  login,
-  logout,
-  me,
-  unlink,
-} from '@react-native-kakao/user';
+import { isLogined, login, logout, me, unlink } from '@react-native-kakao/user';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from './api';
 
 export const getServerToken = async () => {
@@ -92,20 +86,40 @@ export const kakaoLogin = async () => {
   }
 };
 
-// Kakao Logout
+export const defaultLogout = async () => {
+  try {
+    const refreshToken = await SecureStore.getItemAsync('refreshToken');
+    await axios.post(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      }
+    );
 
+    SecureStore.deleteItemAsync('refreshToken');
+    SecureStore.deleteItemAsync('accessToken');
+  } catch (error) {
+    console.log('로그아웃 실패', error);
+  }
+};
+
+// Kakao Logout
 export const kakaoLogout = async () => {
   try {
-    const token = await getAccessToken();
-    console.log('로그아웃 직전 토큰 유무 확인 : ', token);
+    await defaultLogout();
 
-    console.log('카카오 로그아웃 실행');
-
-    const result = await logout();
-
-    console.log('Kakao Logout 성공 : ', result);
+    const checkLoggedIn = isLogined();
+    if (checkLoggedIn) {
+      console.log('카카오 로그아웃 실행');
+      const result = await logout();
+      console.log('Kakao Logout 성공 : ', result);
+    }
   } catch (err) {
     console.error('Logout error', err);
+    throw err;
   }
 };
 

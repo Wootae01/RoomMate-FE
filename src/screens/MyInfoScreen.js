@@ -1,24 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
 import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
+import * as Notifications from 'expo-notifications';
+import { useContext, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { kakaoLogout, reSign } from '../api/auth';
+import { getNickName } from '../api/getinformation';
 import { WHITE } from '../colors';
 import DefaultProfile from '../components/DefaultProfile';
 import HR from '../components/HR';
 import TextButton from '../components/TextButton';
-import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
-import { useContext, useEffect, useState } from 'react';
 import UserContext from '../contexts/UserContext';
-import { getNickName } from '../api/getinformation';
-import { kakaoLogout, reSign } from '../api/auth';
-import * as Notifications from 'expo-notifications';
+import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
 
 /**
  * 내 정보 화면
  */
 const MyInfoScreen = () => {
   const navigation = useNavigation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [nickname, setNickname] = useState('');
   useEffect(() => {
     const fetchData = async () => {
@@ -97,6 +97,7 @@ const MyInfoScreen = () => {
         onPress={async () => {
           try {
             await kakaoLogout();
+            setUser(null);
           } catch (error) {
             console.error('로그아웃 실패, 오류 발생:', error);
           }
