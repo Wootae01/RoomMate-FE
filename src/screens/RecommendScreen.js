@@ -1,6 +1,6 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useContext, useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getFilteredMember, getRecommendList } from '../api/recommend';
 import { BLACK, WHITE } from '../colors';
@@ -17,6 +17,7 @@ const RecommendScreen = () => {
   const { user } = useContext(UserContext);
   const navigation = useNavigation();
   const [data, setData] = useState([]); //추천 목록 데이터
+  const [isLoading, setIsLoading] =useState();
 
   //필터 적용 함수
   const fetchFilteredData = async (filterCond) => {
@@ -42,7 +43,11 @@ const RecommendScreen = () => {
 
   //처음 추천 목록 탭 누르거나, user 기본 정보 또는 preference 정보 바뀌면 재랜더링
   useEffect(() => {
+    if(isLoading == true){
+      return
+    }
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const result = await getRecommendList(user.userId);
         console.log('추천 목록 데이터: ', result);
@@ -50,6 +55,7 @@ const RecommendScreen = () => {
       } catch (error) {
         console.log('Failed to get recommendationList: ', error); //임시 에러 처리
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [user]);
@@ -78,7 +84,18 @@ const RecommendScreen = () => {
       <HR />
 
       {/**추천 목록 영역 */}
-      {data.length === 0 ? (
+      {isLoading ? (
+        <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 8,
+              flex:1
+            }}
+          >
+        <ActivityIndicator size="large" color={BLACK} />
+        </View>
+      ) : ( data.length === 0 ? (
         //추천 목록 데이터가 없는 경우
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>조건에 맞는 룸메이트가 없습니다.</Text>
@@ -95,7 +112,8 @@ const RecommendScreen = () => {
           contentContainerStyle={styles.list}
           showsVerticalScrollIndicator={false}
         />
-      )}
+      ))}
+      
     </SafeAreaView>
   );
 };

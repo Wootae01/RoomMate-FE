@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
-import { useContext } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -12,9 +11,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
-import { MainRoutes, SignRoutes } from '../navigations/routes';
-import { useContext } from 'react';
+import { SignRoutes } from '../navigations/routes';
+import { useContext, useState } from 'react';
 import UserContext from '../contexts/UserContext';
+import { PALETTES } from '../colors';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
@@ -68,7 +68,7 @@ const SignInScreen = () => {
               borderRadius: 8,
             }}
           >
-            <ActivityIndicator size="large" color={PRIMARY.DEFAULT}/>
+            <ActivityIndicator size="large" color={PALETTES.SECONDARY[60]}/>
             </View>
           ) : (
           <Image
