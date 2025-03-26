@@ -1,8 +1,10 @@
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PALETTES } from '../colors';
 import BirthYearDropdown from '../components/BirthYearDropDown';
 import Button from '../components/Button';
 import DormDropDown from '../components/DormDropDown';
@@ -10,8 +12,6 @@ import Input from '../components/Input';
 import RadioBox from '../components/RadioBox';
 import { SignRoutes } from '../navigations/routes';
 import { validateMyInfo, validateNickname } from '../utils/validators';
-import { PALETTES } from '../colors';
-import PropTypes from 'prop-types';
 const MyInfoSurveyScreen = ({ route }) => {
   const [gender, setGender] = useState(null);
   const [nickname, setNickname] = useState(''); //닉네임
@@ -93,10 +93,13 @@ const MyInfoSurveyScreen = ({ route }) => {
                   height: 45,
                   borderRadius: 8,
                   paddingVertical: 0,
-                  backgroundColor: PALETTES.NEUTRALVARIANT[50],
+                  backgroundColor: PALETTES.PRIMARY[50],
                   marginLeft: 8,
                 },
-                title: { fontSize: 12, fontWeight: '600' },
+                title: {
+                  fontSize: 13,
+                  fontWeight: '600',
+                },
               }}
             />
           </View>
