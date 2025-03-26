@@ -44,6 +44,7 @@ const LifeStyleSurveyScreen = ({ route }) => {
           animated: true,
         });
       }
+
       setIsLoading(false);
       return;
     }

@@ -20,6 +20,7 @@ const MyInfoSurveyScreen = ({ route }) => {
   const [introduce, setIntroduce] = useState(''); //한출 소개
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
   const [isCheckNickname, setIsCheckNickname] = useState(false); //닉네임 중복 확인 여부 (확인 :true, 확인x : false)
+  const [isLoading, setIsLoading] = useState();
 
   const navigation = useNavigation();
 
@@ -28,6 +29,12 @@ const MyInfoSurveyScreen = ({ route }) => {
   }, [nickname]);
 
   const checkDuplicatedNickname = async (nickname) => {
+    if(isLoading == true) {
+      return;
+    }
+
+    setIsLoading(true);
+    
     const result = await validateNickname(nickname.trim());
     if (result.state) {
       Alert.alert('성공', result.message);
@@ -36,6 +43,8 @@ const MyInfoSurveyScreen = ({ route }) => {
       Alert.alert('실패', result.message);
       setIsCheckNickname(false);
     }
+
+    setIsLoading(false);
   };
 
   //다음 버튼 클릭 시 검증 후 다음 화면으로 데이터 전달
@@ -101,6 +110,7 @@ const MyInfoSurveyScreen = ({ route }) => {
                   fontWeight: '600',
                 },
               }}
+              isLoading={isLoading}
             />
           </View>
 

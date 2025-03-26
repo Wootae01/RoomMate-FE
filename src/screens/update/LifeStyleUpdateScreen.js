@@ -16,8 +16,16 @@ const LifeStyleUpdateScreen = () => {
   const { user } = useContext(UserContext);
   const scrollViewRef = useRef(null);
   const questionRefs = useRef({});
+  const [isLoading, setIsLoading] = useState();
 
   const handelNext = async () => {
+
+    if(isLoading == true) {
+      return;
+    }
+
+    setIsLoading(true);
+
     const errors = validateLifeStyle({ lifeStyle: answers });
     if (Object.keys(errors).length > 0) {
       const errorMessages = Object.values(errors).join('\n');
@@ -31,6 +39,7 @@ const LifeStyleUpdateScreen = () => {
           animated: true,
         });
       }
+      setIsLoading(false);
       return;
     }
     try {
@@ -43,6 +52,7 @@ const LifeStyleUpdateScreen = () => {
         '생활 패턴 수정 중 오류가 발생했습니다.';
       Alert.alert('생활패턴 수정 요류', errorMessage);
     }
+    setIsLoading(false);
   };
 
   useFocusEffect(
@@ -104,6 +114,7 @@ const LifeStyleUpdateScreen = () => {
                 margin: 5,
               },
             }}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>

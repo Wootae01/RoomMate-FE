@@ -14,6 +14,7 @@ const PreferenceUpdateScreen = () => {
   const navigation = useNavigation();
   const [answers, setAnswers] = useState({});
   const { user, setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState();
 
   const scrollViewRef = useRef(null);
   const questionRefs = useRef({});
@@ -24,6 +25,11 @@ const PreferenceUpdateScreen = () => {
   };
 
   const handelNext = async () => {
+    if(isLoading == true){
+      return;
+    }
+    setIsLoading(true);
+
     const errors = validatePreference({ preference: answers });
     if (Object.keys(errors).length > 0) {
       const errorMessages = Object.values(errors).join('\n');
@@ -37,6 +43,7 @@ const PreferenceUpdateScreen = () => {
           animated: true,
         });
       }
+      setIsLoading(false);
       return;
     }
     try {
@@ -53,6 +60,7 @@ const PreferenceUpdateScreen = () => {
         '선호하는 룸메 수정 중 오류가 발생했습니다.';
       Alert.alert('선호하는 룸메 수정 요류', errorMessage);
     }
+    setIsLoading(false);
   };
 
   //초기 데이터 초기화
@@ -111,6 +119,7 @@ const PreferenceUpdateScreen = () => {
                 margin: 5,
               },
             }}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>

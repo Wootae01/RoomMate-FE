@@ -19,12 +19,18 @@ const MyInfoUpdateScreen = () => {
   const [dormitory, setDormitory] = useState(''); //기숙사
   const [introduce, setIntroduce] = useState(''); //한출 소개
   const [inputHeight, setInputHeight] = useState(45); // 한줄 소개 입력창 기본 높이
+  const [isLoading, setIsLoading] = useState();
 
   const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
 
   //수정 버튼 클릭 시 메서드
   const handelNext = async () => {
+    if(isLoading == true){
+      return;
+    }
+    setIsLoading(true);
+
     const errors = validateMyInfo({
       nickname,
       gender,
@@ -35,6 +41,7 @@ const MyInfoUpdateScreen = () => {
     if (Object.keys(errors).length > 0) {
       const errorMessages = Object.values(errors).join('\n');
       Alert.alert('입력 오류', errorMessages);
+      setIsLoading(false);
       return;
     }
     try {
@@ -58,6 +65,7 @@ const MyInfoUpdateScreen = () => {
         '회원 정보 수정 중 오류가 발생했습니다.';
       Alert.alert('회원 정보 수정 오류', errorMessage);
     }
+    setIsLoading(false);
   };
 
   useFocusEffect(
@@ -140,6 +148,7 @@ const MyInfoUpdateScreen = () => {
             title="수정"
             customStyles={{ button: { marginTop: 15 } }}
             onPress={handelNext}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>
