@@ -9,12 +9,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const NotificationUpdateScreen = () => {
   const { user } = useContext(UserContext);
-
+  const [isLoading, setIsLoading] = useState();
   const [chatToggle, setChatToggle] = useState(false);
   const toggleSwitch = () => setChatToggle((prev) => !prev);
   const naviagtion = useNavigation();
 
   const handelNext = async (userId, chatToggle) => {
+    if(isLoading == true){
+      return;
+    }
+    setIsLoading(true);
+
     try {
       await editNotification(userId, chatToggle);
       naviagtion.goBack();
@@ -23,6 +28,7 @@ const NotificationUpdateScreen = () => {
         error.response?.data?.message || '알림 설정 중 오류가 발생했습니다.';
       Alert.alert('오류', errorMessage);
     }
+    setIsLoading(false);
   };
 
   //초기 데이터 설정
@@ -62,6 +68,7 @@ const NotificationUpdateScreen = () => {
         title="수정"
         customStyles={{ button: styles.button }}
         onPress={() => handelNext(user.userId, chatToggle)}
+        isLoading={isLoading}
       />
     </View>
   );

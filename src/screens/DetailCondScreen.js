@@ -24,6 +24,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
   const [selectedFilter, setSelectedFilter] = useState(surveyKey);
   const flatListRef = useRef(null);
   const [cond, setCond] = useState({}); //선택한 필터 조건
+  const [isLoading, setIsLoading] = useState();
 
   //필터 칩
   const handleFilterChip = (key, setCond) => {
@@ -35,6 +36,11 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
 
   //체크 박스 값 바뀌면 실행
   const handleChekboxToggle = (surveyId, isChecked) => {
+    if(isLoading == true){
+      return;
+    }
+    setIsLoading(true);
+
     setCond((prev) => {
       const preValues = prev[selectedFilter] || [];
       const newValues = isChecked
@@ -45,10 +51,13 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
       if (newValues.length === 0) {
         const { [selectedFilter]: _, ...rest } = prev;
 
+        setIsLoading(false);
         return rest;
       }
+      setIsLoading(false);
       return { ...prev, [selectedFilter]: newValues };
     });
+    setIsLoading(false);
   };
 
   // 부모 surveyKey 값이 바뀌면 selectedFilter 업데이트
@@ -200,10 +209,14 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
             <Button
               title="검색하기"
               onPress={async () => {
+                setIsLoading(true);
+
                 await onSearch(cond);
+                setIsLoading(false);
                 onClose();
               }}
               customStyles={{}}
+              isLoading={isLoading}
             />
           </View>
         </View>
