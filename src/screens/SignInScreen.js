@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
+import { useContext } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -12,9 +13,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
 import { MainRoutes, SignRoutes } from '../navigations/routes';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
-import { PRIMARY } from '../colors';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
@@ -32,7 +32,6 @@ const SignInScreen = () => {
 
     if (!response.isFirstLogin) {
       setUser({ userId: response.memberId });
-      navigation.navigate(MainRoutes.CONTENT_TAB); //이미 회원가입 했으면 홈화면으로
     } else {
       navigation.navigate(SignRoutes.PROFILE_SURVEY, {
         userId: response.memberId,
