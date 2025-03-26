@@ -52,6 +52,7 @@ export const kakaoLogin = async () => {
     console.log('카카오 로그인 성공!', result);
 
     const token = await getServerToken();
+    console.log('server token=', token);
     // axios 요청 확인을 위해 try-catch 블록을 추가
     try {
       const response = await axios.post(
@@ -118,7 +119,7 @@ export const kakaoLogout = async () => {
       console.log('Kakao Logout 성공 : ', result);
     }
   } catch (err) {
-    console.error('Logout error', err);
+    console.log('Logout error', err?.response?.data);
     throw err;
   }
 };
@@ -131,17 +132,24 @@ export const kakaoLogout = async () => {
 export const reSign = async (memberId) => {
   try {
     console.log('회원탈퇴 실행');
-    const response = await axios.delete(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`
-    );
+    const refreshToken = await SecureStore.getItemAsync('refreshToken');
 
+    const response = await axios.delete(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`,
+
+      { headers: { Authorization: `Bearer ${refreshToken}` } }
+    );
     console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data);
+
+    SecureStore.deleteItemAsync('accessToken');
+    SecureStore.deleteItemAsync('refreshToken');
 
     await unlinkKakao();
 
     return response.data;
   } catch (error) {
-    console.error('회원탈퇴 error', error);
+    console.log('회원탈퇴 error', error?.response?.data);
+    throw error;
   }
 };
 

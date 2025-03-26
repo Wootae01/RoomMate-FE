@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
+import { useContext, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -11,10 +12,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
-import { SignRoutes } from '../navigations/routes';
-import { useContext, useState } from 'react';
-import UserContext from '../contexts/UserContext';
 import { PALETTES } from '../colors';
+import UserContext from '../contexts/UserContext';
+import { SignRoutes } from '../navigations/routes';
 
 const SignInScreen = () => {
   const width = useWindowDimensions().width;
@@ -23,7 +23,7 @@ const SignInScreen = () => {
   const [isLoading, setIsLoading] = useState();
 
   const pressKakao = async () => {
-    if(isLoading == true){
+    if (isLoading == true) {
       return;
     }
     setIsLoading(true);
@@ -59,23 +59,23 @@ const SignInScreen = () => {
         <Pressable onPress={pressKakao} style={styles.container}>
           {isLoading ? (
             <View
-            style={{
-              width: width * 0.95,
-              height: width * 0.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#FEE500',
-              borderRadius: 8,
-            }}
-          >
-            <ActivityIndicator size="large" color={PALETTES.SECONDARY[60]}/>
+              style={{
+                width: width * 0.95,
+                height: width * 0.2,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#FEE500',
+                borderRadius: 8,
+              }}
+            >
+              <ActivityIndicator size="large" color={PALETTES.SECONDARY[60]} />
             </View>
           ) : (
-          <Image
-            source={require('../../assets/login/kakao.png')}
-            style={{ width: width * 0.95, height: width * 0.2 }}
-            resizeMode="cover"
-          />
+            <Image
+              source={require('../../assets/login/kakao.png')}
+              style={{ width: width * 0.95, height: width * 0.2 }}
+              resizeMode="cover"
+            />
           )}
         </Pressable>
       </View>

@@ -59,7 +59,7 @@ api.interceptors.response.use(
           console.log('Refresh token 없음');
         }
       } catch (error) {
-        //refresh token 만료 시시
+        //refresh token 만료 시
         if (error.response && error.response.data.code === 'EXPIRED_TOKEN') {
           console.log('refresh token 만료됨', error);
           //추후 로그인 화면으로 이동 구현

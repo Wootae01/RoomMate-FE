@@ -99,7 +99,7 @@ const MyInfoScreen = () => {
             await kakaoLogout();
             setUser(null);
           } catch (error) {
-            console.error('로그아웃 실패, 오류 발생:', error);
+            console.log('로그아웃 실패, 오류 발생:', error);
           }
         }}
       />
@@ -108,8 +108,9 @@ const MyInfoScreen = () => {
         onPress={async () => {
           try {
             await reSign(user.userId);
+            setUser(null);
           } catch (error) {
-            console.error('회원탈퇴 실패, 오류 발생:', error);
+            console.log('회원탈퇴 실패, 오류 발생:', error);
           }
         }}
       />
