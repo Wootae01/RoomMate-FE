@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, Pressable, StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { findAllMessages } from '../api/chat';
 import stompClient, { connect, sendMessage } from '../api/stompClient';
@@ -71,6 +71,12 @@ const ChatRoomScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined} // Android는 생략 또는 undefined
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+    >
+      <View style={styles.inner}>
       {/* 메시지 영역 */}
       <FlatList
         ref={flatListRef}
@@ -82,11 +88,18 @@ const ChatRoomScreen = ({ route }) => {
             <OtherMessage message={item} />
           )
         }
+        onContentSizeChange={() =>
+          flatListRef.current?.scrollToEnd({ animated: true })
+        }
+        onLayout={() =>
+          flatListRef.current?.scrollToEnd({ animated: true })
+        }
+        contentContainerStyle={{ paddingBottom: 10 }}
       />
 
       {/* 입력 영역 */}
       <View style={styles.inputContainer}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginLeft:8, marginRight:3 }}>
           <Input
             value={content}
             onChangeText={(content) => setContent(content)}
@@ -100,6 +113,7 @@ const ChatRoomScreen = ({ route }) => {
 
         {/**전송 버튼 */}
         <Pressable
+          style={{marginRight: 5}}
           onPress={async () => {
             if (content.trim() === '') {
               setContent(content.trim());
@@ -112,6 +126,7 @@ const ChatRoomScreen = ({ route }) => {
                 content,
               });
               setContent('');
+              setInputHeight(45);
             } catch (error) {
               console.error('메시지 전송 실패', error);
               Alert.alert(
@@ -128,6 +143,8 @@ const ChatRoomScreen = ({ route }) => {
           />
         </Pressable>
       </View>
+      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -146,6 +163,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 8,
+  },
+  inner: {
+    flex:1,
+    justifyContent: 'flex-end',
   },
 });
 
