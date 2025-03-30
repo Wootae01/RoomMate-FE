@@ -1,6 +1,9 @@
 import { Client } from '@stomp/stompjs';
 import * as SecureStore from 'expo-secure-store';
 
+const MAX_RETRY_ATTEMPT = 3;
+let retryAttempt = 0;
+
 const stompClient = new Client({
   brokerURL: `${process.env.EXPO_PUBLIC_WEBSOCKET_BASE_URL}/ws/chat`,
   forceBinaryWSFrames: true,
@@ -8,13 +11,27 @@ const stompClient = new Client({
   debug: (msg) => console.log('STOMP debug:', msg),
   reconnectDelay: 4000, //4초 후 자동 재연결 요청
   connectHeaders: {},
+
+  heartbeatIncoming: 10000,
+  heartbeatOutgoing: 10000,
+  connectionTimeout: 12000,
+  beforeConnect: () => {
+    console.log('beforeConnect: retryAttempt =', retryAttempt);
+    if (retryAttempt >= MAX_RETRY_ATTEMPT) {
+      console.log('재연결 시도 횟수 초과 웹소켓 연결 종료');
+      stompClient.deactivate();
+      return false;
+    }
+  },
 });
 
 stompClient.onStompError = (error) => {
   console.log('STOMP error ', error);
 };
 stompClient.onWebSocketError = (error) => {
-  console.error('websocket error ', error);
+  console.log('재연결 횟수: ', retryAttempt);
+  console.error('WebSocket error, 연결 끊김 ', error);
+  retryAttempt++;
 };
 
 //웹 소켓 연결 해제
@@ -30,8 +47,9 @@ export const connect = async () => {
       Authorization: `Bearer ${token}`,
     };
   } catch (error) {
-    console.error('토큰 불러오는 중 에러', error);
+    console.log('웹소켓 연결 중 엑세스 토큰 에러', error);
   }
+  retryAttempt = 0;
   stompClient.activate();
 };
 
@@ -45,7 +63,7 @@ export const connect = async () => {
  */
 export const sendMessage = ({ memberId, chatRoomId, content }) => {
   if (!stompClient.connected) {
-    const errorMsg = 'fail send message. STOMP Client is not connected';
+    const errorMsg = '연결이 안되어 있습니다. 다시 시도해주세요';
     console.error(errorMsg);
     throw new Error(errorMsg);
   }

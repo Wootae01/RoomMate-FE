@@ -1,6 +1,12 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getChatRooms } from '../api/chat';
 import { BLACK, WHITE } from '../colors';
@@ -14,6 +20,7 @@ const ChatListScreen = () => {
   const [isLoading, setIsLoading] = useState();
 
   useEffect(() => {
+    //화면 focus 되면 재랜더링
     if (isFocused) {
       const request = async () => {
         setIsLoading(true);
@@ -39,27 +46,27 @@ const ChatListScreen = () => {
         </View>
       ) : (
         <>
-      <Text style={{ fontSize: 22, fontWeight: '700' }}>채팅</Text>
-      {chatList.length === 0 ? (
-        //채팅방 데이터가 없는 경우
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>채팅방이 없습니다.</Text>
-          <Text style={styles.emptyText}>
-            추천 목록에서 채팅을 시작해 보세요!
-          </Text>
-        </View>
-      ) : (
-        //채팅방 데이터가 존재하는 경우
-        <FlatList
-          data={chatList}
-          keyExtractor={(item) => item.chatRoomId.toString()}
-          renderItem={({ item }) => <ChatItem data={item} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.list}
-        />
+          <Text style={{ fontSize: 22, fontWeight: '700' }}>채팅</Text>
+          {chatList.length === 0 ? (
+            //채팅방 데이터가 없는 경우
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>채팅방이 없습니다.</Text>
+              <Text style={styles.emptyText}>
+                추천 목록에서 채팅을 시작해 보세요!
+              </Text>
+            </View>
+          ) : (
+            //채팅방 데이터가 존재하는 경우
+            <FlatList
+              data={chatList}
+              keyExtractor={(item) => item.chatRoomId.toString()}
+              renderItem={({ item }) => <ChatItem data={item} />}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.list}
+            />
+          )}
+        </>
       )}
-      </>
-    )}
     </SafeAreaView>
   );
 };

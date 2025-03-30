@@ -1,5 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator, Alert, Linking, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import * as Notifications from 'expo-notifications';
 import { useContext, useEffect, useState } from 'react';
@@ -12,6 +19,7 @@ import HR from '../components/HR';
 import TextButton from '../components/TextButton';
 import UserContext from '../contexts/UserContext';
 import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
+import { disconnect } from '../api/stompClient';
 
 /**
  * 내 정보 화면
@@ -44,15 +52,17 @@ const MyInfoScreen = () => {
         <>
           <View style={styles.profile}>
             <DefaultProfile size={60} />
-            <Text style={{ fontSize: 20, fontWeight: '700', paddingVertical: 15 }}>
+            <Text
+              style={{ fontSize: 20, fontWeight: '700', paddingVertical: 15 }}
+            >
               {nickname}
             </Text>
           </View>
-  
+
           <View style={styles.update}>
             <HR customStyles={{ container: { paddingVertical: 10 } }} />
             <Text style={styles.title}>내 정보 수정</Text>
-  
+
             <TextButton
               text="기본 정보 수정"
               onPress={() => {
@@ -78,10 +88,10 @@ const MyInfoScreen = () => {
               }}
             />
           </View>
-  
+
           <HR customStyles={{ container: { paddingVertical: 10 } }} />
           <Text style={styles.title}>기타</Text>
-  
+
           <TextButton
             text="알림 설정"
             onPress={async () => {
@@ -100,13 +110,14 @@ const MyInfoScreen = () => {
               }
             }}
           />
-  
+
           <TextButton
             text="로그 아웃"
             onPress={async () => {
               setIsLoading(true);
               try {
                 await kakaoLogout();
+                disconnect();
                 setUser(null);
               } catch (error) {
                 console.log('로그아웃 실패, 오류 발생:', error);
@@ -114,7 +125,7 @@ const MyInfoScreen = () => {
               setIsLoading(false);
             }}
           />
-  
+
           <TextButton
             text="회원 탈퇴"
             onPress={() => {
@@ -133,6 +144,7 @@ const MyInfoScreen = () => {
                     setIsLoading(true);
                     try {
                       await reSign(user.userId);
+                      disconnect();
                       setUser(null);
                     } catch (error) {
                       console.log('회원탈퇴 실패, 오류 발생:', error);
@@ -140,7 +152,7 @@ const MyInfoScreen = () => {
                       setIsLoading(false);
                     }
                   },
-                }
+                },
               ]);
             }}
           />
@@ -149,7 +161,6 @@ const MyInfoScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -172,7 +183,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
 });
 
 export default MyInfoScreen;
