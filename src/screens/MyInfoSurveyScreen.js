@@ -75,7 +75,11 @@ const MyInfoSurveyScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
+      <ScrollView
+         contentContainerStyle={{ paddingBottom: 150 }}
+         keyboardShouldPersistTaps="handled"
+         showsVerticalScrollIndicator={false}
+      >
         <View style={styles.container}>
           {/**닉네임 입력 영역 */}
           <Text style={styles.text}>닉네임</Text>
@@ -160,6 +164,8 @@ const MyInfoSurveyScreen = ({ route }) => {
             customStyle={{ height: Math.max(45, inputHeight) }}
             maxLength={60}
           />
+          </View>
+          </ScrollView>
 
           {/**하단 버튼영 */}
           <Button
@@ -167,8 +173,7 @@ const MyInfoSurveyScreen = ({ route }) => {
             customStyles={{ button: { marginTop: 15 } }}
             onPress={handelNext}
           />
-        </View>
-      </ScrollView>
+        
     </SafeAreaView>
   );
 };

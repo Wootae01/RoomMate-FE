@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
 } from 'react-native';
 import { BLACK, PALETTES, PRIMARY, WHITE } from '../colors';
 import Button from '../components/Button';
@@ -105,6 +106,10 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
           </View>
 
           {/**필터 칩 영역 */}
+          <ScrollView
+            style={{flex:1}}
+            contentContainerStyle={{paddingBottom:120}}
+          >
           <View style={defaultStyles.filterChipContainer}>
             {cond
               ? Object.keys(cond).map((key) => (
@@ -195,7 +200,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
               )}
             </View>
           </View>
-
+          </ScrollView>
           {/**하단 버튼 영역 */}
           <View
             style={{
@@ -247,7 +252,7 @@ const defaultStyles = StyleSheet.create({
   },
   content: {
     backgroundColor: WHITE,
-    height: '67%',
+    height: '77%',
   },
   checkBoxContainer: {
     flexWrap: 'wrap',

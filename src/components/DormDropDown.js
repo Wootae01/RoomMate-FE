@@ -96,6 +96,7 @@ const DormDropDown = ({ detailValue, setDetailValue, gender }) => {
           dropDownContainerStyle={styles.dropdownContainer}
           showTickIcon={false}
           zIndex={2000}
+          listItemLabelStyle={{paddingVertical: 1}}
         />
       </View>
 
@@ -165,8 +166,9 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     backgroundColor: WHITE,
-    marginTop: -55,
+    marginTop: -60,
+    maxHeight: 160,
   },
-});
+}); 
 
 export default DormDropDown;
