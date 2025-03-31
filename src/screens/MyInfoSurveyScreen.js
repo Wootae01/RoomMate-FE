@@ -29,12 +29,12 @@ const MyInfoSurveyScreen = ({ route }) => {
   }, [nickname]);
 
   const checkDuplicatedNickname = async (nickname) => {
-    if(isLoading == true) {
+    if (isLoading == true) {
       return;
     }
 
     setIsLoading(true);
-    
+
     const result = await validateNickname(nickname.trim());
     if (result.state) {
       Alert.alert('성공', result.message);
@@ -76,9 +76,9 @@ const MyInfoSurveyScreen = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
-         contentContainerStyle={{ paddingBottom: 150 }}
-         keyboardShouldPersistTaps="handled"
-         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 150 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <View style={styles.container}>
           {/**닉네임 입력 영역 */}
@@ -164,16 +164,22 @@ const MyInfoSurveyScreen = ({ route }) => {
             customStyle={{ height: Math.max(45, inputHeight) }}
             maxLength={60}
           />
-          </View>
-          </ScrollView>
+        </View>
+      </ScrollView>
 
-          {/**하단 버튼영 */}
-          <Button
-            title="다음"
-            customStyles={{ button: { marginTop: 15 } }}
-            onPress={handelNext}
-          />
-        
+      {/**하단 버튼영 */}
+      <Button
+        title="다음"
+        customStyles={{
+          button: {
+            marginTop: 15,
+            marginHorizontal: 20,
+            width: 'auto',
+            marginBottom: 15,
+          },
+        }}
+        onPress={handelNext}
+      />
     </SafeAreaView>
   );
 };
