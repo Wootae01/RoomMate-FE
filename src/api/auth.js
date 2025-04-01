@@ -7,8 +7,11 @@ import api from './api';
 
 export const getServerToken = async () => {
   try {
+    const hash = await getKeyHashAndroid();
+    console.log(hash);
     const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/token`
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/token`,
+      { identifier: hash }
     );
     return response.data;
   } catch (error) {

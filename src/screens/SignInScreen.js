@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -27,17 +28,22 @@ const SignInScreen = () => {
       return;
     }
     setIsLoading(true);
+    try {
+      const response = await kakaoLogin();
 
-    const response = await kakaoLogin();
-
-    if (!response.isFirstLogin) {
-      setUser({ userId: response.memberId });
-    } else {
-      navigation.navigate(SignRoutes.PROFILE_SURVEY, {
-        userId: response.memberId,
-      }); //아니면 회원가입 화면으로
+      if (!response.isFirstLogin) {
+        setUser({ userId: response.memberId });
+      } else {
+        navigation.navigate(SignRoutes.PROFILE_SURVEY, {
+          userId: response.memberId,
+        }); //아니면 회원가입 화면으로
+      }
+    } catch (e) {
+      console.log(e.message);
+      Alert.alert('에러', '카카오 로그인 실패');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
