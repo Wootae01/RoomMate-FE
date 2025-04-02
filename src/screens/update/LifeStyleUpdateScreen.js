@@ -51,8 +51,9 @@ const LifeStyleUpdateScreen = () => {
         error.response?.data?.message ||
         '생활 패턴 수정 중 오류가 발생했습니다.';
       Alert.alert('생활패턴 수정 요류', errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useFocusEffect(

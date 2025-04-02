@@ -27,8 +27,9 @@ const NotificationUpdateScreen = () => {
       const errorMessage =
         error.response?.data?.message || '알림 설정 중 오류가 발생했습니다.';
       Alert.alert('오류', errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   //초기 데이터 설정

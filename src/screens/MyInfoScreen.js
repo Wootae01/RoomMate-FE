@@ -121,8 +121,9 @@ const MyInfoScreen = () => {
                 setUser(null);
               } catch (error) {
                 console.log('로그아웃 실패, 오류 발생:', error);
+              } finally {
+                setIsLoading(false);
               }
-              setIsLoading(false);
             }}
           />
 

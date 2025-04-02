@@ -61,10 +61,10 @@ const PreferenceSurveyScreen = ({ route }) => {
       const errorMessage =
         error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
       Alert.alert('회원 가입 오류', errorMessage);
-    } 
+    } finally {
+      setIsLoading(false);
+    }
 
-    
-    setIsLoading(false);
   };
 
   //특정 질문의 값이 변경되면 호출

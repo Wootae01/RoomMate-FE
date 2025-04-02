@@ -42,6 +42,7 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
     }
     setIsLoading(true);
 
+    try {
     setCond((prev) => {
       const preValues = prev[selectedFilter] || [];
       const newValues = isChecked
@@ -58,7 +59,11 @@ const DetailCondScreen = ({ visible, onClose, surveyKey, onSearch }) => {
       setIsLoading(false);
       return { ...prev, [selectedFilter]: newValues };
     });
+    } catch(error) {
+    console.error('CheckBox Toggle Error', error)
+    } finally{
     setIsLoading(false);
+    }
   };
 
   // 부모 surveyKey 값이 바뀌면 selectedFilter 업데이트

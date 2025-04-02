@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
@@ -75,6 +75,11 @@ const MyInfoSurveyScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+      style={{flex:1}}
+      behavior={Platform.select({ios: 'padding'})}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
       <ScrollView
         contentContainerStyle={{ paddingBottom: 150 }}
         keyboardShouldPersistTaps="handled"
@@ -180,6 +185,7 @@ const MyInfoSurveyScreen = ({ route }) => {
         }}
         onPress={handelNext}
       />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

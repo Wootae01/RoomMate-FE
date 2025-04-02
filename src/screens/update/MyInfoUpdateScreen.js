@@ -1,5 +1,4 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-
+import { Alert, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -88,6 +87,11 @@ const MyInfoUpdateScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+      style={{flex:1}}
+      behavior={Platform.select({ios: 'padding'})}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
       <ScrollView>
         <View style={styles.container}>
           {/**닉네임 입력 영역 */}
@@ -152,6 +156,7 @@ const MyInfoUpdateScreen = () => {
           />
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

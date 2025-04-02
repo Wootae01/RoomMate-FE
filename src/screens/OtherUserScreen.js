@@ -39,8 +39,10 @@ const OtherUserScreen = ({ route }) => {
         );
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
+     
     };
     fetchData();
   }, [memberId]);

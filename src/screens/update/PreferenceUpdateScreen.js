@@ -59,8 +59,10 @@ const PreferenceUpdateScreen = () => {
         error.response?.data?.message ||
         '선호하는 룸메 수정 중 오류가 발생했습니다.';
       Alert.alert('선호하는 룸메 수정 요류', errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+    
   };
 
   //초기 데이터 초기화
