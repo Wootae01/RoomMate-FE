@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { kakaoLogin } from '../api/auth';
-import { PALETTES } from '../colors';
+import { BLACK, PALETTES} from '../colors';
 import UserContext from '../contexts/UserContext';
 import { SignRoutes } from '../navigations/routes';
 
@@ -54,10 +54,13 @@ const SignInScreen = () => {
           style={styles.container}
         >
           <Image
-            source={require('../../assets/login/naver.png')}
+            source={require('../../assets/login/google.png')}
             style={{
               width: width * 0.95,
               height: width * 0.2,
+              borderColor: BLACK,
+              borderWidth: 1.8,
+              borderRadius: 7,
             }}
             resizeMode="cover"
           />
