@@ -30,10 +30,10 @@ const OtherUserScreen = ({ route }) => {
         const response = await getFriendInformation(memberId);
         console.log('response: ', response);
         setData(response);
-        const dormKey = getDorm(response.dormitory);
+        const dormKey = getDorm(response.dormitory, response.gender);
         setDorm(DORMS[dormKey].name);
         setDetailDorm(
-          DORMS[dormKey].details.find(
+          DORMS[dormKey]?.[response.gender].find(
             (item) => item.value === response.dormitory
           ).label
         );

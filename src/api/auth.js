@@ -56,6 +56,7 @@ export const kakaoLogin = async () => {
 
     const token = await getServerToken();
     console.log('server token=', token);
+    
     // axios 요청 확인을 위해 try-catch 블록을 추가
     try {
       const response = await axios.post(

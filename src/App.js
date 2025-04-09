@@ -12,7 +12,8 @@ import NotificationHandler from './utils/NotificationHandler';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import stompClient, { disconnect } from './api/stompClient';
-
+// import * as WebBrowser from 'expo-web-browser';
+// WebBrowser.maybeCompleteAuthSession();
 global.TextEncoder = TextEncoder; //websocket encoder
 global.TextDecoder = TextDecoder; //websocket decoder
 
