@@ -48,40 +48,6 @@ const SignInScreen = () => {
     }
   };
 
-  // const pressNaver = async () => {
-  //   if (isLoading) return;
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await naverLogin(); // Naver 로그인 수행
-
-  //     if (!response.isFirstLogin) {
-  //       // 기존 가입자
-  //       setUser({ userId: response.memberId });
-  //     } else {
-  //       // 신규 가입자
-  //       navigation.navigate(SignRoutes.PROFILE_SURVEY, {
-  //         userId: response.memberId,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     Alert.alert('에러', '네이버 로그인 실패');
-  //     console.log('네이버 로그인 오류', e);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-//   <Pressable onPress={pressNaver} style={styles.container}>
-//   {isLoading ? (
-//     <ActivityIndicator size="large" color="green" />
-//   ) : (
-//     // 네이버 버튼 이미지
-//     <Image
-//       source={require('../../assets/login/naver.png')}
-//       style={{ width: width * 0.95, height: width * 0.2 }}
-//       resizeMode="cover"
-//     />
-//   )}
-// </Pressable>
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.wrapper}>

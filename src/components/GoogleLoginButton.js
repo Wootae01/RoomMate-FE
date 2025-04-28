@@ -118,15 +118,24 @@ export default function GoogleLoginButton() {
           <ActivityIndicator size="large" color="#4285F4" />
         </View>
       ) : (
+        <View
+        style={{
+          width: width * 0.95,
+          height: width * 0.2,
+          borderRadius: 7,
+          borderColor: '#C0C0C0',  // 후보 : BBBBBB, B0BEC5
+          borderWidth: 1.5,  
+        }}
+        >
         <Image
           source={require('../../assets/login/google.png')}
           style={{
-            width: width * 0.95,
-            height: width * 0.2,
-            borderRadius: 7,
+            width: '100%',
+            height: '103%',
           }}
           resizeMode="cover"
         />
+        </View>
       )}
     </Pressable>
   );
