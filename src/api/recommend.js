@@ -8,7 +8,7 @@ import api from './api';
  */
 export const getRecommendList = async (userId) => {
   try {
-    const response = await api.get(`/members/${userId}/recommendation`);
+    const response = await api.get(`/recommendations/${userId}/basic`);
     return response.data;
   } catch (error) {
     console.log('Failed to get recommendationList: ', error);
@@ -19,7 +19,7 @@ export const getRecommendList = async (userId) => {
 export const getFilteredMember = async (memberId, filterCond) => {
   try {
     const response = await api.post(
-      `/members/${memberId}/recommendation`,
+      `/recommendations/${memberId}/filter`,
       { cond: filterCond },
       {
         headers: { 'Content-Type': 'application/json' },
