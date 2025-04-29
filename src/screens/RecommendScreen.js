@@ -1,4 +1,4 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+//import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import {
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { saveNotificationsToken } from '../api/chat';
-import { getFilteredMember, getRecommendList } from '../api/recommend';
+import { getFilteredMember, getRecommendList, getSimilarityList } from '../api/recommend';
 import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
@@ -32,6 +32,21 @@ const RecommendScreen = () => {
     const newData = await getFilteredMember(user.userId, filterCond);
     console.log('필터 적용 데이터: ', newData);
     setData(newData);
+  };
+
+  // 유사도 정렬 적용 함수
+  const fetchSimilarityData = async () => {
+    console.log('--유사도 순으로 정렬--');
+    setIsLoading(true);
+    try {
+      const newData = await getSimilarityList(user.userId);
+      console.log('유사도 데이터: ', newData);
+      setData(newData);
+    } catch (error) {
+      console.log('유사도 로딩 실패', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //로그인 성공 후 알림 토큰 저장
@@ -71,15 +86,13 @@ const RecommendScreen = () => {
         <Text style={{ fontSize: 22, fontWeight: '700' }}>추천 목록</Text>
         <Pressable
           onPress={() => {
-            console.log('pressed2');
+            console.log('유사도 순 버튼 press');
+            fetchSimilarityData();
           }}
           hitSlop={20}
+          style={styles.similarityButton}
         >
-          <MaterialCommunityIcons
-            name="account-search"
-            size={30}
-            color={BLACK}
-          />
+          <Text style={styles.similarityButtonText}>유사도 순 정렬</Text>
         </Pressable>
       </View>
       {/**필터 영역 */}
@@ -143,7 +156,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  similarityButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: BLACK,
+    backgroundColor: 'skyblue',
+  },
+  similarityButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: 'black',
+  },
 });
 
 export default RecommendScreen;
