@@ -1,11 +1,10 @@
-//import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  Pressable,
   StyleSheet,
+  Pressable,
   Text,
   View,
 } from 'react-native';
@@ -25,6 +24,29 @@ const RecommendScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]); //추천 목록 데이터
   const [isLoading, setIsLoading] = useState();
+  const [isSimilarity, setIsSimilarity] = useState(false);
+
+  const handleButtonPress = () => {
+    if (isSimilarity) {
+      fetchRecommendList(); // Preference 리스트로
+    } else {
+      fetchSimilarityData(); // 유사도 리스트로
+    }
+    setIsSimilarity(!isSimilarity);
+  };
+
+  const fetchRecommendList = async () => {
+    setIsLoading(true);
+    try {
+      const result = await getRecommendList(user.userId);
+      console.log('추천 목록 데이터: ', result);
+      setData(result);
+    } catch (error) {
+      console.log('Preference 추천 로딩 실패', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   //필터 적용 함수
   const fetchFilteredData = async (filterCond) => {
@@ -85,15 +107,14 @@ const RecommendScreen = () => {
       <View style={styles.header}>
         <Text style={{ fontSize: 22, fontWeight: '700' }}>추천 목록</Text>
         <Pressable
-          onPress={() => {
-            console.log('유사도 순 버튼 press');
-            fetchSimilarityData();
-          }}
+          onPress={handleButtonPress}
           hitSlop={20}
           style={styles.similarityButton}
         >
-          <Text style={styles.similarityButtonText}>유사도 순 정렬</Text>
-        </Pressable>
+        <Text style={styles.similarityButtonText}>
+          {isSimilarity ? '유사도 순 정렬로 보는 중' : '기본 순 정렬로 보는 중'}
+        </Text>
+      </Pressable>
       </View>
       {/**필터 영역 */}
       <View style={styles.fliter}>
