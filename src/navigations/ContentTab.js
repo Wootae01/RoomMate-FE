@@ -2,7 +2,6 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NEUTRALVARIANT, PRIMARY } from '../colors';
 import ChatListScreen from '../screens/ChatListScreen';
-import HomeScreen from '../screens/HomeScreen';
 import MyInfoScreen from '../screens/MyInfoScreen';
 import RecommendScreen from '../screens/RecommendScreen';
 import { ContentRoutes } from './routes';
@@ -16,6 +15,7 @@ const getTabBarIcon = ({ color, name, focused }) => {
 const ContentTab = () => {
   return (
     <Tab.Navigator
+      initialRouteName={ContentRoutes.RECOMMEND}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: PRIMARY.DEFAULT,
@@ -33,14 +33,6 @@ const ContentTab = () => {
         },
       }}
     >
-      <Tab.Screen
-        name={ContentRoutes.HOME}
-        component={HomeScreen}
-        options={{
-          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'home' }),
-          tabBarLabel: '홈',
-        }}
-      ></Tab.Screen>
       <Tab.Screen
         name={ContentRoutes.RECOMMEND}
         component={RecommendScreen}

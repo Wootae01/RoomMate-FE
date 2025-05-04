@@ -1,8 +1,7 @@
 export const ContentRoutes = {
-  HOME: 'Home',
   RECOMMEND: 'Recommend',
   CHAT_LIST: 'ChatList',
-  MY_INFO: 'MyInFo',
+  MY_INFO: 'MyInfo',
 };
 
 export const MainRoutes = {
