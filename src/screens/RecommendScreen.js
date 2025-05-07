@@ -3,14 +3,18 @@ import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  StyleSheet,
   Pressable,
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { saveNotificationsToken } from '../api/chat';
-import { getFilteredMember, getRecommendList, getSimilarityList } from '../api/recommend';
+import {
+  getFilteredMember,
+  getRecommendList,
+  getSimilarityList,
+} from '../api/recommend';
 import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
 import HR from '../components/HR';
@@ -109,12 +113,22 @@ const RecommendScreen = () => {
         <Pressable
           onPress={handleButtonPress}
           hitSlop={20}
-          style={styles.similarityButton}
+          style={[
+            styles.topButton,
+            isSimilarity ? styles.similarityColor : styles.preferenceColor,
+          ]}
         >
-        <Text style={styles.similarityButtonText}>
-          {isSimilarity ? '유사도 순 정렬로 보는 중' : '기본 순 정렬로 보는 중'}
-        </Text>
-      </Pressable>
+          <Text
+            style={[
+              styles.similarityButtonText,
+              isSimilarity ? styles.similarityColor : styles.preferenceColor,
+            ]}
+          >
+            {isSimilarity
+              ? '유사도 순 정렬로 보는 중'
+              : '맞춤 추천으로 보는 중'}
+          </Text>
+        </Pressable>
       </View>
       {/**필터 영역 */}
       <View style={styles.fliter}>
@@ -178,18 +192,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  similarityButton: {
+  topButton: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: BLACK,
-    backgroundColor: 'skyblue',
   },
-  similarityButtonText: {
+  similarityColor: {
+    backgroundColor: '#D49F00',
+    color: BLACK,
+  },
+  preferenceColor: {
+    backgroundColor: '#702673',
+    color: WHITE,
+  },
+  defaultButtonText: {
     fontSize: 12,
     fontWeight: '600',
-    color: 'black',
   },
 });
 
