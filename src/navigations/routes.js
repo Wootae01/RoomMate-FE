@@ -1,7 +1,7 @@
 export const ContentRoutes = {
   RECOMMEND: 'Recommend',
   CHAT_LIST: 'ChatList',
-  MY_INFO: 'MyInfo',
+  MY_INFO: 'MyInFo',
 };
 
 export const MainRoutes = {
