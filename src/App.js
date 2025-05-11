@@ -6,30 +6,22 @@ import { WHITE } from './colors';
 import Navigation from './navigations/Navigation';
 import { UserProvider } from './contexts/UserContext';
 import { TextDecoder, TextEncoder } from 'text-encoding';
-import * as Notifications from 'expo-notifications';
 import { NotificationProvider } from './contexts/NotificationContext';
 import NotificationHandler from './utils/NotificationHandler';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import stompClient, { disconnect } from './api/stompClient';
-// import * as WebBrowser from 'expo-web-browser';
-// WebBrowser.maybeCompleteAuthSession();
+import { ActiveChatRoomProvider } from './contexts/ActiveChatRoomContext';
+
 global.TextEncoder = TextEncoder; //websocket encoder
 global.TextDecoder = TextDecoder; //websocket decoder
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
 
 initializeKakaoSDK(`${process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY}`);
 
 const App = () => {
   const [appState, setAppState] = useState(AppState.currentState);
 
+  //백그라운드 전환 시 연결된 웹소켓 종료료
   useEffect(() => {
     const changeAppState = (nextAppState) => {
       if (appState.match(/active/) && nextAppState === 'background') {
@@ -51,11 +43,13 @@ const App = () => {
   return (
     <UserProvider>
       <NotificationProvider>
-        <NavigationContainer style={styles.container}>
-          <StatusBar style="dark"></StatusBar>
-          <Navigation />
-          <NotificationHandler />
-        </NavigationContainer>
+        <ActiveChatRoomProvider>
+          <NavigationContainer style={styles.container}>
+            <StatusBar style="dark"></StatusBar>
+            <Navigation />
+            <NotificationHandler />
+          </NavigationContainer>
+        </ActiveChatRoomProvider>
       </NotificationProvider>
     </UserProvider>
   );

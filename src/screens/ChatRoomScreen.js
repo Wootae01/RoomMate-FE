@@ -24,12 +24,14 @@ import Input from '../components/Input';
 import Message, { MessageType } from '../components/Message';
 import OtherMessage from '../components/OtherMesaage';
 import UserContext from '../contexts/UserContext';
+import ActiveChatRoomContext from '../contexts/ActiveChatRoomContext';
 
 const ChatRoomScreen = ({ route }) => {
   const [messages, setMessages] = useState([]); //채팅 메시지
   const [inputHeight, setInputHeight] = useState(45); // 기본 높이
   const [content, setContent] = useState(''); //입력한 메시지
   const [chatRoomId, setChatRoomId] = useState(route.params.chatRoomId);
+  const { setActiveChatRoomId } = useContext(ActiveChatRoomContext);
   const flatListRef = useRef(null);
   const { user } = useContext(UserContext);
 
@@ -48,9 +50,12 @@ const ChatRoomScreen = ({ route }) => {
   //채팅방 id 변경
   useEffect(() => {
     if (route.params?.chatRoomId) {
+      console.log('채팅방 id: ', route.params?.chatRoomId);
       setChatRoomId(route.params.chatRoomId);
+      setActiveChatRoomId(route.params?.chatRoomId);
     }
-  }, [route.params?.chatRoomId]);
+    return () => setActiveChatRoomId(null);
+  }, [route.params?.chatRoomId, setActiveChatRoomId]);
 
   //채팅방의 메시지 가져옴
   useEffect(() => {

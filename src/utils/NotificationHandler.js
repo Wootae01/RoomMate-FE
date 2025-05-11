@@ -5,10 +5,12 @@ import { useCallback, useContext, useEffect, useRef } from 'react';
 import NotificationContext from '../contexts/NotificationContext';
 import UserContext from '../contexts/UserContext';
 import { ChatRoutes, MainRoutes, SignRoutes } from '../navigations/routes';
+import ActiveChatRoomContext from '../contexts/ActiveChatRoomContext';
 
 const NotificationHandler = () => {
   const { notification, setNotification } = useContext(NotificationContext);
   const { user } = useContext(UserContext);
+  const { activeChatRoomId } = useContext(ActiveChatRoomContext);
   const notificationRef = useRef();
   const navigation = useNavigation();
   const notificationListener = useRef();
@@ -33,6 +35,34 @@ const NotificationHandler = () => {
       }
     }
   }, [navigation, user]);
+
+  //채팅방 알림 설정
+  useEffect(() => {
+    Notifications.setNotificationHandler({
+      handleNotification: async (notification) => {
+        console.log('notification: ', notification);
+        let data = notification?.request?.content?.dataString;
+        data = JSON.parse(data);
+        const chatRoomId = data.chatRoomId;
+        console.log('chatRoomId: ', chatRoomId);
+        console.log('activeChatRoomId: ', activeChatRoomId);
+        if (chatRoomId && chatRoomId == activeChatRoomId) {
+          console.log('같음');
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+          };
+        }
+        console.log('다름');
+        return {
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: true,
+        };
+      },
+    });
+  }, [activeChatRoomId]);
 
   useEffect(() => {
     checkInitialNotification();
