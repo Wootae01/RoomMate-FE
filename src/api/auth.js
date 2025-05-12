@@ -4,6 +4,8 @@ import { isLogined, login, logout, me, unlink } from '@react-native-kakao/user';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import api from './api';
+import * as AuthSession from 'expo-auth-session';
+
 
 export const getServerToken = async () => {
   try {
@@ -129,7 +131,36 @@ export const kakaoLogout = async () => {
 };
 
 /**
- * 회원 탈퇴 처리
+ * 구글 로그아웃
+ * @returns 성공 여부  : success : true
+ */
+export const googleLogout = async () => {
+  try {
+    await defaultLogout();
+
+    const checkLoggedIn = isLogined();
+    if (checkLoggedIn) {
+      console.log('구글 로그아웃 실행');
+      const googleAccessToken = await SecureStore.getItemAsync('googleAccessToken');
+
+    if (googleAccessToken) {
+            const result = await AuthSession.revokeAsync(
+              { token: googleAccessToken },
+              { revocationEndpoint: 'https://oauth2.googleapis.com/revoke' }
+            );
+            console.log('Google Logout 성공 : ', result);
+          } 
+          // accessToken 삭제
+          await SecureStore.deleteItemAsync('googleAccessToken');
+        }
+      } catch (err) {
+        console.log('Logout error', err?.response?.data || err.message);
+        throw err;
+      }
+};
+
+/**
+ * 카카오 회원 탈퇴 처리
  * @param {number} memberId 사용자 id
  * @returns 성공 여부  : success : true
  */

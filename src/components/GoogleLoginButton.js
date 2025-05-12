@@ -40,7 +40,9 @@ export default function GoogleLoginButton() {
           //console.log('response:', response);
           console.log('구글 Login API accessToken:', response?.authentication?.accessToken); 
           const GaccessToken = response.authentication.accessToken;
-
+          // accessToken 저장
+          await SecureStore.setItemAsync('googleAccessToken', GaccessToken);
+          
           // 사용자 정보 요청
           const userInfoResponse = await axios.get(
             'https://www.googleapis.com/oauth2/v3/userinfo',
