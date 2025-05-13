@@ -44,7 +44,7 @@ const DormDropDown = ({ detailValue, setDetailValue, gender }) => {
   const [dormItems] = useState(getDormItems());
 
   const [detailOpen, setDetailOpen] = useState(false);
-  const [detaliItems, setDetailItems] = useState([
+  const [detailItems, setDetailItems] = useState([
     { label: '기숙사를 먼저 선택해 주세요', value: null },
   ]);
 
@@ -105,7 +105,8 @@ const DormDropDown = ({ detailValue, setDetailValue, gender }) => {
           listMode="SCROLLVIEW"
           open={detailOpen}
           value={detailValue}
-          items={detaliItems}
+          items={detailItems}
+          setItems={setDetailItems}
           setOpen={setDetailOpen}
           setValue={setDetailValue}
           placeholder="기숙사 세부 목록"
@@ -134,11 +135,14 @@ const getDormItems = () =>
   }));
 
 const getDetailItems = (dormKey, gender) =>
-  DORMS[dormKey]?.[gender] || ['기숙사를 먼저 선택해 주세요'];
+  DORMS[dormKey]?.[gender] || {
+    label: '기숙사를 먼저 선택해 주세요',
+    value: null,
+  };
 
 export const getDorm = (value, gender) => {
   for (const key in DORMS) {
-    const details = DORMS[key]?.[gender];
+    const details = DORMS[key]?.[gender] || [];
     for (let i = 0; i < details.length; i++) {
       if (details[i].value === value) {
         return key;
