@@ -27,7 +27,7 @@ const RecommendScreen = () => {
   const { user } = useContext(UserContext);
   const navigation = useNavigation();
   const [data, setData] = useState([]); //추천 목록 데이터
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [isSimilarity, setIsSimilarity] = useState(false);
 
   const handleButtonPress = () => {
@@ -58,6 +58,11 @@ const RecommendScreen = () => {
     const newData = await getFilteredMember(user.userId, filterCond);
     console.log('필터 적용 데이터: ', newData);
     setData(newData);
+
+    // 만약 '유사도 순 정렬로 보는 중' 상태로 필터버튼을 눌렀을 경우, '맞춤 추천으로 보는 중'으로 바꿈
+    if (isSimilarity === true) {
+      setIsSimilarity(false);
+    }
   };
 
   // 유사도 정렬 적용 함수
@@ -150,7 +155,7 @@ const RecommendScreen = () => {
           </Text>
         </View>
       ) : (
-        //추천 목록 데이터가 존재하는는 경우
+        //추천 목록 데이터가 존재하는 경우
         <FlatList
           data={data}
           keyExtractor={(_, index) => index.toString()}
