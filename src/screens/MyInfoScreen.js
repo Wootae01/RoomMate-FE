@@ -11,7 +11,7 @@ import {
 import * as Notifications from 'expo-notifications';
 import { useContext, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { kakaoLogout, reSign } from '../api/auth';
+import { googleLogout, kakaoLogout, reSignGoogle, reSignKakao } from '../api/auth';
 import { getNickName } from '../api/getinformation';
 import { BLACK, WHITE } from '../colors';
 import DefaultProfile from '../components/DefaultProfile';
@@ -20,6 +20,8 @@ import TextButton from '../components/TextButton';
 import UserContext from '../contexts/UserContext';
 import { MainRoutes, MyInfoRoutes } from '../navigations/routes';
 import { disconnect } from '../api/stompClient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 /**
  * 내 정보 화면
@@ -116,7 +118,18 @@ const MyInfoScreen = () => {
             onPress={async () => {
               setIsLoading(true);
               try {
-                await kakaoLogout();
+                const username = await AsyncStorage.getItem('username');
+                const splitusername = username.split('@');
+                const loginmethod = splitusername[0];
+
+                if (loginmethod === 'kakao' ) {
+                  await kakaoLogout();
+                } else if (loginmethod === 'google') {
+                  await googleLogout();
+                } else {
+                  console.log("비정상적인 로그인방법", loginmethod);
+                }
+
                 disconnect();
                 setUser(null);
               } catch (error) {
@@ -144,7 +157,18 @@ const MyInfoScreen = () => {
                   onPress: async () => {
                     setIsLoading(true);
                     try {
-                      await reSign(user.userId);
+                      const username = await AsyncStorage.getItem('username');
+                      const splitusername = username.split('@');
+                      const loginmethod = splitusername[0];
+
+                      if (loginmethod === 'kakao' ) {
+                        await reSignKakao(user.userId);
+                      } else if (loginmethod === 'google') {
+                        await reSignGoogle(user.userId);
+                      } else {
+                        console.log("비정상적인 로그인방법", loginmethod);
+                      }
+
                       disconnect();
                       setUser(null);
                     } catch (error) {

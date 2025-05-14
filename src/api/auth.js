@@ -164,7 +164,7 @@ export const googleLogout = async () => {
  * @param {number} memberId 사용자 id
  * @returns 성공 여부  : success : true
  */
-export const reSign = async (memberId) => {
+export const reSignKakao = async (memberId) => {
   try {
     console.log('회원탈퇴 실행');
     const refreshToken = await SecureStore.getItemAsync('refreshToken');
@@ -198,5 +198,61 @@ export const unlinkKakao = async () => {
     return result;
   } catch (err) {
     console.error('unlink error', err);
+  }
+};
+
+/**
+ * Google 회원 탈퇴 처리
+ * @param {number} memberId 사용자 id
+ * @returns 성공 여부 : { success: true }
+ */
+export const reSignGoogle = async (memberId) => {
+  try {
+    console.log('회원탈퇴 실행');
+    const refreshToken = await SecureStore.getItemAsync('refreshToken');
+
+    // 백엔드 회원탈퇴 요청
+    const response = await axios.delete(
+      `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`,
+
+      { headers: { Authorization: `Bearer ${refreshToken}` } }
+    );
+    console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data);
+
+    await SecureStore.deleteItemAsync('accessToken');
+    await SecureStore.deleteItemAsync('refreshToken');
+
+    // 3. Google 연결 해제
+    await unlinkGoogle();
+
+    return response.data;
+  } catch (error) {
+    console.log('회원탈퇴 error', error?.response?.data);
+    throw error;
+  }
+};
+
+/**
+ * Google 연결 해제 (accessToken revoke)
+ */
+export const unlinkGoogle = async () => {
+  try {
+    console.log('Google Unlink 실행');
+    const googleAccessToken = await SecureStore.getItemAsync('googleAccessToken');
+
+    if (googleAccessToken) {
+      const result = await AuthSession.revokeAsync(
+        { token: googleAccessToken },
+        { revocationEndpoint: 'https://oauth2.googleapis.com/revoke' }
+      );
+      console.log('Google unlink 성공 : ', result);
+
+      await SecureStore.deleteItemAsync('googleAccessToken');
+      return result;
+    } else {
+      console.warn('구글 accessToken이 없어 unlink 생략');
+    }
+  } catch (err) {
+    console.error('Google unlink error', err);
   }
 };
