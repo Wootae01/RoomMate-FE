@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Alert,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import * as Notifications from 'expo-notifications';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { googleLogout, kakaoLogout, reSignGoogle, reSignKakao } from '../api/auth';
 import { getNickName } from '../api/getinformation';
@@ -32,21 +32,23 @@ const MyInfoScreen = () => {
   const [nickname, setNickname] = useState('');
   const [isLoading, setIsLoading] = useState();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getNickName(user.userId);
-        setNickname(data);
-      } catch (error) {
-        console.error('Fail to get nickname', error);
-      }
-    };
-    fetchData();
-  }, [user.userId, setNickname]);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getNickName(user.userId);
+          setNickname(data);
+        } catch (error) {
+          console.error('Fail to get nickname', error);
+        }
+      };
+      fetchData();
+    }, [user.userId])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading ? (
+      {isLoading ? ( 
         <View style={styles.loading}>
           <ActivityIndicator size="large" color={BLACK} />
         </View>
