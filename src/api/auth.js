@@ -2,10 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getKeyHashAndroid } from '@react-native-kakao/core';
 import { isLogined, login, logout, me, unlink } from '@react-native-kakao/user';
 import axios from 'axios';
+import * as AuthSession from 'expo-auth-session';
 import * as SecureStore from 'expo-secure-store';
 import api from './api';
-import * as AuthSession from 'expo-auth-session';
-
 
 export const getServerToken = async () => {
   try {
@@ -58,7 +57,7 @@ export const kakaoLogin = async () => {
 
     const token = await getServerToken();
     console.log('server token=', token);
-    
+
     // axios 요청 확인을 위해 try-catch 블록을 추가
     try {
       const response = await axios.post(
@@ -141,22 +140,24 @@ export const googleLogout = async () => {
     const checkLoggedIn = isLogined();
     if (checkLoggedIn) {
       console.log('구글 로그아웃 실행');
-      const googleAccessToken = await SecureStore.getItemAsync('googleAccessToken');
+      const googleAccessToken = await SecureStore.getItemAsync(
+        'googleAccessToken'
+      );
 
-    if (googleAccessToken) {
-            const result = await AuthSession.revokeAsync(
-              { token: googleAccessToken },
-              { revocationEndpoint: 'https://oauth2.googleapis.com/revoke' }
-            );
-            console.log('Google Logout 성공 : ', result);
-          } 
-          // accessToken 삭제
-          await SecureStore.deleteItemAsync('googleAccessToken');
-        }
-      } catch (err) {
-        console.log('Logout error', err?.response?.data || err.message);
-        throw err;
+      if (googleAccessToken) {
+        const result = await AuthSession.revokeAsync(
+          { token: googleAccessToken },
+          { revocationEndpoint: 'https://oauth2.googleapis.com/revoke' }
+        );
+        console.log('Google Logout 성공 : ', result);
       }
+      // accessToken 삭제
+      await SecureStore.deleteItemAsync('googleAccessToken');
+    }
+  } catch (err) {
+    console.log('Logout error', err?.response?.data || err.message);
+    throw err;
+  }
 };
 
 /**
@@ -167,12 +168,12 @@ export const googleLogout = async () => {
 export const reSignKakao = async (memberId) => {
   try {
     console.log('회원탈퇴 실행');
-    const refreshToken = await SecureStore.getItemAsync('refreshToken');
+    const accessToken = await SecureStore.getItemAsync('accessToken');
 
     const response = await axios.delete(
       `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`,
 
-      { headers: { Authorization: `Bearer ${refreshToken}` } }
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
     console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data);
 
@@ -209,13 +210,13 @@ export const unlinkKakao = async () => {
 export const reSignGoogle = async (memberId) => {
   try {
     console.log('회원탈퇴 실행');
-    const refreshToken = await SecureStore.getItemAsync('refreshToken');
+    const accessToken = await SecureStore.getItemAsync('accessToken');
 
     // 백엔드 회원탈퇴 요청
     const response = await axios.delete(
       `${process.env.EXPO_PUBLIC_API_BASE_URL}/members/${memberId}/resign`,
 
-      { headers: { Authorization: `Bearer ${refreshToken}` } }
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
     console.log('회원탈퇴에 대한 백엔드 응답 : ', response.data);
 
@@ -238,7 +239,9 @@ export const reSignGoogle = async (memberId) => {
 export const unlinkGoogle = async () => {
   try {
     console.log('Google Unlink 실행');
-    const googleAccessToken = await SecureStore.getItemAsync('googleAccessToken');
+    const googleAccessToken = await SecureStore.getItemAsync(
+      'googleAccessToken'
+    );
 
     if (googleAccessToken) {
       const result = await AuthSession.revokeAsync(
