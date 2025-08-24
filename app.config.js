@@ -6,7 +6,7 @@ export default {
     slug: 'roommate',
     owner: 'roommate',
     scheme: 'roommate',
-    version: '1.0.0',
+    version: '1.0.1',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'light',
@@ -30,6 +30,7 @@ export default {
       },
       package: 'expo.roommate.notifications',
       googleServicesFile: './google-services.json',
+      versionCode: 3,
       runtimeVersion: '1.0.0', // Android 런타임 버전 설정 추가
     },
     web: {
@@ -47,6 +48,10 @@ export default {
             extraMavenRepos: [
               'https://devrepo.kakao.com/nexus/content/groups/public/',
             ],
+            enableProguardInReleaseBuilds: true,
+            minifyEnabled: true,
+            shrinkResources: true,
+            proguardFiles: ['proguard-android.txt', 'proguard-rules.pro'],
           },
         },
       ],

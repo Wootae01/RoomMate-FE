@@ -14,11 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { findAllMessages } from '../api/chat';
-import stompClient, {
-  connect,
-  disconnect,
-  sendMessage,
-} from '../api/stompClient';
+import stompClient, { connect, sendMessage } from '../api/stompClient';
 import { PALETTES, PRIMARY } from '../colors';
 import Input from '../components/Input';
 import Message, { MessageType } from '../components/Message';
@@ -79,7 +75,7 @@ const ChatRoomScreen = ({ route }) => {
     return () => {
       if (stompClient.connected) {
         stompClient.unsubscribe(`sub-${chatRoomId}`);
-        disconnect();
+        //disconnect();
       }
     };
   }, [chatRoomId, subscribeToChatRoom]);

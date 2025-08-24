@@ -12,10 +12,11 @@
       "distribution": "internal"
     },
     "production": {
+      "autoIncrement": true,
       "developmentClient": false,
       "distribution": "store",
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       },
       "ios": {
         "simulator": false

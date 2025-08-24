@@ -1,5 +1,5 @@
 import { useIsFocused } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -12,12 +12,96 @@ import { getChatRooms } from '../api/chat';
 import { BLACK, WHITE } from '../colors';
 import ChatItem from '../components/ChatItem';
 import UserContext from '../contexts/UserContext';
+import stompClient, { connect } from '../api/stompClient';
 
 const ChatListScreen = () => {
   const [chatList, setChatList] = useState([]);
   const isFocused = useIsFocused();
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState();
+
+  const subRef = useRef(null);
+
+  useEffect(() => {
+    // 화면 마운트 시 또는 user 변경 시 구독 설정
+    let isSubscribed = true;
+    const subscribeHandler = (msg) => {
+      console.log('WS msg arrived', msg.body);
+      try {
+        const payload = JSON.parse(msg.body);
+        setChatList((prev) => {
+          const idx = prev.findIndex(
+            (c) => c.chatRoomId === payload.chatRoomId
+          );
+          let next;
+          if (idx >= 0) {
+            next = prev.map((c) =>
+              c.chatRoomId === payload.chatRoomId
+                ? {
+                    ...c,
+                    message: payload.message,
+                    updatedTime: payload.updatedTime,
+                    nickname: payload.nickname,
+                  }
+                : c
+            );
+          } else {
+            // 새 채팅방이면 맨 앞에 추가
+            next = [
+              {
+                chatRoomId: payload.chatRoomId,
+                lastMessage: payload.message,
+                lastAt: payload.updatedTime,
+                nickname: payload.nicname,
+              },
+              ...prev,
+            ];
+          }
+          // 정렬 (최신이 위)
+          next.sort(
+            (a, b) => new Date(b.updatedTime) - new Date(a.updatedTime)
+          );
+          return next;
+        });
+      } catch (e) {
+        console.error('WS parse error', e);
+      }
+    };
+
+    const setupSubscription = async () => {
+      console.log('subscribed to /user/queue/chat-list');
+      if (!stompClient.connected) {
+        await connect(); // 네가 구현한 connect() 호출
+        stompClient.onConnect = () => {
+          if (!isSubscribed) return;
+          // user 전용 queue 구독 (Spring convertAndSendToUser 사용 시)
+          subRef.current = stompClient.subscribe(
+            '/user/queue/chat-list',
+            subscribeHandler,
+            { id: `sub-chat-list-${user.userId}` }
+          );
+        };
+      } else {
+        // 이미 연결되어 있다면 바로 구독
+        subRef.current = stompClient.subscribe(
+          '/user/queue/chat-list',
+          subscribeHandler,
+          { id: `sub-chat-list-${user.userId}` }
+        );
+      }
+    };
+
+    setupSubscription();
+
+    return () => {
+      isSubscribed = false;
+      try {
+        subRef.current?.unsubscribe?.();
+      } catch (e) {
+        console.log(e);
+      }
+    };
+  }, [user.userId]);
 
   useEffect(() => {
     //화면 focus 되면 재랜더링

@@ -41,3 +41,5 @@ yarn-error.*
 
 #google-services
 google-services.json
+
+credentials.json
