@@ -12,8 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { saveNotificationsToken } from '../api/chat';
 import {
   getFilteredMember,
+  getMatchedDormList,
   getRecommendList,
-  getSimilarityList,
 } from '../api/recommend';
 import { BLACK, WHITE } from '../colors';
 import FilterCond from '../components/FilterCond';
@@ -31,26 +31,34 @@ const RecommendScreen = () => {
   const [isSimilarity, setIsSimilarity] = useState(false);
 
   const handleButtonPress = () => {
-    if (isSimilarity) {
-      fetchRecommendList(); // Preference 리스트로
-    } else {
-      fetchSimilarityData(); // 유사도 리스트로
-    }
-    setIsSimilarity(!isSimilarity);
+    fetchMatchedDormList();
   };
 
-  const fetchRecommendList = async () => {
+  const fetchMatchedDormList = async () => {
     setIsLoading(true);
     try {
-      const result = await getRecommendList(user.userId);
+      const result = await getMatchedDormList(user.userId);
       console.log('추천 목록 데이터: ', result);
       setData(result);
     } catch (error) {
-      console.log('Preference 추천 로딩 실패', error);
+      console.log('추천 로딩 실패', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // const fetchRecommendList = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const result = await getRecommendList(user.userId);
+  //     console.log('추천 목록 데이터: ', result);
+  //     setData(result);
+  //   } catch (error) {
+  //     console.log('Preference 추천 로딩 실패', error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   //필터 적용 함수
   const fetchFilteredData = async (filterCond) => {
@@ -66,19 +74,19 @@ const RecommendScreen = () => {
   };
 
   // 유사도 정렬 적용 함수
-  const fetchSimilarityData = async () => {
-    console.log('--유사도 순으로 정렬--');
-    setIsLoading(true);
-    try {
-      const newData = await getSimilarityList(user.userId);
-      console.log('유사도 데이터: ', newData);
-      setData(newData);
-    } catch (error) {
-      console.log('유사도 로딩 실패', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fetchSimilarityData = async () => {
+  //   console.log('--유사도 순으로 정렬--');
+  //   setIsLoading(true);
+  //   try {
+  //     const newData = await getSimilarityList(user.userId);
+  //     console.log('유사도 데이터: ', newData);
+  //     setData(newData);
+  //   } catch (error) {
+  //     console.log('유사도 로딩 실패', error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   //로그인 성공 후 알림 토큰 저장
   useEffect(() => {
@@ -118,21 +126,9 @@ const RecommendScreen = () => {
         <Pressable
           onPress={handleButtonPress}
           hitSlop={20}
-          style={[
-            styles.topButton,
-            isSimilarity ? styles.similarityColor : styles.preferenceColor,
-          ]}
+          style={[styles.topButton, styles.similarityColor]}
         >
-          <Text
-            style={[
-              styles.similarityButtonText,
-              isSimilarity ? styles.similarityColor : styles.preferenceColor,
-            ]}
-          >
-            {isSimilarity
-              ? '유사도 순 정렬로 보는 중'
-              : '맞춤 추천으로 보는 중'}
-          </Text>
+          <Text style={[styles.similarityColor]}>같은 기숙사 사용자 보기</Text>
         </Pressable>
       </View>
       {/**필터 영역 */}

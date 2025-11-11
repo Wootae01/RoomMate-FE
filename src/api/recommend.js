@@ -32,6 +32,20 @@ export const getSimilarityList = async (userId) => {
   }
 };
 
+/**
+ * 자신과 같은 기숙사인 모든 member 리스트 가져오는 api 요청
+ * @param {*} userId
+ * @returns
+ */
+export const getMatchedDormList = async (userId) => {
+  try {
+    const response = await api.get(`/recommendations/${userId}/all`);
+    return response.data;
+  } catch (error) {
+    console.log('Failed to get similarityList: ', error);
+    throw error;
+  }
+};
 
 export const getFilteredMember = async (memberId, filterCond) => {
   try {
