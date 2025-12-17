@@ -10,7 +10,7 @@
 - [주요 기능](#주요-기능)
 - [기술 스택](#기술-스택)
 - [화면 미리보기](#화면-미리보기)
-- [환경 변수](#환경-변수)
+- [환경 변수](#환경-변수) - 추후업데이트 예정
 
 ---
 
@@ -40,8 +40,45 @@
 
 ## 화면 미리보기
 
-| 로그인 | 설문 | 매칭 리스트 | 프로필 |
-|---|---|---|---|
+### 회원가입 & 로그인
+| 화면 |
+|---|
+| <img src="assets/screens/login.png" width="220"/> |
+
+---
+
+### 설문조사
+| 설문 1 | 설문 2 | 설문 3 |
+|---|---|---|
+| <img src="assets/screens/survey1.png" width="220"/> | <img src="assets/screens/survey2.png" width="220"/> | <img src="assets/screens/survey3.png" width="220"/> |
+
+---
+
+### 매칭 리스트 & 기능
+| 리스트 | 기능 |
+|---|---|
+| <img src="assets/screens/list1.png" width="220"/> | <img src="assets/screens/image11.png" width="220"/> |
+
+---
+
+### 상대방 프로필 확인
+| 프로필 1 | 프로필 2 |
+|---|---|
+| <img src="assets/screens/profil1.png" width="220"/> | <img src="assets/screens/profil2.png" width="220"/> |
+
+---
+
+### 채팅
+| 채팅 1 | 채팅 2 |
+|---|---|
+| <img src="assets/screens/chat1.png" width="220"/> | <img src="assets/screens/chat2.png" width="220"/> |
+
+---
+
+### 내 정보 수정
+| 내 정보 |
+|---|
+| <img src="assets/screens/memberinformation.png" width="220"/> |
 
 ---
 
